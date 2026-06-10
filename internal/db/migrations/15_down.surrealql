@@ -1,0 +1,2 @@
+-- Migration 15 Rollback: Remove num_ctx from credential table
+REMOVE FIELD num_ctx ON credential;

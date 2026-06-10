@@ -24,8 +24,8 @@ type ChatSession struct {
 	Title         string           `json:"title"`
 	ModelOverride *string          `json:"model_override,omitempty"`
 	Messages      []ChatMessage    `json:"messages"`
-	Created       string           `json:"created,omitempty"`
-	Updated       string           `json:"updated,omitempty"`
+	Created       time.Time        `json:"created,omitempty"`
+	Updated       time.Time        `json:"updated,omitempty"`
 }
 
 // ChatSessionResponse represents a ChatSession formatted for REST API responses
@@ -35,8 +35,8 @@ type ChatSessionResponse struct {
 	NotebookID    *string       `json:"notebook_id,omitempty"`
 	SourceID      *string       `json:"source_id,omitempty"`
 	ModelOverride *string       `json:"model_override,omitempty"`
-	Created       string        `json:"created"`
-	Updated       string        `json:"updated"`
+	Created       time.Time     `json:"created"`
+	Updated       time.Time     `json:"updated"`
 	MessageCount  int           `json:"message_count"`
 	Messages      []ChatMessage `json:"messages,omitempty"`
 }
@@ -53,12 +53,12 @@ func GetChatSession(ctx context.Context, id string) (*ChatSession, error) {
 
 // CreateNotebookChatSession creates a new chat session and links it to a notebook
 func CreateNotebookChatSession(ctx context.Context, title string, modelOverride *string, notebookID string) (*ChatSession, error) {
-	nowStr := time.Now().UTC().Format(time.RFC3339)
+	now := time.Now().UTC()
 	data := map[string]any{
 		"title":    title,
 		"messages": []ChatMessage{},
-		"created":  nowStr,
-		"updated":  nowStr,
+		"created":  now,
+		"updated":  now,
 	}
 	if modelOverride != nil && *modelOverride != "" {
 		data["model_override"] = *modelOverride
@@ -82,12 +82,12 @@ func CreateNotebookChatSession(ctx context.Context, title string, modelOverride 
 
 // CreateSourceChatSession creates a new chat session and links it to a source
 func CreateSourceChatSession(ctx context.Context, title string, modelOverride *string, sourceID string) (*ChatSession, error) {
-	nowStr := time.Now().UTC().Format(time.RFC3339)
+	now := time.Now().UTC()
 	data := map[string]any{
 		"title":    title,
 		"messages": []ChatMessage{},
-		"created":  nowStr,
-		"updated":  nowStr,
+		"created":  now,
+		"updated":  now,
 	}
 	if modelOverride != nil && *modelOverride != "" {
 		data["model_override"] = *modelOverride
@@ -208,7 +208,7 @@ func UpdateChatSession(ctx context.Context, sessionID string, title *string, mod
 		}
 	}
 	if updateTime {
-		data["updated"] = time.Now().UTC().Format(time.RFC3339)
+		data["updated"] = time.Now().UTC()
 	}
 
 	return db.RepoUpdate[ChatSession](ctx, "chat_session", sessionRecordID, data)
@@ -234,11 +234,11 @@ func SaveChatMessage(ctx context.Context, sessionID string, message ChatMessage)
 			messages = array::append(messages, $msg),
 			updated = $now;
 	`
-	nowStr := time.Now().UTC().Format(time.RFC3339)
+	now := time.Now().UTC()
 	_, err := db.RepoQuery[any](ctx, query, map[string]any{
 		"session_id": sessionRecordID,
 		"msg":        message,
-		"now":        nowStr,
+		"now":        now,
 	})
 	return err
 }

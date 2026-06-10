@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"go-notebook/internal/db"
+	"time"
 
 	"github.com/surrealdb/surrealdb.go/pkg/models"
 )
@@ -24,8 +25,8 @@ type SpeakerProfile struct {
 	Description string           `json:"description,omitempty"`
 	VoiceModel  *models.RecordID `json:"voice_model,omitempty"` // Default model record ID for TTS
 	Speakers    []Speaker        `json:"speakers"`
-	Created     string           `json:"created,omitempty"`
-	Updated     string           `json:"updated,omitempty"`
+	Created     time.Time        `json:"created,omitempty"`
+	Updated     time.Time        `json:"updated,omitempty"`
 }
 
 // SpeakerProfileResponse represents a speaker profile serialized for the REST API
@@ -35,38 +36,38 @@ type SpeakerProfileResponse struct {
 	Description string    `json:"description,omitempty"`
 	VoiceModel  string    `json:"voice_model,omitempty"`
 	Speakers    []Speaker `json:"speakers"`
-	Created     string    `json:"created"`
-	Updated     string    `json:"updated"`
+	Created     time.Time `json:"created"`
+	Updated     time.Time `json:"updated"`
 }
 
 // EpisodeProfile represents the layout and LLM parameters for generating a podcast episode
 type EpisodeProfile struct {
-	ID             *models.RecordID `json:"id,omitempty"`
-	Name           string           `json:"name"`
-	Description    string           `json:"description,omitempty"`
-	SpeakerConfig  string           `json:"speaker_config"` // Reference to speaker profile name
-	OutlineLLM     *models.RecordID `json:"outline_llm,omitempty"`
-	TranscriptLLM  *models.RecordID `json:"transcript_llm,omitempty"`
-	Language       string           `json:"language,omitempty"`
+	ID              *models.RecordID `json:"id,omitempty"`
+	Name            string           `json:"name"`
+	Description     string           `json:"description,omitempty"`
+	SpeakerConfig   string           `json:"speaker_config"` // Reference to speaker profile name
+	OutlineLLM      *models.RecordID `json:"outline_llm,omitempty"`
+	TranscriptLLM   *models.RecordID `json:"transcript_llm,omitempty"`
+	Language        string           `json:"language,omitempty"`
 	DefaultBriefing string           `json:"default_briefing"`
-	NumSegments    int              `json:"num_segments"`
-	Created        string           `json:"created,omitempty"`
-	Updated        string           `json:"updated,omitempty"`
+	NumSegments     int              `json:"num_segments"`
+	Created         time.Time        `json:"created,omitempty"`
+	Updated         time.Time        `json:"updated,omitempty"`
 }
 
 // EpisodeProfileResponse represents an episode profile serialized for the REST API
 type EpisodeProfileResponse struct {
-	ID             string `json:"id"`
-	Name           string `json:"name"`
-	Description    string `json:"description,omitempty"`
-	SpeakerConfig  string `json:"speaker_config"`
-	OutlineLLM     string `json:"outline_llm,omitempty"`
-	TranscriptLLM  string `json:"transcript_llm,omitempty"`
-	Language       string `json:"language,omitempty"`
-	DefaultBriefing string `json:"default_briefing"`
-	NumSegments    int    `json:"num_segments"`
-	Created        string `json:"created"`
-	Updated        string `json:"updated"`
+	ID              string    `json:"id"`
+	Name            string    `json:"name"`
+	Description     string    `json:"description,omitempty"`
+	SpeakerConfig   string    `json:"speaker_config"`
+	OutlineLLM      string    `json:"outline_llm,omitempty"`
+	TranscriptLLM   string    `json:"transcript_llm,omitempty"`
+	Language        string    `json:"language,omitempty"`
+	DefaultBriefing string    `json:"default_briefing"`
+	NumSegments     int       `json:"num_segments"`
+	Created         time.Time `json:"created"`
+	Updated         time.Time `json:"updated"`
 }
 
 // PodcastEpisode represents a generated podcast episode (mapped to the 'episode' table)
@@ -81,8 +82,8 @@ type PodcastEpisode struct {
 	Transcript     map[string]any   `json:"transcript,omitempty"`
 	Outline        map[string]any   `json:"outline,omitempty"`
 	Command        *models.RecordID `json:"command,omitempty"`
-	Created        string           `json:"created,omitempty"`
-	Updated        string           `json:"updated,omitempty"`
+	Created        time.Time        `json:"created,omitempty"`
+	Updated        time.Time        `json:"updated,omitempty"`
 }
 
 // PodcastEpisodeResponse represents a podcast episode for the REST API
@@ -97,8 +98,8 @@ type PodcastEpisodeResponse struct {
 	Transcript     map[string]any `json:"transcript,omitempty"`
 	Outline        map[string]any `json:"outline,omitempty"`
 	CommandID      string         `json:"command_id,omitempty"`
-	Created        string         `json:"created"`
-	Updated        string         `json:"updated"`
+	Created        time.Time      `json:"created"`
+	Updated        time.Time      `json:"updated"`
 	Status         string         `json:"status,omitempty"`
 	ErrorMessage   string         `json:"error_message,omitempty"`
 }

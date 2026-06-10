@@ -50,8 +50,8 @@ type SourceInsight struct {
 	Source      *models.RecordID `json:"source"`
 	InsightType string           `json:"insight_type"`
 	Content     string           `json:"content"`
-	Created     string           `json:"created,omitempty"`
-	Updated     string           `json:"updated,omitempty"`
+	Created     time.Time        `json:"created,omitempty"`
+	Updated     time.Time        `json:"updated,omitempty"`
 }
 
 // SourceEmbedding represents a single text chunk and its vector embedding
@@ -187,13 +187,13 @@ func CreateSource(ctx context.Context, title, sourceType string, asset *Asset, c
 		contentState["content"] = content
 	}
 
-	nowStr := time.Now().UTC().Format(time.RFC3339)
+	now := time.Now().UTC()
 	jobData := map[string]any{
 		"app":            "open_notebook",
 		"command":        "process_source",
 		"status":         "pending",
-		"created":        nowStr,
-		"updated":        nowStr,
+		"created":        now,
+		"updated":        now,
 		"retry_attempts": 0,
 		"input": map[string]any{
 			"source_id":       sourceIDStr,
@@ -270,13 +270,13 @@ func SubmitRetryCommand(ctx context.Context, sourceID string) (string, error) {
 		return "", fmt.Errorf("failed to fetch original command: %w", err)
 	}
 
-	nowStr := time.Now().UTC().Format(time.RFC3339)
+	now := time.Now().UTC()
 	jobData := map[string]any{
 		"app":            "open_notebook",
 		"command":        "process_source",
 		"status":         "pending",
-		"created":        nowStr,
-		"updated":        nowStr,
+		"created":        now,
+		"updated":        now,
 		"retry_attempts": 0,
 		"input":          origCommand.Input,
 	}

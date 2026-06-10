@@ -132,9 +132,9 @@ func RepoCreate[T any](ctx context.Context, table string, data map[string]any) (
 
 	// Ensure timestamps are added and ID is removed if present (to let SurrealDB auto-generate it)
 	delete(data, "id")
-	nowStr := time.Now().UTC().Format(time.RFC3339)
-	data["created"] = nowStr
-	data["updated"] = nowStr
+	now := time.Now().UTC()
+	data["created"] = now
+	data["updated"] = now
 
 	// We use Query to insert to ensure generic compatibility and exact auto-ID generation
 	query := fmt.Sprintf("CREATE %s CONTENT $data;", table)
@@ -164,7 +164,7 @@ func RepoUpdate[T any](ctx context.Context, table string, id string, data map[st
 	}
 
 	delete(data, "id")
-	data["updated"] = time.Now().UTC().Format(time.RFC3339)
+	data["updated"] = time.Now().UTC()
 
 	// Perform MERGE update
 	query := fmt.Sprintf("UPDATE %s MERGE $data;", recordID)
@@ -260,11 +260,11 @@ func RepoUpsert[T any](ctx context.Context, table string, id string, data map[st
 	}
 
 	delete(data, "id")
-	nowStr := time.Now().UTC().Format(time.RFC3339)
+	now := time.Now().UTC()
 	if _, exists := data["created"]; !exists {
-		data["created"] = nowStr
+		data["created"] = now
 	}
-	data["updated"] = nowStr
+	data["updated"] = now
 
 	// Perform UPSERT
 	query := fmt.Sprintf("UPSERT %s CONTENT $data;", recordID)

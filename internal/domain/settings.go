@@ -23,7 +23,7 @@ type DefaultPrompts struct {
 func GetContentSettings(ctx context.Context) (*ContentSettings, error) {
 	recordID := "open_notebook:content_settings"
 
-	results, err := db.RepoQuery[[]ContentSettings](ctx, "SELECT * FROM $id;", map[string]any{"id": recordID})
+	results, err := db.RepoQuery[[]ContentSettings](ctx, "SELECT * FROM open_notebook WHERE id = $id;", map[string]any{"id": recordID})
 	if err != nil {
 		// Fallback to query errors or empty table
 		return nil, err
@@ -68,7 +68,7 @@ func UpdateContentSettings(ctx context.Context, settings *ContentSettings) error
 func GetDefaultPrompts(ctx context.Context) (*DefaultPrompts, error) {
 	recordID := "open_notebook:default_prompts"
 
-	results, err := db.RepoQuery[[]DefaultPrompts](ctx, "SELECT * FROM $id;", map[string]any{"id": recordID})
+	results, err := db.RepoQuery[[]DefaultPrompts](ctx, "SELECT * FROM open_notebook WHERE id = $id;", map[string]any{"id": recordID})
 	if err != nil {
 		return nil, err
 	}

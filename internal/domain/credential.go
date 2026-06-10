@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"go-notebook/internal/db"
 	"go-notebook/internal/utils"
+	"time"
 
 	"github.com/surrealdb/surrealdb.go/pkg/models"
 )
@@ -28,32 +29,32 @@ type Credential struct {
 	Location          string           `json:"location,omitempty"`
 	CredentialsPath   string           `json:"credentials_path,omitempty"`
 	NumCtx            *int             `json:"num_ctx,omitempty"`
-	Created           string           `json:"created,omitempty"`
-	Updated           string           `json:"updated,omitempty"`
+	Created           time.Time        `json:"created,omitempty"`
+	Updated           time.Time        `json:"updated,omitempty"`
 }
 
 // CredentialResponse represents a Credential for API serialization
 type CredentialResponse struct {
-	ID                string   `json:"id"`
-	Name              string   `json:"name"`
-	Provider          string   `json:"provider"`
-	Modalities        []string `json:"modalities"`
-	BaseURL           string   `json:"base_url,omitempty"`
-	Endpoint          string   `json:"endpoint,omitempty"`
-	APIVersion        string   `json:"api_version,omitempty"`
-	EndpointLLM       string   `json:"endpoint_llm,omitempty"`
-	EndpointEmbedding string   `json:"endpoint_embedding,omitempty"`
-	EndpointSTT       string   `json:"endpoint_stt,omitempty"`
-	EndpointTTS       string   `json:"endpoint_tts,omitempty"`
-	Project           string   `json:"project,omitempty"`
-	Location          string   `json:"location,omitempty"`
-	CredentialsPath   string   `json:"credentials_path,omitempty"`
-	NumCtx            *int     `json:"num_ctx,omitempty"`
-	HasAPIKey         bool     `json:"has_api_key"`
-	Created           string   `json:"created"`
-	Updated           string   `json:"updated"`
-	ModelCount        int      `json:"model_count"`
-	DecryptionError   string   `json:"decryption_error,omitempty"`
+	ID                string    `json:"id"`
+	Name              string    `json:"name"`
+	Provider          string    `json:"provider"`
+	Modalities        []string  `json:"modalities"`
+	BaseURL           string    `json:"base_url,omitempty"`
+	Endpoint          string    `json:"endpoint,omitempty"`
+	APIVersion        string    `json:"api_version,omitempty"`
+	EndpointLLM       string    `json:"endpoint_llm,omitempty"`
+	EndpointEmbedding string    `json:"endpoint_embedding,omitempty"`
+	EndpointSTT       string    `json:"endpoint_stt,omitempty"`
+	EndpointTTS       string    `json:"endpoint_tts,omitempty"`
+	Project           string    `json:"project,omitempty"`
+	Location          string    `json:"location,omitempty"`
+	CredentialsPath   string    `json:"credentials_path,omitempty"`
+	NumCtx            *int      `json:"num_ctx,omitempty"`
+	HasAPIKey         bool      `json:"has_api_key"`
+	Created           time.Time `json:"created"`
+	Updated           time.Time `json:"updated"`
+	ModelCount        int       `json:"model_count"`
+	DecryptionError   string    `json:"decryption_error,omitempty"`
 }
 
 // Model represents a registered LLM/STT/TTS model
@@ -63,8 +64,8 @@ type Model struct {
 	Provider   string           `json:"provider"`
 	Type       string           `json:"type"` // "language", "embedding", "speech_to_text", "text_to_speech"
 	Credential *models.RecordID `json:"credential,omitempty"`
-	Created    string           `json:"created,omitempty"`
-	Updated    string           `json:"updated,omitempty"`
+	Created    time.Time        `json:"created,omitempty"`
+	Updated    time.Time        `json:"updated,omitempty"`
 }
 
 // DefaultModels represents the default chosen models for various tasks
@@ -298,7 +299,7 @@ func DeleteModel(ctx context.Context, id string) error {
 // GetDefaultModels gets DefaultModels singleton
 func GetDefaultModels(ctx context.Context) (*DefaultModels, error) {
 	recordID := db.EnsureRecordID("open_notebook", "default_models")
-	results, err := db.RepoQuery[[]DefaultModels](ctx, "SELECT * FROM $id;", map[string]any{"id": recordID})
+	results, err := db.RepoQuery[[]DefaultModels](ctx, "SELECT * FROM open_notebook WHERE id = $id;", map[string]any{"id": recordID})
 	if err != nil {
 		return nil, err
 	}

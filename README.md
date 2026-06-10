@@ -6,8 +6,7 @@ The original project can be found at [LuisNovo/open-notebook](https://github.com
 
 ## Architecture & Subsystems
 
-- **API Server** (`cmd/api`): Serves the REST HTTP endpoints on port `5055`. Implemented using Go 1.22's enhanced `http.ServeMux` router and standard `net/http` package.
-- **Worker Daemon** (`cmd/worker`): Replaces `surreal-commands-worker`. It polls the `command` table in SurrealDB and processes background jobs (document text parsing, content extraction, RAG vector embedding generation, and podcast creation).
+- **Unified Server** (`cmd/server`): Serves the Web Frontend, REST API, and Background Worker Daemon concurrently inside a single compiled process.
 - **Database Layer**: Uses SurrealDB (v3.1.3+) with the official `surrealdb.go` driver. Migrations are managed and applied automatically on startup from standard SQL scripts (`.surrealql`).
 - **AI Integrations**: Includes support for OpenAI, Anthropic, Gemini, and Ollama APIs.
 - **Content Extractor**: Custom parser for PDFs, web URLs (HTML-to-markdown parsing), and speech-to-text audio transcriptions.
@@ -17,7 +16,6 @@ The original project can be found at [LuisNovo/open-notebook](https://github.com
 ### Prerequisites
 
 - **Go 1.22+**
-- **Node.js** (for Next.js frontend development)
 - **SurrealDB v3.1.3**
 
 ### Running the Services
@@ -28,23 +26,13 @@ The original project can be found at [LuisNovo/open-notebook](https://github.com
    surreal start --log info --user root --pass root --bind 0.0.0.0:8000 rocksdb://surreal_data/db
    ```
 
-2. **Run the Go API**:
+2. **Run the Unified Go Server**:
    ```bash
-   go run ./cmd/api
+   go run ./cmd/server
    ```
-   *(Migrations are applied automatically on database connection)*
+   *(Frontend static assets are embedded, database migrations are applied automatically, and background worker starts concurrently)*
 
-3. **Run the Go Worker Daemon**:
-   ```bash
-   go run ./cmd/worker
-   ```
-
-4. **Start the Frontend**:
-   ```bash
-   cd frontend
-   npm run dev
-   ```
-   Open [http://localhost:3000](http://localhost:3000) in your browser.
+   Open [http://localhost:5055](http://localhost:5055) in your browser.
 
 ## License
 

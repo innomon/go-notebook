@@ -1,0 +1,2 @@
+-- Migration 15: Add num_ctx to credential table
+DEFINE FIELD num_ctx ON credential TYPE option<int>;

@@ -18,3 +18,4 @@ DEFINE TABLE IF NOT EXISTS command SCHEMALESS;
 SELECT * FROM open_notebook:default_models;
 SELECT * FROM open_notebook:content_settings
 SELECT * FROM ONLY open_notebook:content_settings
+SELECT * FROM open_notebook WHERE id = open_notebook:content_settings

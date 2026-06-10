@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"go-notebook/internal/domain"
 	"net/http"
+	"time"
 )
 
 // RegisterInsightRoutes binds insight REST routes to the ServeMux
@@ -28,12 +29,12 @@ func handleGetInsight(w http.ResponseWriter, r *http.Request) {
 
 	// Format response matching python SourceInsightResponse
 	type InsightResponse struct {
-		ID          string `json:"id"`
-		SourceID    string `json:"source_id"`
-		InsightType string `json:"insight_type"`
-		Content     string `json:"content"`
-		Created     string `json:"created"`
-		Updated     string `json:"updated"`
+		ID          string    `json:"id"`
+		SourceID    string    `json:"source_id"`
+		InsightType string    `json:"insight_type"`
+		Content     string    `json:"content"`
+		Created     time.Time `json:"created"`
+		Updated     time.Time `json:"updated"`
 	}
 
 	response := InsightResponse{

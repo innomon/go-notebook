@@ -44,8 +44,8 @@ type SourceListResponse struct {
 	Embedded       bool           `json:"embedded"`
 	EmbeddedChunks int            `json:"embedded_chunks"`
 	InsightsCount  int            `json:"insights_count"`
-	Created        string         `json:"created"`
-	Updated        string         `json:"updated"`
+	Created        time.Time      `json:"created"`
+	Updated        time.Time      `json:"updated"`
 	FileAvailable  *bool          `json:"file_available,omitempty"`
 	CommandID      *string        `json:"command_id,omitempty"`
 	Status         *string        `json:"status,omitempty"`
@@ -61,8 +61,8 @@ type SourceResponse struct {
 	Embedded       bool           `json:"embedded"`
 	EmbeddedChunks int            `json:"embedded_chunks"`
 	FileAvailable  *bool          `json:"file_available,omitempty"`
-	Created        string         `json:"created"`
-	Updated        string         `json:"updated"`
+	Created        time.Time      `json:"created"`
+	Updated        time.Time      `json:"updated"`
 	CommandID      string         `json:"command_id,omitempty"`
 	Status         string         `json:"status,omitempty"`
 	ProcessingInfo map[string]any `json:"processing_info,omitempty"`
@@ -590,12 +590,12 @@ func handleGetSourceInsights(w http.ResponseWriter, r *http.Request) {
 
 	// Format response matching python SourceInsightResponse
 	type InsightResponse struct {
-		ID          string `json:"id"`
-		SourceID    string `json:"source_id"`
-		InsightType string `json:"insight_type"`
-		Content     string `json:"content"`
-		Created     string `json:"created"`
-		Updated     string `json:"updated"`
+		ID          string    `json:"id"`
+		SourceID    string    `json:"source_id"`
+		InsightType string    `json:"insight_type"`
+		Content     string    `json:"content"`
+		Created     time.Time `json:"created"`
+		Updated     time.Time `json:"updated"`
 	}
 
 	response := make([]InsightResponse, len(insights))

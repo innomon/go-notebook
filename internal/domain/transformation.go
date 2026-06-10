@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"go-notebook/internal/db"
+	"time"
 
 	"github.com/surrealdb/surrealdb.go/pkg/models"
 )
@@ -16,20 +17,20 @@ type Transformation struct {
 	Description  string           `json:"description"`
 	Prompt       string           `json:"prompt"`
 	ApplyDefault bool             `json:"apply_default"`
-	Created      string           `json:"created,omitempty"`
-	Updated      string           `json:"updated,omitempty"`
+	Created      time.Time        `json:"created,omitempty"`
+	Updated      time.Time        `json:"updated,omitempty"`
 }
 
 // TransformationResponse represents a Transformation as serialized for the REST API
 type TransformationResponse struct {
-	ID           string `json:"id"`
-	Name         string `json:"name"`
-	Title        string `json:"title"`
-	Description  string `json:"description"`
-	Prompt       string `json:"prompt"`
-	ApplyDefault bool   `json:"apply_default"`
-	Created      string `json:"created"`
-	Updated      string `json:"updated"`
+	ID           string    `json:"id"`
+	Name         string    `json:"name"`
+	Title        string    `json:"title"`
+	Description  string    `json:"description"`
+	Prompt       string    `json:"prompt"`
+	ApplyDefault bool      `json:"apply_default"`
+	Created      time.Time `json:"created"`
+	Updated      time.Time `json:"updated"`
 }
 
 // GetTransformation retrieves a transformation by ID
