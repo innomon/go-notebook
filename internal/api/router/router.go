@@ -5,15 +5,15 @@ import (
 	"go-notebook/internal/api/middleware"
 	"go-notebook/internal/db"
 	"go-notebook/internal/utils"
+	"io/fs"
 	"net/http"
 )
 
 // NewRouter sets up all routes using the native Go 1.22+ ServeMux and applies middlewares
-func NewRouter() http.Handler {
+func NewRouter(frontendFS fs.FS) http.Handler {
 	mux := http.NewServeMux()
 
 	// Base/health endpoints (exempt from auth)
-	mux.HandleFunc("GET /", handleRoot)
 	mux.HandleFunc("GET /health", handleHealth)
 	mux.HandleFunc("GET /api/config", handleConfig)
 	mux.HandleFunc("GET /api/auth/status", handleAuthStatus)
@@ -31,6 +31,9 @@ func NewRouter() http.Handler {
 	RegisterModelRoutes(mux)
 	RegisterPodcastRoutes(mux)
 
+	// Register embedded frontend file server routes
+	RegisterFrontendRoutes(mux, frontendFS)
+
 	// Chain middlewares: CORS must be applied first (outermost) to handle OPTIONS preflights,
 	// followed by Password Authentication.
 	var handler http.Handler = mux
@@ -38,13 +41,6 @@ func NewRouter() http.Handler {
 	handler = middleware.CORS(handler)
 
 	return handler
-}
-
-func handleRoot(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	_ = json.NewEncoder(w).Encode(map[string]string{
-		"message": "Open Notebook API is running",
-	})
 }
 
 func handleHealth(w http.ResponseWriter, r *http.Request) {

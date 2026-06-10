@@ -23,13 +23,13 @@ type DefaultPrompts struct {
 func GetContentSettings(ctx context.Context) (*ContentSettings, error) {
 	recordID := "open_notebook:content_settings"
 
-	results, err := db.RepoQuery[ContentSettings](ctx, "SELECT * FROM ONLY $id;", map[string]any{"id": recordID})
+	results, err := db.RepoQuery[[]ContentSettings](ctx, "SELECT * FROM $id;", map[string]any{"id": recordID})
 	if err != nil {
 		// Fallback to query errors or empty table
 		return nil, err
 	}
 
-	if results == nil {
+	if results == nil || len(*results) == 0 {
 		// Initialize with default values
 		defaults := &ContentSettings{
 			DefaultContentProcessingEngineDoc: "auto",
@@ -46,7 +46,7 @@ func GetContentSettings(ctx context.Context) (*ContentSettings, error) {
 		return defaults, nil
 	}
 
-	return results, nil
+	return &(*results)[0], nil
 }
 
 // UpdateContentSettings upserts the ContentSettings singleton record
@@ -68,12 +68,12 @@ func UpdateContentSettings(ctx context.Context, settings *ContentSettings) error
 func GetDefaultPrompts(ctx context.Context) (*DefaultPrompts, error) {
 	recordID := "open_notebook:default_prompts"
 
-	results, err := db.RepoQuery[DefaultPrompts](ctx, "SELECT * FROM ONLY $id;", map[string]any{"id": recordID})
+	results, err := db.RepoQuery[[]DefaultPrompts](ctx, "SELECT * FROM $id;", map[string]any{"id": recordID})
 	if err != nil {
 		return nil, err
 	}
 
-	if results == nil {
+	if results == nil || len(*results) == 0 {
 		defaults := &DefaultPrompts{
 			TransformationInstructions: "",
 		}
@@ -84,7 +84,7 @@ func GetDefaultPrompts(ctx context.Context) (*DefaultPrompts, error) {
 		return defaults, nil
 	}
 
-	return results, nil
+	return &(*results)[0], nil
 }
 
 // UpdateDefaultPrompts upserts the DefaultPrompts singleton record

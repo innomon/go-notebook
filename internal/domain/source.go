@@ -26,8 +26,8 @@ type Source struct {
 	Topics    []string         `json:"topics,omitempty"`
 	FullText  string           `json:"full_text,omitempty"`
 	Command   *models.RecordID `json:"command,omitempty"`
-	Created   string           `json:"created,omitempty"`
-	Updated   string           `json:"updated,omitempty"`
+	Created   time.Time        `json:"created,omitempty"`
+	Updated   time.Time        `json:"updated,omitempty"`
 }
 
 // CommandJob represents a queued or executing background worker command
@@ -36,8 +36,8 @@ type CommandJob struct {
 	App           string           `json:"app"`
 	Command       string           `json:"command"`
 	Status        string           `json:"status"`
-	Created       string           `json:"created"`
-	Updated       string           `json:"updated"`
+	Created       time.Time        `json:"created"`
+	Updated       time.Time        `json:"updated"`
 	RetryAttempts int              `json:"retry_attempts"`
 	Input         map[string]any   `json:"input"`
 	ErrorMessage  *string          `json:"error_message,omitempty"`
@@ -313,8 +313,8 @@ type ListSourceResult struct {
 	Command       any              `json:"command"`
 	InsightsCount int              `json:"insights_count"`
 	Embedded      bool             `json:"embedded"`
-	Created       string           `json:"created"`
-	Updated       string           `json:"updated"`
+	Created       time.Time        `json:"created"`
+	Updated       time.Time        `json:"updated"`
 }
 
 // ListSources returns paginated list of sources optionally filtered by notebook

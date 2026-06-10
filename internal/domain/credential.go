@@ -298,11 +298,11 @@ func DeleteModel(ctx context.Context, id string) error {
 // GetDefaultModels gets DefaultModels singleton
 func GetDefaultModels(ctx context.Context) (*DefaultModels, error) {
 	recordID := db.EnsureRecordID("open_notebook", "default_models")
-	results, err := db.RepoQuery[DefaultModels](ctx, "SELECT * FROM ONLY $id;", map[string]any{"id": recordID})
+	results, err := db.RepoQuery[[]DefaultModels](ctx, "SELECT * FROM $id;", map[string]any{"id": recordID})
 	if err != nil {
 		return nil, err
 	}
-	if results == nil {
+	if results == nil || len(*results) == 0 {
 		// Initialize empty
 		defaults := &DefaultModels{}
 		err = UpdateDefaultModels(ctx, defaults)
@@ -311,7 +311,7 @@ func GetDefaultModels(ctx context.Context) (*DefaultModels, error) {
 		}
 		return defaults, nil
 	}
-	return results, nil
+	return &(*results)[0], nil
 }
 
 // UpdateDefaultModels updates DefaultModels singleton

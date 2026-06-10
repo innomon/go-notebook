@@ -14,7 +14,7 @@ import {
   SourceListResponse,
   NoteResponse
 } from '@/lib/types/api'
-import { ContextSelections } from '@/app/(dashboard)/notebooks/[id]/page'
+import { ContextSelections } from '@/app/(dashboard)/notebooks/[id]/NotebookPageClient'
 
 interface UseNotebookChatParams {
   notebookId: string

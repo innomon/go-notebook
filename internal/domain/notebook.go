@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"go-notebook/internal/db"
 	"log"
+	"time"
 
 	"github.com/surrealdb/surrealdb.go/pkg/models"
 )
@@ -16,20 +17,20 @@ type Notebook struct {
 	Name        string           `json:"name"`
 	Description string           `json:"description"`
 	Archived    bool             `json:"archived"`
-	Created     string           `json:"created,omitempty"`
-	Updated     string           `json:"updated,omitempty"`
+	Created     time.Time        `json:"created,omitempty"`
+	Updated     time.Time        `json:"updated,omitempty"`
 }
 
 // NotebookResponse represents a notebook as serialized for the REST API
 type NotebookResponse struct {
-	ID          string `json:"id"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	Archived    bool   `json:"archived"`
-	Created     string `json:"created"`
-	Updated     string `json:"updated"`
-	SourceCount int    `json:"source_count"`
-	NoteCount   int    `json:"note_count"`
+	ID          string    `json:"id"`
+	Name        string    `json:"name"`
+	Description string    `json:"description"`
+	Archived    bool      `json:"archived"`
+	Created     time.Time `json:"created"`
+	Updated     time.Time `json:"updated"`
+	SourceCount int       `json:"source_count"`
+	NoteCount   int       `json:"note_count"`
 }
 
 // NotebookDeletePreview represents counts of items affected by a deletion

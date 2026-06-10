@@ -19,19 +19,19 @@ type Note struct {
 	Summary   string           `json:"summary"`
 	NoteType  string           `json:"note_type"` // "human" or "ai"
 	Embedding []float32        `json:"embedding,omitempty"`
-	Created   string           `json:"created,omitempty"`
-	Updated   string           `json:"updated,omitempty"`
+	Created   time.Time        `json:"created,omitempty"`
+	Updated   time.Time        `json:"updated,omitempty"`
 }
 
 // NoteResponse represents a Note as serialized for the REST API
 type NoteResponse struct {
-	ID        string `json:"id"`
-	Title     string `json:"title,omitempty"`
-	Content   string `json:"content,omitempty"`
-	NoteType  string `json:"note_type,omitempty"`
-	Created   string `json:"created"`
-	Updated   string `json:"updated"`
-	CommandID string `json:"command_id,omitempty"` // For embedding job tracking
+	ID        string    `json:"id"`
+	Title     string    `json:"title,omitempty"`
+	Content   string    `json:"content,omitempty"`
+	NoteType  string    `json:"note_type,omitempty"`
+	Created   time.Time `json:"created"`
+	Updated   time.Time `json:"updated"`
+	CommandID string    `json:"command_id,omitempty"` // For embedding job tracking
 }
 
 // GetNote retrieves a note by ID

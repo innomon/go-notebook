@@ -16,3 +16,5 @@ DEFINE TABLE IF NOT EXISTS ttt SCHEMAFULL; DEFINE FIELD IF NOT EXISTS name ON TA
 REMOVE DATABASE open_notebook;
 DEFINE TABLE IF NOT EXISTS command SCHEMALESS;
 SELECT * FROM open_notebook:default_models;
+SELECT * FROM open_notebook:content_settings
+SELECT * FROM ONLY open_notebook:content_settings

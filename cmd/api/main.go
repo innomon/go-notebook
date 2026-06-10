@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"io/fs"
 	"log"
 	"net/http"
 	"os"
@@ -9,12 +10,15 @@ import (
 	"syscall"
 	"time"
 
+	"go-notebook/frontend"
 	"go-notebook/internal/api/router"
 	"go-notebook/internal/db"
 	"go-notebook/internal/utils"
+	"go-notebook/internal/worker"
 
 	"github.com/joho/godotenv"
 )
+
 
 func main() {
 	// 1. Load environment variables (.env files)
@@ -45,8 +49,21 @@ func main() {
 		log.Fatalf("[API] Critical: Database migration failed: %v", err)
 	}
 
-	// 4. Setup ServeMux Router
-	r := router.NewRouter()
+	// 4. Extract frontend sub-filesystem
+	subFS, err := fs.Sub(frontend.Assets, "out")
+	if err != nil {
+		log.Fatalf("[API] Critical: Failed to load embedded frontend: %v", err)
+	}
+
+	// 5. Setup ServeMux Router
+	r := router.NewRouter(subFS)
+
+	// 6. Start the Background Worker Daemon goroutine
+	workerCtx, workerCancel := context.WithCancel(context.Background())
+	defer workerCancel()
+
+	log.Println("[Worker] Starting background worker goroutine...")
+	go worker.Start(workerCtx)
 
 	// Get PORT from env or fallback to original FastAPI port
 	port := os.Getenv("PORT")
@@ -59,7 +76,7 @@ func main() {
 		Handler: r,
 	}
 
-	// 5. Graceful shutdown signaling
+	// 7. Graceful shutdown signaling
 	stop := make(chan os.Signal, 1)
 	signal.Notify(stop, os.Interrupt, syscall.SIGTERM)
 
