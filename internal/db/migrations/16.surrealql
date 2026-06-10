@@ -1,0 +1,2 @@
+-- Migration 16: Allow null values for num_ctx on credential table
+DEFINE FIELD OVERWRITE num_ctx ON credential TYPE option<int | null>;

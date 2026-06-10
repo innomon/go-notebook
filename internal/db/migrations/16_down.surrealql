@@ -1,0 +1,2 @@
+-- Migration 16 Rollback: Revert num_ctx field to option<int>
+DEFINE FIELD OVERWRITE num_ctx ON credential TYPE option<int>;
