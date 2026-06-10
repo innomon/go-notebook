@@ -1,4 +1,4 @@
-import { enUS, bn, Locale } from 'date-fns/locale'
+import { enUS, enIN, bn, hi, ta, te, gu, kn, Locale } from 'date-fns/locale'
 
 /**
  * Mapping of language codes to date-fns locales.
@@ -6,7 +6,15 @@ import { enUS, bn, Locale } from 'date-fns/locale'
  */
 const LOCALE_MAP: Record<string, Locale> = {
   'en-US': enUS,
+  'en-IN': enIN,
+  'en-GB': enUS,
   'bn-IN': bn,
+  'bn-BD': bn,
+  'hi-IN': hi,
+  'ta-IN': ta,
+  'te-IN': te,
+  'gu-IN': gu,
+  'kn-IN': kn,
 }
 
 /**

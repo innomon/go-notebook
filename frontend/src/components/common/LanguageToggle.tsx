@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Languages } from 'lucide-react'
 import { useTranslation } from '@/lib/hooks/use-translation'
+import { languages } from '@/lib/locales'
 
 interface LanguageToggleProps {
   iconOnly?: boolean
@@ -33,19 +34,16 @@ export function LanguageToggle({ iconOnly = false }: LanguageToggleProps) {
           <span className="sr-only">{t('navigation.language')}</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem
-          onClick={() => setLanguage('en-US')}
-          className={currentLang === 'en-US' || currentLang.startsWith('en') ? 'bg-accent' : ''}
-        >
-          <span>{t('common.english')}</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={() => setLanguage('bn-IN')}
-          className={currentLang === 'bn-IN' || currentLang.startsWith('bn') ? 'bg-accent' : ''}
-        >
-          <span>{t('common.bengali')}</span>
-        </DropdownMenuItem>
+      <DropdownMenuContent align="end" className="max-h-[300px] overflow-y-auto">
+        {languages.map((lang) => (
+          <DropdownMenuItem
+            key={lang.code}
+            onClick={() => setLanguage(lang.code)}
+            className={currentLang === lang.code ? 'bg-accent' : ''}
+          >
+            <span>{lang.label}</span>
+          </DropdownMenuItem>
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
   )

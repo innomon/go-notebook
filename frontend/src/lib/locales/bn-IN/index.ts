@@ -20,8 +20,6 @@ export const bnIN = {
     newNotebook: "নতুন নোটবুক",
     newPodcast: "নতুন পডকাস্ট",
     language: "ভাষা",
-    english: "English",
-    bengali: "বাংলা",
     source: "উৎস",
     notebook: "নোটবুক",
     podcast: "পডকাস্ট",
