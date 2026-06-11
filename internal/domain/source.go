@@ -65,7 +65,7 @@ type SourceEmbedding struct {
 
 // GetSource retrieves a source by ID
 func GetSource(ctx context.Context, id string) (*Source, error) {
-	recordID := db.EnsureRecordIDString("source", id)
+	recordID := db.EnsureRecordID("source", id)
 	results, err := db.RepoQuery[Source](ctx, "SELECT * FROM ONLY $id;", map[string]any{"id": recordID})
 	if err != nil {
 		return nil, err
@@ -75,7 +75,8 @@ func GetSource(ctx context.Context, id string) (*Source, error) {
 
 // GetCommandJob retrieves a command job by record ID
 func GetCommandJob(ctx context.Context, commandID string) (*CommandJob, error) {
-	results, err := db.RepoQuery[CommandJob](ctx, "SELECT * FROM ONLY $id;", map[string]any{"id": commandID})
+	recordObj := db.EnsureRecordID("command", commandID)
+	results, err := db.RepoQuery[CommandJob](ctx, "SELECT * FROM ONLY $id;", map[string]any{"id": recordObj})
 	if err != nil {
 		return nil, err
 	}
@@ -121,7 +122,7 @@ func GetSourceInsights(ctx context.Context, sourceID string) ([]SourceInsight, e
 
 // GetSourceInsight retrieves a specific insight by ID
 func GetSourceInsight(ctx context.Context, id string) (*SourceInsight, error) {
-	recordID := db.EnsureRecordIDString("source_insight", id)
+	recordID := db.EnsureRecordID("source_insight", id)
 	results, err := db.RepoQuery[SourceInsight](ctx, "SELECT * FROM ONLY $id;", map[string]any{"id": recordID})
 	if err != nil {
 		return nil, err
@@ -131,8 +132,8 @@ func GetSourceInsight(ctx context.Context, id string) (*SourceInsight, error) {
 
 // DeleteSourceInsight deletes an insight by ID
 func DeleteSourceInsight(ctx context.Context, id string) error {
-	recordID := db.EnsureRecordIDString("source_insight", id)
-	return db.RepoDelete(ctx, recordID)
+	recordID := db.EnsureRecordID("source_insight", id)
+	return db.RepoDelete(ctx, recordID.String())
 }
 
 // CreateSource creates a source record, links it to notebooks, and submits the background job
@@ -244,13 +245,13 @@ func UpdateSource(ctx context.Context, id string, title *string, topics []string
 
 // DeleteSource deletes a source and links
 func DeleteSource(ctx context.Context, id string) error {
-	recordID := db.EnsureRecordIDString("source", id)
+	recordID := db.EnsureRecordID("source", id)
 
 	// Delete reference relations
 	_, _ = db.RepoQuery[any](ctx, "DELETE reference WHERE in = $id;", map[string]any{"id": recordID})
 
 	// Delete source (event triggers downstream deletes of source_embedding and source_insight)
-	return db.RepoDelete(ctx, recordID)
+	return db.RepoDelete(ctx, recordID.String())
 }
 
 // SubmitRetryCommand schedules retry command for source

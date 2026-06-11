@@ -81,7 +81,7 @@ type DefaultModels struct {
 
 // GetCredential retrieves a credential and decrypts its API key
 func GetCredential(ctx context.Context, id string) (*Credential, error) {
-	recordID := db.EnsureRecordIDString("credential", id)
+	recordID := db.EnsureRecordID("credential", id)
 	cred, err := db.RepoQuery[Credential](ctx, "SELECT * FROM ONLY $id;", map[string]any{"id": recordID})
 	if err != nil {
 		return nil, err
@@ -206,7 +206,7 @@ func UpdateCredential(ctx context.Context, id string, c *Credential, keyChanged 
 
 // DeleteCredential deletes a credential and unlinks/deletes linked models
 func DeleteCredential(ctx context.Context, id string, deleteModels bool, migrateTo string) (deletedModels int, err error) {
-	recordID := db.EnsureRecordIDString("credential", id)
+	recordID := db.EnsureRecordID("credential", id)
 
 	type ModelID struct {
 		ID *models.RecordID `json:"id"`
@@ -237,13 +237,13 @@ func DeleteCredential(ctx context.Context, id string, deleteModels bool, migrate
 	}
 
 	// Delete credential record itself
-	err = db.RepoDelete(ctx, recordID)
+	err = db.RepoDelete(ctx, recordID.String())
 	return deletedModels, err
 }
 
 // GetModel retrieves a model by ID
 func GetModel(ctx context.Context, id string) (*Model, error) {
-	recordID := db.EnsureRecordIDString("model", id)
+	recordID := db.EnsureRecordID("model", id)
 	return db.RepoQuery[Model](ctx, "SELECT * FROM ONLY $id;", map[string]any{"id": recordID})
 }
 
@@ -292,8 +292,8 @@ func CreateModel(ctx context.Context, name, provider, mType, credID string) (*Mo
 
 // DeleteModel deletes a model
 func DeleteModel(ctx context.Context, id string) error {
-	recordID := db.EnsureRecordIDString("model", id)
-	return db.RepoDelete(ctx, recordID)
+	recordID := db.EnsureRecordID("model", id)
+	return db.RepoDelete(ctx, recordID.String())
 }
 
 // GetDefaultModels gets DefaultModels singleton

@@ -36,7 +36,7 @@ type NoteResponse struct {
 
 // GetNote retrieves a note by ID
 func GetNote(ctx context.Context, id string) (*Note, error) {
-	recordID := db.EnsureRecordIDString("note", id)
+	recordID := db.EnsureRecordID("note", id)
 	results, err := db.RepoQuery[Note](ctx, "SELECT * FROM ONLY $id;", map[string]any{"id": recordID})
 	if err != nil {
 		return nil, err

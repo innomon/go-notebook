@@ -42,7 +42,7 @@ type NotebookDeletePreview struct {
 
 // GetNotebook retrieves a notebook by record ID
 func GetNotebook(ctx context.Context, id string) (*Notebook, error) {
-	recordID := db.EnsureRecordIDString("notebook", id)
+	recordID := db.EnsureRecordID("notebook", id)
 	results, err := db.RepoQuery[Notebook](ctx, "SELECT * FROM ONLY $id;", map[string]any{"id": recordID})
 	if err != nil {
 		return nil, err

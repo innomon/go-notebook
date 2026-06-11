@@ -107,7 +107,7 @@ type PodcastEpisodeResponse struct {
 // --- Speaker Profile CRUD ---
 
 func GetSpeakerProfile(ctx context.Context, id string) (*SpeakerProfile, error) {
-	recordID := db.EnsureRecordIDString("speaker_profile", id)
+	recordID := db.EnsureRecordID("speaker_profile", id)
 	return db.RepoQuery[SpeakerProfile](ctx, "SELECT * FROM ONLY $id;", map[string]any{"id": recordID})
 }
 
@@ -183,14 +183,14 @@ func UpdateSpeakerProfile(ctx context.Context, id string, name, description *str
 }
 
 func DeleteSpeakerProfile(ctx context.Context, id string) error {
-	recordID := db.EnsureRecordIDString("speaker_profile", id)
-	return db.RepoDelete(ctx, recordID)
+	recordID := db.EnsureRecordID("speaker_profile", id)
+	return db.RepoDelete(ctx, recordID.String())
 }
 
 // --- Episode Profile CRUD ---
 
 func GetEpisodeProfile(ctx context.Context, id string) (*EpisodeProfile, error) {
-	recordID := db.EnsureRecordIDString("episode_profile", id)
+	recordID := db.EnsureRecordID("episode_profile", id)
 	return db.RepoQuery[EpisodeProfile](ctx, "SELECT * FROM ONLY $id;", map[string]any{"id": recordID})
 }
 
@@ -269,14 +269,14 @@ func UpdateEpisodeProfile(ctx context.Context, id string, ep *EpisodeProfile) (*
 }
 
 func DeleteEpisodeProfile(ctx context.Context, id string) error {
-	recordID := db.EnsureRecordIDString("episode_profile", id)
-	return db.RepoDelete(ctx, recordID)
+	recordID := db.EnsureRecordID("episode_profile", id)
+	return db.RepoDelete(ctx, recordID.String())
 }
 
 // --- Podcast Episode CRUD ---
 
 func GetPodcastEpisode(ctx context.Context, id string) (*PodcastEpisode, error) {
-	recordID := db.EnsureRecordIDString("episode", id)
+	recordID := db.EnsureRecordID("episode", id)
 	return db.RepoQuery[PodcastEpisode](ctx, "SELECT * FROM ONLY $id;", map[string]any{"id": recordID})
 }
 
@@ -292,6 +292,6 @@ func ListPodcastEpisodes(ctx context.Context) ([]PodcastEpisode, error) {
 }
 
 func DeletePodcastEpisode(ctx context.Context, id string) error {
-	recordID := db.EnsureRecordIDString("episode", id)
-	return db.RepoDelete(ctx, recordID)
+	recordID := db.EnsureRecordID("episode", id)
+	return db.RepoDelete(ctx, recordID.String())
 }

@@ -35,7 +35,7 @@ type TransformationResponse struct {
 
 // GetTransformation retrieves a transformation by ID
 func GetTransformation(ctx context.Context, id string) (*Transformation, error) {
-	recordID := db.EnsureRecordIDString("transformation", id)
+	recordID := db.EnsureRecordID("transformation", id)
 	results, err := db.RepoQuery[Transformation](ctx, "SELECT * FROM ONLY $id;", map[string]any{"id": recordID})
 	if err != nil {
 		return nil, err
@@ -99,6 +99,6 @@ func UpdateTransformation(ctx context.Context, id string, name, title, descripti
 
 // DeleteTransformation deletes a transformation record by ID
 func DeleteTransformation(ctx context.Context, id string) error {
-	recordID := db.EnsureRecordIDString("transformation", id)
-	return db.RepoDelete(ctx, recordID)
+	recordID := db.EnsureRecordID("transformation", id)
+	return db.RepoDelete(ctx, recordID.String())
 }

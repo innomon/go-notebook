@@ -43,7 +43,7 @@ type ChatSessionResponse struct {
 
 // GetChatSession retrieves a chat session by record ID
 func GetChatSession(ctx context.Context, id string) (*ChatSession, error) {
-	recordID := db.EnsureRecordIDString("chat_session", id)
+	recordID := db.EnsureRecordID("chat_session", id)
 	results, err := db.RepoQuery[ChatSession](ctx, "SELECT * FROM ONLY $id;", map[string]any{"id": recordID})
 	if err != nil {
 		return nil, err
