@@ -3,6 +3,7 @@
 This repository contains a high-performance Go port of the backend for **Open Notebook**, replacing the original Python backend (FastAPI, LangGraph, and Esperanto) with a structured, compiled, and highly concurrent Go application. The frontend remains the same Next.js-based interface.
 
 The original project can be found at [LuisNovo/open-notebook](https://github.com/LuisNovo/open-notebook).
+The GraphRAG subsystem and visualizer are based on the [mohammad-majoony/graphrag-studio](https://github.com/mohammad-majoony/graphrag-studio) project, with its Python Django backend ported to Go and integrated with SurrealDB.
 
 ## Architecture & Subsystems
 
