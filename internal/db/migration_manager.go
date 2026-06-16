@@ -65,13 +65,13 @@ func ReadMigrationFile(filename string) (string, error) {
 	return strings.Join(cleaned, " "), nil
 }
 
-// NeedsMigration checks if there are migrations that need to be run (total 16 migrations)
+// NeedsMigration checks if there are migrations that need to be run (total 17 migrations)
 func NeedsMigration(ctx context.Context) (bool, error) {
 	current, err := GetLatestVersion(ctx)
 	if err != nil {
 		return false, err
 	}
-	return current < 16, nil
+	return current < 17, nil
 }
 
 // RunMigrationUp runs all pending migrations sequentially
@@ -83,14 +83,14 @@ func RunMigrationUp(ctx context.Context) error {
 
 	log.Printf("[Migrations] Current database version: %d", current)
 
-	if current >= 16 {
+	if current >= 17 {
 		log.Println("[Migrations] Database is already at the latest version. No migrations needed.")
 		return nil
 	}
 
 	log.Printf("[Migrations] Pending migrations detected. Running migrations up...")
 
-	for i := current; i < 16; i++ {
+	for i := current; i < 17; i++ {
 		version := i + 1
 		filename := fmt.Sprintf("%d.surrealql", version)
 		sql, err := ReadMigrationFile(filename)

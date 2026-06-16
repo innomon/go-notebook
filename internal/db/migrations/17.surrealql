@@ -1,0 +1,26 @@
+-- Migration 17: Add GraphRAG schemas (Entities, Relations, Communities)
+
+DEFINE TABLE IF NOT EXISTS RAGEntity SCHEMAFULL;
+DEFINE FIELD IF NOT EXISTS name ON TABLE RAGEntity TYPE string;
+DEFINE FIELD IF NOT EXISTS count ON TABLE RAGEntity TYPE int DEFAULT 1;
+DEFINE FIELD IF NOT EXISTS notebook ON TABLE RAGEntity TYPE record<notebook>;
+DEFINE FIELD IF NOT EXISTS created ON RAGEntity DEFAULT time::now();
+
+DEFINE INDEX IF NOT EXISTS idx_entity_name ON TABLE RAGEntity COLUMNS notebook, name UNIQUE;
+
+DEFINE TABLE IF NOT EXISTS co_occurs TYPE RELATION FROM RAGEntity TO RAGEntity SCHEMAFULL;
+DEFINE FIELD IF NOT EXISTS weight ON TABLE co_occurs TYPE int DEFAULT 1;
+DEFINE FIELD IF NOT EXISTS notebook ON TABLE co_occurs TYPE record<notebook>;
+DEFINE FIELD IF NOT EXISTS created ON co_occurs DEFAULT time::now();
+
+DEFINE INDEX IF NOT EXISTS idx_co_occurs_notebook ON TABLE co_occurs COLUMNS notebook;
+
+DEFINE TABLE IF NOT EXISTS RAGCommunity SCHEMAFULL;
+DEFINE FIELD IF NOT EXISTS community_id ON TABLE RAGCommunity TYPE int;
+DEFINE FIELD IF NOT EXISTS notebook ON TABLE RAGCommunity TYPE record<notebook>;
+DEFINE FIELD IF NOT EXISTS summary ON TABLE RAGCommunity TYPE string;
+DEFINE FIELD IF NOT EXISTS entities ON TABLE RAGCommunity TYPE array<string>;
+DEFINE FIELD IF NOT EXISTS embedding ON TABLE RAGCommunity TYPE option<array<float>>;
+DEFINE FIELD IF NOT EXISTS created ON RAGCommunity DEFAULT time::now();
+
+DEFINE INDEX IF NOT EXISTS idx_community_id ON TABLE RAGCommunity COLUMNS notebook, community_id UNIQUE;

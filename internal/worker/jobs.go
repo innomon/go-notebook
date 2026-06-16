@@ -9,6 +9,7 @@ import (
 	"go-notebook/internal/db"
 	"go-notebook/internal/domain"
 	"go-notebook/internal/extractor"
+	"go-notebook/internal/graphrag"
 	"io"
 	"log"
 	"os"
@@ -39,6 +40,8 @@ func ExecuteJob(ctx context.Context, job *domain.CommandJob) (map[string]any, er
 		return handleGeneratePodcast(ctx, job)
 	case "rebuild_embeddings":
 		return handleRebuildEmbeddings(ctx, job)
+	case "build_graphrag":
+		return handleBuildGraphrag(ctx, job)
 	default:
 		return nil, fmt.Errorf("unknown command: %s", job.Command)
 	}
@@ -970,4 +973,25 @@ func concatenateMP3Files(outputFile string, inputFiles []string) error {
 		}
 	}
 	return nil
+}
+
+func handleBuildGraphrag(ctx context.Context, job *domain.CommandJob) (map[string]any, error) {
+	notebookID, _ := job.Input["notebook_id"].(string)
+	if notebookID == "" {
+		return nil, errors.New("missing notebook_id in input")
+	}
+
+	pipeline, err := graphrag.NewPipeline(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("failed to initialize pipeline: %w", err)
+	}
+
+	if err := pipeline.BuildGraph(ctx, notebookID); err != nil {
+		return nil, err
+	}
+
+	return map[string]any{
+		"notebook_id": notebookID,
+		"status":      "completed",
+	}, nil
 }

@@ -1,0 +1,10 @@
+-- Migration 17 Rollback: Drop GraphRAG schemas (Entities, Relations, Communities)
+
+REMOVE INDEX idx_community_id ON RAGCommunity;
+REMOVE TABLE RAGCommunity;
+
+REMOVE INDEX idx_co_occurs_notebook ON co_occurs;
+REMOVE TABLE co_occurs;
+
+REMOVE INDEX idx_entity_name ON RAGEntity;
+REMOVE TABLE RAGEntity;

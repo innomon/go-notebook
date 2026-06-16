@@ -17,6 +17,8 @@ import { useTranslation } from '@/lib/hooks/use-translation'
 import { cn } from '@/lib/utils'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { FileText, StickyNote, MessageSquare } from 'lucide-react'
+import { GraphVisualizer } from './components/GraphVisualizer'
+import { GraphChatColumn } from './components/GraphChatColumn'
 
 export type ContextMode = 'off' | 'insights' | 'full'
 
@@ -51,6 +53,9 @@ export default function NotebookPageClient() {
 
   // Mobile tab state (Sources, Notes, or Chat)
   const [mobileActiveTab, setMobileActiveTab] = useState<'sources' | 'notes' | 'chat'>('chat')
+
+  // GraphRAG Studio visualizer mode toggle
+  const [isGraphMode, setIsGraphMode] = useState(false)
 
   // Context selection state
   const [contextSelections, setContextSelections] = useState<ContextSelections>({
@@ -130,12 +135,16 @@ export default function NotebookPageClient() {
     <AppShell>
       <div className="flex flex-col flex-1 min-h-0">
         <div className="flex-shrink-0 p-6 pb-0">
-          <NotebookHeader notebook={notebook} />
+          <NotebookHeader 
+            notebook={notebook} 
+            isGraphMode={isGraphMode}
+            onToggleGraphMode={() => setIsGraphMode(prev => !prev)}
+          />
         </div>
 
         <div className="flex-1 p-6 pt-6 overflow-x-auto flex flex-col">
           {/* Mobile: Tabbed interface - only render on mobile to avoid double-mounting */}
-          {!isDesktop && (
+          {!isDesktop && !isGraphMode && (
             <>
               <div className="lg:hidden mb-4">
                 <Tabs value={mobileActiveTab} onValueChange={(value) => setMobileActiveTab(value as 'sources' | 'notes' | 'chat')}>
@@ -193,11 +202,32 @@ export default function NotebookPageClient() {
             </>
           )}
 
+          {!isDesktop && isGraphMode && (
+            <div className="flex flex-col gap-4 flex-1 min-h-0 overflow-y-auto lg:hidden">
+              <div className="h-[300px] shrink-0">
+                <GraphVisualizer notebookId={notebookId} />
+              </div>
+              <div className="flex-1 min-h-[400px]">
+                <GraphChatColumn notebookId={notebookId} />
+              </div>
+            </div>
+          )}
+
           {/* Desktop: Collapsible columns layout */}
-          <div className={cn(
-            'hidden lg:flex h-full min-h-0 gap-6 transition-all duration-150',
-            'flex-row'
-          )}>
+          {isGraphMode ? (
+            <div className="hidden lg:flex h-full min-h-0 gap-6">
+              <div className="w-[420px] shrink-0">
+                <GraphChatColumn notebookId={notebookId} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <GraphVisualizer notebookId={notebookId} />
+              </div>
+            </div>
+          ) : (
+            <div className={cn(
+              'hidden lg:flex h-full min-h-0 gap-6 transition-all duration-150',
+              'flex-row'
+            )}>
             {/* Sources Column */}
             <div className={cn(
               'transition-all duration-150',

@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { NotebookResponse } from '@/lib/types/api'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Archive, ArchiveRestore, Trash2 } from 'lucide-react'
+import { Archive, ArchiveRestore, Trash2, Network } from 'lucide-react'
 import { useUpdateNotebook } from '@/lib/hooks/use-notebooks'
 import { NotebookDeleteDialog } from './NotebookDeleteDialog'
 import { formatDistanceToNow } from 'date-fns'
@@ -14,9 +14,11 @@ import { useTranslation } from '@/lib/hooks/use-translation'
 
 interface NotebookHeaderProps {
   notebook: NotebookResponse
+  isGraphMode?: boolean
+  onToggleGraphMode?: () => void
 }
 
-export function NotebookHeader({ notebook }: NotebookHeaderProps) {
+export function NotebookHeader({ notebook, isGraphMode, onToggleGraphMode }: NotebookHeaderProps) {
   const { t, language } = useTranslation()
   const dfLocale = getDateLocale(language)
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
@@ -68,6 +70,17 @@ export function NotebookHeader({ notebook }: NotebookHeaderProps) {
               )}
             </div>
             <div className="flex gap-2">
+              {onToggleGraphMode && (
+                <Button
+                  variant={isGraphMode ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={onToggleGraphMode}
+                  className={isGraphMode ? 'bg-indigo-600 hover:bg-indigo-700 text-white' : ''}
+                >
+                  <Network className="h-4 w-4 mr-2" />
+                  GraphRAG Studio
+                </Button>
+              )}
               <Button
                 variant="outline"
                 size="sm"
