@@ -29,7 +29,7 @@ interface Community {
 	summary: string
 	top_entities: string[]
 	size: number
-	num_chunks: int
+	num_chunks: number
 }
 
 interface GraphData {

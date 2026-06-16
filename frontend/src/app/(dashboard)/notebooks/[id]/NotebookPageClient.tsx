@@ -270,7 +270,7 @@ export default function NotebookPageClient() {
                 sourcesLoading={sourcesLoading}
               />
             </div>
-          </div>
+          </div>)}
         </div>
       </div>
     </AppShell>
