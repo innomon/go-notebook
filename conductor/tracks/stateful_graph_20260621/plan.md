@@ -5,11 +5,11 @@ Track ID: `stateful_graph_20260621`
 
 ## Phase 1: Database Schema & Domain Model Migration
 
-- [ ] Task: Write unit tests verifying RAGEntity and co_occurs serialization and source arrays in rag_graph.go
-    - [ ] Add test cases in `internal/domain/rag_graph_test.go` covering serialization of the `Sources` array fields.
-- [ ] Task: Update domain structs and field mappings for RAGEntity and co_occurs
-    - [ ] Modify `RAGEntity` struct in `internal/domain/rag_graph.go` to include `Sources []string` or `Sources []*models.RecordID` and update JSON tags.
-    - [ ] Modify `RAGCommunity` struct if needed to support communities.
+- [x] Task: Write unit tests verifying RAGEntity and co_occurs serialization and source arrays in rag_graph.go [eb5cfc3]
+    - [x] Add test cases in `internal/domain/rag_graph_test.go` covering serialization of the `Sources` array fields.
+- [x] Task: Update domain structs and field mappings for RAGEntity and co_occurs [eb5cfc3]
+    - [x] Modify `RAGEntity` struct in `internal/domain/rag_graph.go` to include `Sources []string` or `Sources []*models.RecordID` and update JSON tags.
+    - [x] Modify `RAGCommunity` struct if needed to support communities.
 - [ ] Task: Create database migration scripts for SurrealDB
     - [ ] Create `internal/db/migrations/18.surrealql` containing table field adjustments for `sources` arrays.
     - [ ] Create `internal/db/migrations/18_down.surrealql` to reverse the updates.
