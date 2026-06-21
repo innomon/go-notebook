@@ -29,14 +29,14 @@ Track ID: `stateful_graph_20260621`
 
 ## Phase 3: Hash Tracking & Incremental Pipeline
 
-- [ ] Task: Write unit tests verifying incremental pipeline updates and delta indexing
-    - [ ] Write mock pipeline test suite in `internal/graphrag/pipeline_test.go`.
-- [ ] Task: Add content hash support to the Source domain model and ingestion logic
-    - [ ] Add `Hash` string field to `Source` struct in `internal/domain/source.go`.
-    - [ ] Compute the SHA256 of source full text during ingestion in `internal/worker/jobs.go` and update the database record.
-- [ ] Task: Implement ClearSourceGraphLineage database function
-    - [ ] Implement `ClearSourceGraphLineage` in `internal/domain/rag_graph.go` to remove a specific source ID from all entity and relation source lists.
-    - [ ] Delete entity and relation records whose source lists become empty.
-- [ ] Task: Refactor BuildGraph to use incremental change detection
-    - [ ] Modify `BuildGraph` in `internal/graphrag/pipeline.go` to compare content hashes and selectively run lineage cleanup and LLM extraction on new/modified sources.
+- [x] Task: Write unit tests verifying incremental pipeline updates and delta indexing [26306b4]
+    - [x] Write mock pipeline test suite in `internal/graphrag/pipeline_test.go`.
+- [x] Task: Add content hash support to the Source domain model and ingestion logic [26306b4]
+    - [x] Add `Hash` string field to `Source` struct in `internal/domain/source.go`.
+    - [x] Compute the SHA256 of source full text during ingestion in `internal/worker/jobs.go` and update the database record.
+- [x] Task: Implement ClearSourceGraphLineage database function [26306b4]
+    - [x] Implement `ClearSourceGraphLineage` in `internal/domain/rag_graph.go` to remove a specific source ID from all entity and relation source lists.
+    - [x] Delete entity and relation records whose source lists become empty.
+- [x] Task: Refactor BuildGraph to use incremental change detection [26306b4]
+    - [x] Modify `BuildGraph` in `internal/graphrag/pipeline.go` to compare content hashes and selectively run lineage cleanup and LLM extraction on new/modified sources.
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Hash Tracking & Incremental Pipeline' (Protocol in workflow.md)
