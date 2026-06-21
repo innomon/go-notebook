@@ -47,6 +47,9 @@ func GetNotebook(ctx context.Context, id string) (*Notebook, error) {
 	if err != nil {
 		return nil, err
 	}
+	if results == nil || results.ID == nil {
+		return nil, errors.New("notebook not found")
+	}
 	return results, nil
 }
 

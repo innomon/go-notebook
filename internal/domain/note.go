@@ -41,6 +41,9 @@ func GetNote(ctx context.Context, id string) (*Note, error) {
 	if err != nil {
 		return nil, err
 	}
+	if results == nil || results.ID == nil {
+		return nil, errors.New("note not found")
+	}
 	return results, nil
 }
 

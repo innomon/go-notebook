@@ -2,6 +2,7 @@ package domain
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"go-notebook/internal/db"
 	"strings"
@@ -47,6 +48,9 @@ func GetChatSession(ctx context.Context, id string) (*ChatSession, error) {
 	results, err := db.RepoQuery[ChatSession](ctx, "SELECT * FROM ONLY $id;", map[string]any{"id": recordID})
 	if err != nil {
 		return nil, err
+	}
+	if results == nil || results.ID == nil {
+		return nil, errors.New("chat session not found")
 	}
 	return results, nil
 }
@@ -117,10 +121,10 @@ func ListNotebookChatSessions(ctx context.Context, notebookID string) ([]ChatSes
 	}
 
 	query := `
-		SELECT in from refers_to 
-		WHERE out = $notebook_id AND in.id != NONE 
-		ORDER BY in.updated DESC 
-		FETCH in;
+		SELECT * FROM (
+			SELECT in FROM refers_to WHERE out = $notebook_id
+			FETCH in
+		) WHERE in.id != NONE ORDER BY in.updated DESC;
 	`
 	links, err := db.RepoQuery[[]RelLink](ctx, query, map[string]any{"notebook_id": nbRecordID})
 	if err != nil {
@@ -147,10 +151,10 @@ func ListSourceChatSessions(ctx context.Context, sourceID string) ([]ChatSession
 	}
 
 	query := `
-		SELECT in from refers_to 
-		WHERE out = $source_id AND in.id != NONE 
-		ORDER BY in.updated DESC 
-		FETCH in;
+		SELECT * FROM (
+			SELECT in FROM refers_to WHERE out = $source_id
+			FETCH in
+		) WHERE in.id != NONE ORDER BY in.updated DESC;
 	`
 	links, err := db.RepoQuery[[]RelLink](ctx, query, map[string]any{"source_id": srcRecordID})
 	if err != nil {

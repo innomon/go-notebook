@@ -72,6 +72,9 @@ func GetSource(ctx context.Context, id string) (*Source, error) {
 	if err != nil {
 		return nil, err
 	}
+	if results == nil || results.ID == nil {
+		return nil, errors.New("source not found")
+	}
 	return results, nil
 }
 

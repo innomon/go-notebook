@@ -108,7 +108,14 @@ type PodcastEpisodeResponse struct {
 
 func GetSpeakerProfile(ctx context.Context, id string) (*SpeakerProfile, error) {
 	recordID := db.EnsureRecordID("speaker_profile", id)
-	return db.RepoQuery[SpeakerProfile](ctx, "SELECT * FROM ONLY $id;", map[string]any{"id": recordID})
+	results, err := db.RepoQuery[SpeakerProfile](ctx, "SELECT * FROM ONLY $id;", map[string]any{"id": recordID})
+	if err != nil {
+		return nil, err
+	}
+	if results == nil || results.ID == nil {
+		return nil, errors.New("speaker profile not found")
+	}
+	return results, nil
 }
 
 func GetSpeakerProfileByName(ctx context.Context, name string) (*SpeakerProfile, error) {
@@ -191,7 +198,14 @@ func DeleteSpeakerProfile(ctx context.Context, id string) error {
 
 func GetEpisodeProfile(ctx context.Context, id string) (*EpisodeProfile, error) {
 	recordID := db.EnsureRecordID("episode_profile", id)
-	return db.RepoQuery[EpisodeProfile](ctx, "SELECT * FROM ONLY $id;", map[string]any{"id": recordID})
+	results, err := db.RepoQuery[EpisodeProfile](ctx, "SELECT * FROM ONLY $id;", map[string]any{"id": recordID})
+	if err != nil {
+		return nil, err
+	}
+	if results == nil || results.ID == nil {
+		return nil, errors.New("episode profile not found")
+	}
+	return results, nil
 }
 
 func GetEpisodeProfileByName(ctx context.Context, name string) (*EpisodeProfile, error) {
@@ -277,7 +291,14 @@ func DeleteEpisodeProfile(ctx context.Context, id string) error {
 
 func GetPodcastEpisode(ctx context.Context, id string) (*PodcastEpisode, error) {
 	recordID := db.EnsureRecordID("episode", id)
-	return db.RepoQuery[PodcastEpisode](ctx, "SELECT * FROM ONLY $id;", map[string]any{"id": recordID})
+	results, err := db.RepoQuery[PodcastEpisode](ctx, "SELECT * FROM ONLY $id;", map[string]any{"id": recordID})
+	if err != nil {
+		return nil, err
+	}
+	if results == nil || results.ID == nil {
+		return nil, errors.New("podcast episode not found")
+	}
+	return results, nil
 }
 
 func ListPodcastEpisodes(ctx context.Context) ([]PodcastEpisode, error) {

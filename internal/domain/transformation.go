@@ -40,6 +40,9 @@ func GetTransformation(ctx context.Context, id string) (*Transformation, error) 
 	if err != nil {
 		return nil, err
 	}
+	if results == nil || results.ID == nil {
+		return nil, errors.New("transformation not found")
+	}
 	return results, nil
 }
 

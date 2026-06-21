@@ -86,7 +86,10 @@ func GetCredential(ctx context.Context, id string) (*Credential, error) {
 	if err != nil {
 		return nil, err
 	}
-	if cred != nil && cred.APIKey != "" {
+	if cred == nil || cred.ID == nil {
+		return nil, errors.New("credential not found")
+	}
+	if cred.APIKey != "" {
 		decrypted, err := utils.DecryptValue(cred.APIKey)
 		if err == nil {
 			cred.APIKey = decrypted
@@ -244,7 +247,14 @@ func DeleteCredential(ctx context.Context, id string, deleteModels bool, migrate
 // GetModel retrieves a model by ID
 func GetModel(ctx context.Context, id string) (*Model, error) {
 	recordID := db.EnsureRecordID("model", id)
-	return db.RepoQuery[Model](ctx, "SELECT * FROM ONLY $id;", map[string]any{"id": recordID})
+	results, err := db.RepoQuery[Model](ctx, "SELECT * FROM ONLY $id;", map[string]any{"id": recordID})
+	if err != nil {
+		return nil, err
+	}
+	if results == nil || results.ID == nil {
+		return nil, errors.New("model not found")
+	}
+	return results, nil
 }
 
 // ListModels retrieves all models
