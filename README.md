@@ -20,6 +20,9 @@ The GraphRAG subsystem and visualizer are based on the [mohammad-majoony/graphra
 - **Go 1.22+**
 - **Node.js 18+ & npm** (for building/running the frontend)
 - **SurrealDB v3.1.3+**
+- **Tesseract OCR CLI** (Optional, for local image/whiteboard OCR text extraction; if not installed, the system automatically falls back to the configured LLM Vision API)
+  - **macOS**: `brew install tesseract`
+  - **Linux (Ubuntu/Debian)**: `sudo apt-get update && sudo apt-get install -y tesseract-ocr`
 
 ### Step-by-Step Setup
 
