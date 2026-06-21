@@ -27,7 +27,7 @@ Track ID: `stateful_graph_20260621`
     - [x] Update the `RelateEntities` implementation in `internal/domain/rag_graph.go` to append the source ID to the relationship edge's `sources` field.
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Refactoring Graph Operations' (Protocol in workflow.md) [ea68201]
 
-## Phase 3: Hash Tracking & Incremental Pipeline
+## Phase 3: Hash Tracking & Incremental Pipeline [checkpoint: 862abb4]
 
 - [x] Task: Write unit tests verifying incremental pipeline updates and delta indexing [26306b4]
     - [x] Write mock pipeline test suite in `internal/graphrag/pipeline_test.go`.
@@ -39,4 +39,4 @@ Track ID: `stateful_graph_20260621`
     - [x] Delete entity and relation records whose source lists become empty.
 - [x] Task: Refactor BuildGraph to use incremental change detection [26306b4]
     - [x] Modify `BuildGraph` in `internal/graphrag/pipeline.go` to compare content hashes and selectively run lineage cleanup and LLM extraction on new/modified sources.
-- [ ] Task: Conductor - User Manual Verification 'Phase 3: Hash Tracking & Incremental Pipeline' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 3: Hash Tracking & Incremental Pipeline' (Protocol in workflow.md) [862abb4]
