@@ -16,3 +16,8 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 - [x] **Track: Implement whiteboard OCR and image notes processing in the multimodal ingestion pipeline**
   *Link: [./tracks/whiteboard_ocr_20260621/](./tracks/whiteboard_ocr_20260621/)*
+
+---
+
+- [ ] **Track: Obsidian-compatible Vault Export and Import**
+  *Link: [./tracks/obsidian_export_import_20260621/](./tracks/obsidian_export_import_20260621/)*
