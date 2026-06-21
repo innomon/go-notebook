@@ -9,5 +9,5 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [ ] **Track: Implement docx and xlsx document parsers in the multimodal ingestion pipeline**
+- [x] **Track: Implement docx and xlsx document parsers in the multimodal ingestion pipeline**
   *Link: [./tracks/docx_xlsx_parsers_20260621/](./tracks/docx_xlsx_parsers_20260621/)*
