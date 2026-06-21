@@ -338,8 +338,8 @@ func handleEmbedNote(ctx context.Context, job *domain.CommandJob) (map[string]an
 		return nil, fmt.Errorf("failed to embed note: %w", err)
 	}
 
-	_, err = db.RepoQuery[any](ctx, "UPDATE ONLY $id SET embedding = $embedding;", map[string]any{
-		"id":        db.EnsureRecordIDString("note", noteID),
+	_, err = db.RepoQuery[any](ctx, "UPDATE $id SET embedding = $embedding;", map[string]any{
+		"id":        db.EnsureRecordID("note", noteID),
 		"embedding": embedding,
 	})
 	if err != nil {
@@ -378,8 +378,8 @@ func handleEmbedInsight(ctx context.Context, job *domain.CommandJob) (map[string
 		return nil, fmt.Errorf("failed to embed insight: %w", err)
 	}
 
-	_, err = db.RepoQuery[any](ctx, "UPDATE ONLY $id SET embedding = $embedding;", map[string]any{
-		"id":        db.EnsureRecordIDString("source_insight", insightID),
+	_, err = db.RepoQuery[any](ctx, "UPDATE $id SET embedding = $embedding;", map[string]any{
+		"id":        db.EnsureRecordID("source_insight", insightID),
 		"embedding": embedding,
 	})
 	if err != nil {
