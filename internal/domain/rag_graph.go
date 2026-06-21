@@ -11,11 +11,12 @@ import (
 
 // RAGEntity represents a node in the knowledge graph
 type RAGEntity struct {
-	ID       *models.RecordID `json:"id,omitempty"`
-	Name     string           `json:"name"`
-	Count    int              `json:"count"`
-	Notebook *models.RecordID `json:"notebook"`
-	Created  time.Time        `json:"created,omitempty"`
+	ID       *models.RecordID    `json:"id,omitempty"`
+	Name     string              `json:"name"`
+	Count    int                 `json:"count"`
+	Sources  []*models.RecordID  `json:"sources,omitempty"`
+	Notebook *models.RecordID    `json:"notebook"`
+	Created  time.Time           `json:"created,omitempty"`
 }
 
 // RAGCommunity represents a thematic cluster of entities
