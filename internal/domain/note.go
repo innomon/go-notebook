@@ -46,7 +46,7 @@ func GetNote(ctx context.Context, id string) (*Note, error) {
 
 // ListNotebookNotes retrieves all notes related to a specific notebook
 func ListNotebookNotes(ctx context.Context, notebookID string) ([]Note, error) {
-	recordID := db.EnsureRecordIDString("notebook", notebookID)
+	recordID := db.EnsureRecordID("notebook", notebookID)
 
 	type ArtifactLink struct {
 		Note Note `json:"note"`

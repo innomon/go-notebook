@@ -433,7 +433,7 @@ func (s *Source) GetContext(ctx context.Context, contextSize string) (map[string
 
 // GetNotebookSources retrieves all sources linked to a notebook
 func GetNotebookSources(ctx context.Context, notebookID string) ([]Source, error) {
-	recordID := db.EnsureRecordIDString("notebook", notebookID)
+	recordID := db.EnsureRecordID("notebook", notebookID)
 
 	type ReferenceLink struct {
 		Source Source `json:"source"`
