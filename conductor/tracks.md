@@ -11,3 +11,8 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 - [x] **Track: Implement docx and xlsx document parsers in the multimodal ingestion pipeline**
   *Link: [./tracks/docx_xlsx_parsers_20260621/](./tracks/docx_xlsx_parsers_20260621/)*
+
+---
+
+- [ ] **Track: Implement whiteboard OCR and image notes processing in the multimodal ingestion pipeline**
+  *Link: [./tracks/whiteboard_ocr_20260621/](./tracks/whiteboard_ocr_20260621/)*
