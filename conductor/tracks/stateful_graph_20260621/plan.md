@@ -17,7 +17,7 @@ Track ID: `stateful_graph_20260621`
     - [x] Update `internal/db/migration_manager.go` to check and execute migrations up to version 18.
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Database Schema & Domain Model Migration' (Protocol in workflow.md) [b3a024c]
 
-## Phase 2: Refactoring Graph Operations
+## Phase 2: Refactoring Graph Operations [checkpoint: ea68201]
 
 - [x] Task: Write unit tests for CreateOrUpdateEntity and RelateEntities showing source-array lineage tracking [5ad3bce]
     - [x] Add tests in `internal/domain/rag_graph_test.go` asserting correct behavior of entity/edge creation with source tracking.
@@ -25,7 +25,7 @@ Track ID: `stateful_graph_20260621`
     - [x] Update the `CreateOrUpdateEntity` implementation in `internal/domain/rag_graph.go` to append the source ID to the `sources` field.
 - [x] Task: Refactor RelateEntities to upsert and track source lists in co_occurs relationships [5ad3bce]
     - [x] Update the `RelateEntities` implementation in `internal/domain/rag_graph.go` to append the source ID to the relationship edge's `sources` field.
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Refactoring Graph Operations' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Refactoring Graph Operations' (Protocol in workflow.md) [ea68201]
 
 ## Phase 3: Hash Tracking & Incremental Pipeline
 
