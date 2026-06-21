@@ -4,5 +4,10 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [ ] **Track: Implement Stateful Incremental Graph Building in GraphRAG**
+- [x] **Track: Implement Stateful Incremental Graph Building in GraphRAG**
   *Link: [./tracks/stateful_graph_20260621/](./tracks/stateful_graph_20260621/)*
+
+---
+
+- [ ] **Track: Implement docx and xlsx document parsers in the multimodal ingestion pipeline**
+  *Link: [./tracks/docx_xlsx_parsers_20260621/](./tracks/docx_xlsx_parsers_20260621/)*
