@@ -3,7 +3,7 @@ Track ID: `stateful_graph_20260621`
 
 ---
 
-## Phase 1: Database Schema & Domain Model Migration
+## Phase 1: Database Schema & Domain Model Migration [checkpoint: b3a024c]
 
 - [x] Task: Write unit tests verifying RAGEntity and co_occurs serialization and source arrays in rag_graph.go [eb5cfc3]
     - [x] Add test cases in `internal/domain/rag_graph_test.go` covering serialization of the `Sources` array fields.
@@ -15,7 +15,7 @@ Track ID: `stateful_graph_20260621`
     - [x] Create `internal/db/migrations/18_down.surrealql` to reverse the updates.
 - [x] Task: Update the Go migration manager to run migration 18 [e8eae60]
     - [x] Update `internal/db/migration_manager.go` to check and execute migrations up to version 18.
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Database Schema & Domain Model Migration' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Database Schema & Domain Model Migration' (Protocol in workflow.md) [b3a024c]
 
 ## Phase 2: Refactoring Graph Operations
 
