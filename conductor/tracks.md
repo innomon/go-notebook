@@ -14,5 +14,5 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [ ] **Track: Implement whiteboard OCR and image notes processing in the multimodal ingestion pipeline**
+- [x] **Track: Implement whiteboard OCR and image notes processing in the multimodal ingestion pipeline**
   *Link: [./tracks/whiteboard_ocr_20260621/](./tracks/whiteboard_ocr_20260621/)*

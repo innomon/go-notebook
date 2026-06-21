@@ -1,8 +1,8 @@
 {
   "track_id": "whiteboard_ocr_20260621",
   "type": "feature",
-  "status": "new",
+  "status": "completed",
   "created_at": "2026-06-21T11:51:00Z",
-  "updated_at": "2026-06-21T11:51:00Z",
+  "updated_at": "2026-06-21T06:00:00Z",
   "description": "Implement whiteboard OCR and image notes processing in the multimodal ingestion pipeline"
 }
