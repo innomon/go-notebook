@@ -1,7 +1,10 @@
 package domain
 
 import (
+	"context"
 	"encoding/json"
+	"go-notebook/internal/db"
+	"os"
 	"strings"
 	"testing"
 	"time"
@@ -55,5 +58,91 @@ func TestRAGEntitySerialization(t *testing.T) {
 		if unmarshaled.Sources[0].String() != srcID1.String() {
 			t.Errorf("expected first source to be %s, got %s", srcID1, unmarshaled.Sources[0])
 		}
+	}
+}
+
+func TestGraphOperationsLineage(t *testing.T) {
+	// Configure test DB settings
+	os.Setenv("SURREAL_URL", "ws://localhost:8000/rpc")
+	os.Setenv("SURREAL_USER", "root")
+	os.Setenv("SURREAL_PASSWORD", "root")
+	os.Setenv("SURREAL_NAMESPACE", "open_notebook_test")
+	os.Setenv("SURREAL_DATABASE", "open_notebook_test")
+
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+
+	if err := db.Init(ctx); err != nil {
+		t.Skipf("skipping database integration test: SurrealDB offline: %v", err)
+	}
+	defer db.Close(ctx)
+
+	// Clean test namespace database
+	_, _ = db.RepoQuery[any](ctx, "REMOVE DATABASE open_notebook_test;", nil)
+	_, _ = db.RepoQuery[any](ctx, "DEFINE DATABASE open_notebook_test;", nil)
+	_ = db.RunMigrationUp(ctx)
+
+	notebookID := "nb_test_123"
+	sourceID1 := "src_test_A"
+	sourceID2 := "src_test_B"
+
+	// 1. Create or Update Entity (First Ingestion)
+	ent1, err := CreateOrUpdateEntity(ctx, notebookID, sourceID1, "artificial intelligence")
+	if err != nil {
+		t.Fatalf("CreateOrUpdateEntity failed: %v", err)
+	}
+
+	if ent1.Count != 1 {
+		t.Errorf("expected count 1, got %d", ent1.Count)
+	}
+	if len(ent1.Sources) != 1 || ent1.Sources[0].ID != sourceID1 {
+		t.Errorf("expected sources array to contain %q, got: %v", sourceID1, ent1.Sources)
+	}
+
+	// 2. Create or Update Entity (Second Ingestion - same source, should not duplicate but count stays 1)
+	ent1Dup, err := CreateOrUpdateEntity(ctx, notebookID, sourceID1, "artificial intelligence")
+	if err != nil {
+		t.Fatalf("CreateOrUpdateEntity dup failed: %v", err)
+	}
+	if ent1Dup.Count != 1 || len(ent1Dup.Sources) != 1 {
+		t.Errorf("expected count 1 and 1 source after duplicate source run, got count %d, sources %v", ent1Dup.Count, ent1Dup.Sources)
+	}
+
+	// 3. Create or Update Entity (Third Ingestion - new source, should append source and count becomes 2)
+	ent1New, err := CreateOrUpdateEntity(ctx, notebookID, sourceID2, "artificial intelligence")
+	if err != nil {
+		t.Fatalf("CreateOrUpdateEntity new failed: %v", err)
+	}
+	if ent1New.Count != 2 || len(ent1New.Sources) != 2 {
+		t.Errorf("expected count 2 and 2 sources, got count %d, sources %v", ent1New.Count, ent1New.Sources)
+	}
+
+	// 4. Relate Entities (First Co-occurrence)
+	ent2, err := CreateOrUpdateEntity(ctx, notebookID, sourceID1, "machine learning")
+	if err != nil {
+		t.Fatalf("failed to create second entity: %v", err)
+	}
+
+	err = RelateEntities(ctx, notebookID, sourceID1, ent1, ent2)
+	if err != nil {
+		t.Fatalf("RelateEntities failed: %v", err)
+	}
+
+	// Query relation edge
+	type edgeResult struct {
+		Weight  int                `json:"weight"`
+		Sources []*models.RecordID `json:"sources"`
+	}
+	edges, err := db.RepoQuery[[]edgeResult](ctx, "SELECT weight, sources FROM co_occurs;", nil)
+	if err != nil || len(*edges) == 0 {
+		t.Fatalf("failed to query co_occurs relationship: %v", err)
+	}
+
+	firstEdge := (*edges)[0]
+	if firstEdge.Weight != 1 {
+		t.Errorf("expected relation weight 1, got %d", firstEdge.Weight)
+	}
+	if len(firstEdge.Sources) != 1 || firstEdge.Sources[0].ID != sourceID1 {
+		t.Errorf("expected relation sources to contain %q, got: %v", sourceID1, firstEdge.Sources)
 	}
 }

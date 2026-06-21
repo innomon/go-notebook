@@ -72,7 +72,7 @@ func (p *Pipeline) BuildGraph(ctx context.Context, notebookID string) error {
 		chunks := ChunkBlocks(cleaned, 500, 80, src.Title)
 
 		for _, chunk := range chunks {
-			err := IngestChunkGraph(ctx, p.chatClient, notebookID, chunk.Text)
+			err := IngestChunkGraph(ctx, p.chatClient, notebookID, src.ID.String(), chunk.Text)
 			if err != nil {
 				log.Printf("[GraphRAG] Error ingesting chunk graph: %v", err)
 				// Continue processing other chunks rather than failing the whole pipeline

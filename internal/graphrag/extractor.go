@@ -66,7 +66,7 @@ func ExtractEntitiesAndRelations(ctx context.Context, aiClient ai.AIClient, chun
 }
 
 // IngestChunkGraph extracts entities/relations and persists them in SurrealDB
-func IngestChunkGraph(ctx context.Context, aiClient ai.AIClient, notebookID string, chunkText string) error {
+func IngestChunkGraph(ctx context.Context, aiClient ai.AIClient, notebookID string, sourceID string, chunkText string) error {
 	graph, err := ExtractEntitiesAndRelations(ctx, aiClient, chunkText)
 	if err != nil {
 		return err
@@ -80,7 +80,7 @@ func IngestChunkGraph(ctx context.Context, aiClient ai.AIClient, notebookID stri
 			continue
 		}
 
-		ent, err := domain.CreateOrUpdateEntity(ctx, notebookID, name)
+		ent, err := domain.CreateOrUpdateEntity(ctx, notebookID, sourceID, name)
 		if err != nil {
 			log.Printf("[GraphRAG] Warning: failed to save entity %q: %v", name, err)
 			continue
@@ -97,7 +97,7 @@ func IngestChunkGraph(ctx context.Context, aiClient ai.AIClient, notebookID stri
 		entB, existsB := entityMap[tgt]
 
 		if existsA && existsB && src != tgt {
-			err := domain.RelateEntities(ctx, notebookID, entA, entB)
+			err := domain.RelateEntities(ctx, notebookID, sourceID, entA, entB)
 			if err != nil {
 				log.Printf("[GraphRAG] Warning: failed to relate %q and %q: %v", src, tgt, err)
 			}

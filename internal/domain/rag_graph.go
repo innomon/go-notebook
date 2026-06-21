@@ -78,58 +78,75 @@ func ClearNotebookGraph(ctx context.Context, notebookID string) error {
 	return nil
 }
 
-// CreateOrUpdateEntity creates an entity or increments its co-occurrence count
-func CreateOrUpdateEntity(ctx context.Context, notebookID, name string) (*RAGEntity, error) {
+// CreateOrUpdateEntity creates an entity or appends a source to its list
+func CreateOrUpdateEntity(ctx context.Context, notebookID, sourceID, name string) (*RAGEntity, error) {
 	notebookRecordID := db.EnsureRecordID("notebook", notebookID)
+	sourceRecordID := db.EnsureRecordID("source", sourceID)
 
 	query := `
-		UPSERT RAGEntity CONTENT {
-			notebook: $nb,
-			name: $name,
-			count: (SELECT count FROM RAGEntity WHERE notebook = $nb AND name = $name)[0].count + 1 OR 1
+		LET $existing = (SELECT id, sources FROM RAGEntity WHERE notebook = $nb AND name = $name)[0];
+		IF $existing.id != NONE {
+			UPDATE $existing.id SET 
+				sources = array::distinct(array::add(sources, $source)),
+				count = count(array::distinct(array::add(sources, $source)));
+		} ELSE {
+			CREATE RAGEntity CONTENT {
+				notebook: $nb,
+				name: $name,
+				sources: [$source],
+				count: 1
+			};
 		};
 	`
-	results, err := db.RepoQuery[[]RAGEntity](ctx, query, map[string]any{
-		"nb":   notebookRecordID,
-		"name": name,
+	_, err := db.RepoQuery[[]RAGEntity](ctx, query, map[string]any{
+		"nb":     notebookRecordID,
+		"source": sourceRecordID,
+		"name":   name,
 	})
 	if err != nil {
 		return nil, err
 	}
-	if len(*results) == 0 {
-		return nil, fmt.Errorf("failed to upsert entity %q", name)
+
+	res, err := db.RepoQuery[[]RAGEntity](ctx, "SELECT * FROM RAGEntity WHERE notebook = $nb AND name = $name LIMIT 1;", map[string]any{
+		"nb":   notebookRecordID,
+		"name": name,
+	})
+	if err != nil || len(*res) == 0 {
+		return nil, fmt.Errorf("failed to retrieve upserted entity %q: %v", name, err)
 	}
-	return &(*results)[0], nil
+	return &(*res)[0], nil
 }
 
-// RelateEntities creates or increments the weight of a co-occurs relation between two entities
-func RelateEntities(ctx context.Context, notebookID string, entA, entB *RAGEntity) error {
+// RelateEntities creates or appends a source to a co-occurs relation between two entities
+func RelateEntities(ctx context.Context, notebookID, sourceID string, entA, entB *RAGEntity) error {
 	notebookRecordID := db.EnsureRecordID("notebook", notebookID)
+	sourceRecordID := db.EnsureRecordID("source", sourceID)
 
-	// In SurrealDB, RELATION tables represent edges. We ensure consistent ordering (e.g., alphabetically)
-	// to prevent duplicate edges between the same two nodes in opposite directions.
 	fromID := entA.ID.String()
 	toID := entB.ID.String()
 	if entA.Name > entB.Name {
-		fromID = entB.ID.String()
-		toID = entA.ID.String()
+		fromID, toID = toID, fromID
 	}
 
 	query := `
-		LET $existing = (SELECT id, weight FROM co_occurs WHERE in = $from AND out = $to)[0];
+		LET $existing = (SELECT id, sources FROM co_occurs WHERE in = $from AND out = $to)[0];
 		IF $existing.id != NONE {
-			UPDATE $existing.id SET weight = $existing.weight + 1;
+			UPDATE $existing.id SET 
+				sources = array::distinct(array::add(sources, $source)),
+				weight = count(array::distinct(array::add(sources, $source)));
 		} ELSE {
 			RELATE $from->co_occurs->$to CONTENT {
+				sources: [$source],
 				weight: 1,
 				notebook: $nb
 			};
 		};
 	`
 	_, err := db.RepoQuery[any](ctx, query, map[string]any{
-		"from": db.EnsureRecordID("RAGEntity", fromID),
-		"to":   db.EnsureRecordID("RAGEntity", toID),
-		"nb":   notebookRecordID,
+		"from":   db.EnsureRecordID("RAGEntity", fromID),
+		"to":     db.EnsureRecordID("RAGEntity", toID),
+		"nb":     notebookRecordID,
+		"source": sourceRecordID,
 	})
 	return err
 }
