@@ -30,6 +30,7 @@ type AIClient interface {
 	GenerateText(ctx context.Context, systemPrompt string, userPrompt string) (string, error)
 	GenerateSpeech(ctx context.Context, text string, voice string) ([]byte, error)
 	TranscribeAudio(ctx context.Context, filePath string) (string, error)
+	AnalyzeImage(ctx context.Context, filePath string, prompt string) (string, error)
 }
 
 // ClientConfig holds keys and endpoints resolved from credentials or environment
@@ -910,6 +911,189 @@ func (pc *providerClient) transcribeAudioGemini(ctx context.Context, filePath st
 
 	if len(res.Candidates) == 0 || len(res.Candidates[0].Content.Parts) == 0 {
 		return "", fmt.Errorf("empty transcription candidate returned from Gemini")
+	}
+
+	return res.Candidates[0].Content.Parts[0].Text, nil
+}
+
+func (pc *providerClient) AnalyzeImage(ctx context.Context, filePath string, prompt string) (string, error) {
+	provider := strings.ToLower(pc.cfg.Provider)
+	switch provider {
+	case "openai", "openai_compatible", "openai-compatible", "groq", "mistral", "deepseek", "openrouter":
+		return pc.analyzeImageOpenAI(ctx, filePath, prompt)
+	case "google", "gemini":
+		return pc.analyzeImageGemini(ctx, filePath, prompt)
+	default:
+		return pc.analyzeImageOpenAI(ctx, filePath, prompt)
+	}
+}
+
+func (pc *providerClient) analyzeImageOpenAI(ctx context.Context, filePath string, prompt string) (string, error) {
+	baseURL := pc.cfg.BaseURL
+	if baseURL == "" {
+		baseURL = "https://api.openai.com/v1"
+	}
+	url := strings.TrimSuffix(baseURL, "/") + "/chat/completions"
+
+	imageBytes, err := os.ReadFile(filePath)
+	if err != nil {
+		return "", err
+	}
+	imageBase64 := base64.StdEncoding.EncodeToString(imageBytes)
+
+	mimeType := "image/jpeg"
+	ext := strings.ToLower(filepath.Ext(filePath))
+	switch ext {
+	case ".png":
+		mimeType = "image/png"
+	case ".webp":
+		mimeType = "image/webp"
+	}
+
+	dataURL := fmt.Sprintf("data:%s;base64,%s", mimeType, imageBase64)
+
+	messages := []map[string]any{
+		{
+			"role": "user",
+			"content": []any{
+				map[string]any{
+					"type": "text",
+					"text": prompt,
+				},
+				map[string]any{
+					"type": "image_url",
+					"image_url": map[string]any{
+						"url": dataURL,
+					},
+				},
+			},
+		},
+	}
+
+	model := pc.cfg.Model
+	if model == "" {
+		model = "gpt-4o"
+	}
+
+	reqBody, _ := json.Marshal(map[string]any{
+		"model":    model,
+		"messages": messages,
+	})
+
+	req, err := http.NewRequestWithContext(ctx, "POST", url, bytes.NewBuffer(reqBody))
+	if err != nil {
+		return "", err
+	}
+	req.Header.Set("Content-Type", "application/json")
+	if pc.cfg.APIKey != "" {
+		req.Header.Set("Authorization", "Bearer "+pc.cfg.APIKey)
+	}
+
+	client := &http.Client{Timeout: 60 * time.Second}
+	resp, err := client.Do(req)
+	if err != nil {
+		return "", err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		bodyBytes, _ := io.ReadAll(resp.Body)
+		return "", fmt.Errorf("OpenAI Vision error (%d): %s", resp.StatusCode, string(bodyBytes))
+	}
+
+	var res struct {
+		Choices []struct {
+			Message struct {
+				Content string `json:"content"`
+			} `json:"message"`
+		} `json:"choices"`
+	}
+	if err := json.NewDecoder(resp.Body).Decode(&res); err != nil {
+		return "", err
+	}
+	if len(res.Choices) == 0 {
+		return "", fmt.Errorf("empty response from OpenAI Vision API")
+	}
+	return res.Choices[0].Message.Content, nil
+}
+
+func (pc *providerClient) analyzeImageGemini(ctx context.Context, filePath string, prompt string) (string, error) {
+	baseHost := os.Getenv("GEMINI_API_BASE_URL")
+	if baseHost == "" {
+		baseHost = "https://generativelanguage.googleapis.com"
+	}
+	model := pc.cfg.Model
+	if model == "" {
+		model = "gemini-2.5-flash"
+	}
+	url := fmt.Sprintf("%s/v1beta/models/%s:generateContent?key=%s", strings.TrimSuffix(baseHost, "/"), model, pc.cfg.APIKey)
+
+	imageBytes, err := os.ReadFile(filePath)
+	if err != nil {
+		return "", err
+	}
+	imageBase64 := base64.StdEncoding.EncodeToString(imageBytes)
+
+	mimeType := "image/jpeg"
+	ext := strings.ToLower(filepath.Ext(filePath))
+	switch ext {
+	case ".png":
+		mimeType = "image/png"
+	case ".webp":
+		mimeType = "image/webp"
+	}
+
+	payload := map[string]any{
+		"contents": []any{
+			map[string]any{
+				"parts": []any{
+					map[string]any{"text": prompt},
+					map[string]any{
+						"inline_data": map[string]any{
+							"mime_type": mimeType,
+							"data":      imageBase64,
+						},
+					},
+				},
+			},
+		},
+	}
+
+	reqBody, _ := json.Marshal(payload)
+	req, err := http.NewRequestWithContext(ctx, "POST", url, bytes.NewBuffer(reqBody))
+	if err != nil {
+		return "", err
+	}
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{Timeout: 60 * time.Second}
+	resp, err := client.Do(req)
+	if err != nil {
+		return "", err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		bodyBytes, _ := io.ReadAll(resp.Body)
+		return "", fmt.Errorf("Gemini Vision error (%d): %s", resp.StatusCode, string(bodyBytes))
+	}
+
+	var res struct {
+		Candidates []struct {
+			Content struct {
+				Parts []struct {
+					Text string `json:"text"`
+				} `json:"parts"`
+			} `json:"content"`
+		} `json:"candidates"`
+	}
+
+	if err := json.NewDecoder(resp.Body).Decode(&res); err != nil {
+		return "", err
+	}
+
+	if len(res.Candidates) == 0 || len(res.Candidates[0].Content.Parts) == 0 {
+		return "", fmt.Errorf("empty response returned from Gemini Vision API")
 	}
 
 	return res.Candidates[0].Content.Parts[0].Text, nil

@@ -15,6 +15,7 @@ import (
 
 type MockAIClient struct {
 	GenerateTextFn func(ctx context.Context, systemPrompt, userPrompt string) (string, error)
+	AnalyzeImageFn  func(ctx context.Context, filePath string, prompt string) (string, error)
 }
 
 func (m *MockAIClient) EmbedText(ctx context.Context, text string) ([]float32, error) {
@@ -37,6 +38,13 @@ func (m *MockAIClient) GenerateSpeech(ctx context.Context, text string, voice st
 }
 
 func (m *MockAIClient) TranscribeAudio(ctx context.Context, filePath string) (string, error) {
+	return "", nil
+}
+
+func (m *MockAIClient) AnalyzeImage(ctx context.Context, filePath string, prompt string) (string, error) {
+	if m.AnalyzeImageFn != nil {
+		return m.AnalyzeImageFn(ctx, filePath, prompt)
+	}
 	return "", nil
 }
 
