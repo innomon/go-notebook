@@ -1,0 +1,3 @@
+-- Rollback Migration 18
+REMOVE FIELD sources ON TABLE RAGEntity;
+REMOVE FIELD sources ON TABLE co_occurs;

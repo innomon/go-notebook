@@ -1,0 +1,3 @@
+-- Migration 18: Add lineage tracking to RAGEntity and co_occurs
+DEFINE FIELD IF NOT EXISTS sources ON TABLE RAGEntity TYPE array<record<source>> DEFAULT [];
+DEFINE FIELD IF NOT EXISTS sources ON TABLE co_occurs TYPE array<record<source>> DEFAULT [];
