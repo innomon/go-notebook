@@ -13,8 +13,8 @@ Track ID: `stateful_graph_20260621`
 - [x] Task: Create database migration scripts for SurrealDB [3d4009e]
     - [x] Create `internal/db/migrations/18.surrealql` containing table field adjustments for `sources` arrays.
     - [x] Create `internal/db/migrations/18_down.surrealql` to reverse the updates.
-- [ ] Task: Update the Go migration manager to run migration 18
-    - [ ] Update `internal/db/migration_manager.go` to check and execute migrations up to version 18.
+- [x] Task: Update the Go migration manager to run migration 18 [e8eae60]
+    - [x] Update `internal/db/migration_manager.go` to check and execute migrations up to version 18.
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Database Schema & Domain Model Migration' (Protocol in workflow.md)
 
 ## Phase 2: Refactoring Graph Operations
