@@ -51,4 +51,25 @@ export const notebooksApi = {
     const response = await apiClient.delete(`/notebooks/${notebookId}/sources/${sourceId}`)
     return response.data
   },
+
+  export: async (id: string) => {
+    const response = await apiClient.get(`/notebooks/${id}/export`, {
+      responseType: 'blob',
+    })
+    return response.data
+  },
+
+  importNew: async (file: File) => {
+    const formData = new FormData()
+    formData.append('file', file)
+    const response = await apiClient.post<NotebookResponse>('/notebooks/import', formData)
+    return response.data
+  },
+
+  importMerge: async (id: string, file: File) => {
+    const formData = new FormData()
+    formData.append('file', file)
+    const response = await apiClient.post(`/notebooks/${id}/import`, formData)
+    return response.data
+  },
 }
