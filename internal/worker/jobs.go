@@ -115,6 +115,17 @@ func handleProcessSource(ctx context.Context, job *domain.CommandJob) (map[strin
 				return nil, fmt.Errorf("failed to transcribe audio: %w", err)
 			}
 			extractedText = text
+		} else if isImageFile(filePath) {
+			log.Printf("[Worker] Image file detected, extracting with OCR/Vision: %s", filePath)
+			visionClient, err := ai.GetClientForDefaultModel(ctx, "vision")
+			if err != nil {
+				return nil, fmt.Errorf("vision model not configured: %w", err)
+			}
+			text, err := extractor.ExtractTextFromImage(ctx, visionClient, filePath)
+			if err != nil {
+				return nil, fmt.Errorf("failed to extract text from image: %w", err)
+			}
+			extractedText = text
 		} else {
 			// Read as standard text
 			b, err := os.ReadFile(filePath)
@@ -911,6 +922,15 @@ func isAudioVideoFile(filePath string) bool {
 	ext := strings.ToLower(filepath.Ext(filePath))
 	switch ext {
 	case ".mp3", ".wav", ".m4a", ".ogg", ".flac", ".aac", ".wma", ".webm", ".mp4", ".mov", ".avi", ".mkv":
+		return true
+	}
+	return false
+}
+
+func isImageFile(filePath string) bool {
+	ext := strings.ToLower(filepath.Ext(filePath))
+	switch ext {
+	case ".png", ".jpg", ".jpeg", ".webp":
 		return true
 	}
 	return false

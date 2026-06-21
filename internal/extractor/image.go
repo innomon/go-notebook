@@ -57,3 +57,16 @@ func ExtractTextFromImage(ctx context.Context, aiClient ai.AIClient, filePath st
 
 	return result, nil
 }
+
+// SetTesseractMock sets the mock functions for LookPath and runCommand.
+// It returns a function that restores the original functions when called (typically deferred).
+func SetTesseractMock(lp func(string) (string, error), rc func(context.Context, string, ...string) ([]byte, error)) func() {
+	origLookPath := lookPath
+	origRunCommand := runCommand
+	lookPath = lp
+	runCommand = rc
+	return func() {
+		lookPath = origLookPath
+		runCommand = origRunCommand
+	}
+}

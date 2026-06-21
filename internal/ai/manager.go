@@ -104,6 +104,11 @@ func GetClientForDefaultModel(ctx context.Context, task string) (AIClient, error
 		if modelID == "" {
 			modelID = defaults.DefaultChatModel
 		}
+	case "vision":
+		modelID = defaults.DefaultTransformationModel
+		if modelID == "" {
+			modelID = defaults.DefaultChatModel
+		}
 	default:
 		return nil, fmt.Errorf("unknown task: %s", task)
 	}
