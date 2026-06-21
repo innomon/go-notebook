@@ -42,7 +42,7 @@ func pollAndProcessJobs(ctx context.Context) {
 
 		// Atomic claim: set status to running only if it is still pending
 		claimResult, err := db.RepoQuery[[]domain.CommandJob](ctx, "UPDATE ONLY $id SET status = 'running', updated = $now WHERE status = 'pending' RETURN AFTER;", map[string]any{
-			"id":  jobID,
+			"id":  job.ID,
 			"now": nowStr,
 		})
 		if err != nil || claimResult == nil || len(*claimResult) == 0 {
@@ -69,7 +69,7 @@ func pollAndProcessJobs(ctx context.Context) {
 			if claimedJob.RetryAttempts+1 < maxAttempts {
 				log.Printf("[Worker] Retrying job %s (attempt %d/%d)...", jobID, claimedJob.RetryAttempts+1, maxAttempts)
 				_, _ = db.RepoQuery[any](ctx, "UPDATE ONLY $id SET status = 'pending', retry_attempts = $attempts, error_message = $err, updated = $now;", map[string]any{
-					"id":       jobID,
+					"id":       job.ID,
 					"attempts": claimedJob.RetryAttempts + 1,
 					"err":      execErr.Error(),
 					"now":      nowStr,
@@ -77,7 +77,7 @@ func pollAndProcessJobs(ctx context.Context) {
 			} else {
 				log.Printf("[Worker] Job %s reached max attempts (%d). Marking as failed.", jobID, maxAttempts)
 				_, _ = db.RepoQuery[any](ctx, "UPDATE ONLY $id SET status = 'failed', error_message = $err, updated = $now;", map[string]any{
-					"id":  jobID,
+					"id":  job.ID,
 					"err": execErr.Error(),
 					"now": nowStr,
 				})
@@ -85,7 +85,7 @@ func pollAndProcessJobs(ctx context.Context) {
 		} else {
 			log.Printf("[Worker] Job %s completed successfully.", jobID)
 			_, _ = db.RepoQuery[any](ctx, "UPDATE ONLY $id SET status = 'success', result = $res, updated = $now;", map[string]any{
-				"id":  jobID,
+				"id":  job.ID,
 				"res": res,
 				"now": nowStr,
 			})
