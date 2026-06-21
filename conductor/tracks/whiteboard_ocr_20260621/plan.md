@@ -11,10 +11,10 @@ Track ID: `whiteboard_ocr_20260621`
     - [x] Create `internal/extractor/image.go` containing `ExtractTextFromImage` function checking for local binary and falling back to LLM.
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Implement Whiteboard OCR Parser' (Protocol in workflow.md) (65891df)
 
-## Phase 2: Ingestion Pipeline Integration
+## Phase 2: Ingestion Pipeline Integration [checkpoint: 0f8d496]
 
 - [x] Task: Write unit tests verifying image job routing based on extensions (02f0840)
     - [x] Add test cases in `internal/worker/jobs_test.go` validating job routing for jpg, png, jpeg, and webp.
 - [x] Task: Integrate image parser into process_source command in internal/worker/jobs.go (02f0840)
     - [x] Modify `handleProcessSource` to detect image file extensions and call `extractor.ExtractTextFromImage`.
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Ingestion Pipeline Integration' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Ingestion Pipeline Integration' (Protocol in workflow.md) (0f8d496)
