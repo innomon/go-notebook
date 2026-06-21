@@ -1,0 +1,4 @@
+-- Migration 19: Add hash and last_graph_hash fields to source table for incremental graph RAG building, and add updated field to RAGCommunity
+DEFINE FIELD IF NOT EXISTS hash ON TABLE source TYPE option<string>;
+DEFINE FIELD IF NOT EXISTS last_graph_hash ON TABLE source TYPE option<string>;
+DEFINE FIELD IF NOT EXISTS updated ON TABLE RAGCommunity DEFAULT time::now();

@@ -2,6 +2,7 @@ package worker
 
 import (
 	"context"
+	"crypto/sha256"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -128,9 +129,14 @@ func handleProcessSource(ctx context.Context, job *domain.CommandJob) (map[strin
 		return nil, errors.New("extracted content is empty")
 	}
 
+	// Compute SHA256 of extracted full text
+	hashSum := sha256.Sum256([]byte(extractedText))
+	contentHash := fmt.Sprintf("%x", hashSum)
+
 	// Update the Source record
 	updateData := map[string]any{
 		"full_text": extractedText,
+		"hash":      contentHash,
 	}
 	if source.Title == "" || source.Title == "Processing..." {
 		updateData["title"] = extractedTitle

@@ -2,6 +2,7 @@ package graphrag
 
 import (
 	"context"
+	"crypto/sha256"
 	"fmt"
 	"go-notebook/internal/ai"
 	"go-notebook/internal/db"
@@ -9,6 +10,8 @@ import (
 	"log"
 	"sort"
 	"strings"
+
+	"github.com/surrealdb/surrealdb.go/pkg/models"
 )
 
 // Pipeline orchestrates GraphRAG ingestion and query tasks
@@ -40,33 +43,107 @@ func NewPipeline(ctx context.Context) (*Pipeline, error) {
 func (p *Pipeline) BuildGraph(ctx context.Context, notebookID string) error {
 	notebookRecordID := db.EnsureRecordID("notebook", notebookID)
 
-	log.Printf("[GraphRAG] Starting graph build for notebook %s...", notebookID)
+	log.Printf("[GraphRAG] Starting stateful incremental graph build for notebook %s...", notebookID)
 
-	// 1. Clear old graph data
-	if err := domain.ClearNotebookGraph(ctx, notebookID); err != nil {
-		return fmt.Errorf("failed to clear old graph: %w", err)
-	}
-
-	// 2. Fetch all sources linked to the notebook
-	sourcesQuery := "SELECT id, title, full_text FROM source WHERE id IN (SELECT in FROM reference WHERE out = $nb);"
+	// 1. Fetch all sources linked to the notebook
+	sourcesQuery := "SELECT id, title, full_text, hash, last_graph_hash FROM source WHERE id IN (SELECT VALUE in FROM reference WHERE out = $nb);"
 	sources, err := db.RepoQuery[[]domain.Source](ctx, sourcesQuery, map[string]any{"nb": notebookRecordID})
 	if err != nil {
 		return fmt.Errorf("failed to query sources: %w", err)
 	}
 
+	graphChanged := false
+
+	// 2. Identify and clear lineage of orphaned sources (deleted/unlinked from notebook) in Go
+	type sourcesResult struct {
+		Sources []*models.RecordID `json:"sources"`
+	}
+	entSources, err := db.RepoQuery[[]sourcesResult](ctx, "SELECT sources FROM RAGEntity WHERE notebook = $nb;", map[string]any{"nb": notebookRecordID})
+	if err != nil {
+		return fmt.Errorf("failed to query entity sources: %w", err)
+	}
+	edgeSources, err := db.RepoQuery[[]sourcesResult](ctx, "SELECT sources FROM co_occurs WHERE notebook = $nb;", map[string]any{"nb": notebookRecordID})
+	if err != nil {
+		return fmt.Errorf("failed to query edge sources: %w", err)
+	}
+
+	indexedMap := make(map[string]*models.RecordID)
+	if entSources != nil {
+		for _, r := range *entSources {
+			for _, src := range r.Sources {
+				if src != nil {
+					indexedMap[src.String()] = src
+				}
+			}
+		}
+	}
+	if edgeSources != nil {
+		for _, r := range *edgeSources {
+			for _, src := range r.Sources {
+				if src != nil {
+					indexedMap[src.String()] = src
+				}
+			}
+		}
+	}
+
+	activeMap := make(map[string]bool)
+	for _, src := range *sources {
+		if src.ID != nil {
+			activeMap[src.ID.String()] = true
+		}
+	}
+
+	for srcStr, srcRecID := range indexedMap {
+		if !activeMap[srcStr] {
+			log.Printf("[GraphRAG] Cleaning up lineage for deleted/orphaned source: %s", srcStr)
+			if clearErr := domain.ClearSourceGraphLineage(ctx, notebookID, srcRecID.String()); clearErr != nil {
+				log.Printf("[GraphRAG] Error cleaning up orphaned source lineage %s: %v", srcStr, clearErr)
+			} else {
+				graphChanged = true
+			}
+		}
+	}
+
 	if len(*sources) == 0 {
-		log.Printf("[GraphRAG] No sources found in notebook %s. Graph build completed (empty).", notebookID)
+		log.Printf("[GraphRAG] No active sources found in notebook %s.", notebookID)
+		if graphChanged {
+			log.Println("[GraphRAG] Graph lineage cleared for deleted sources. Re-running community detection...")
+			if err := RunCommunityDetection(ctx, p.chatClient, p.embedClient, notebookID); err != nil {
+				return fmt.Errorf("failed community clustering: %w", err)
+			}
+		}
 		return nil
 	}
 
-	// 3. Process each source document
+	// 3. Process each source document incrementally
 	for _, src := range *sources {
 		text := src.FullText
 		if strings.TrimSpace(text) == "" {
 			continue
 		}
 
-		log.Printf("[GraphRAG] Ingesting source %q...", src.Title)
+		// Compute current hash
+		hashSum := sha256.Sum256([]byte(text))
+		currentHash := fmt.Sprintf("%x", hashSum)
+
+		// Compare current hash with last indexed graph hash
+		if src.LastGraphHash != "" && src.LastGraphHash == currentHash {
+			log.Printf("[GraphRAG] Skipping unchanged source %q (hash: %s)", src.Title, currentHash)
+			continue
+		}
+
+		log.Printf("[GraphRAG] Processing new or modified source %q...", src.Title)
+		graphChanged = true
+
+		// Clear old lineage for this source first
+		if src.LastGraphHash != "" {
+			log.Printf("[GraphRAG] Clearing old lineage for source %s...", src.ID.String())
+			if clearErr := domain.ClearSourceGraphLineage(ctx, notebookID, src.ID.String()); clearErr != nil {
+				log.Printf("[GraphRAG] Error clearing old source lineage: %v", clearErr)
+			}
+		}
+
 		blocks := ParseText(text)
 		cleaned := CleanText(blocks)
 		chunks := ChunkBlocks(cleaned, 500, 80, src.Title)
@@ -78,12 +155,25 @@ func (p *Pipeline) BuildGraph(ctx context.Context, notebookID string) error {
 				// Continue processing other chunks rather than failing the whole pipeline
 			}
 		}
+
+		// Update database with both hash (current document state) and last_graph_hash (indexed state)
+		_, err = db.RepoUpdate[any](ctx, "source", src.ID.String(), map[string]any{
+			"hash":            currentHash,
+			"last_graph_hash": currentHash,
+		})
+		if err != nil {
+			log.Printf("[GraphRAG] Error updating source hashes for %s: %v", src.ID.String(), err)
+		}
 	}
 
-	// 4. Run community clustering and summarization
-	log.Println("[GraphRAG] Running community detection and generating summaries...")
-	if err := RunCommunityDetection(ctx, p.chatClient, p.embedClient, notebookID); err != nil {
-		return fmt.Errorf("failed community clustering: %w", err)
+	// 4. Run community clustering and summarization only if the graph representation has changed
+	if graphChanged {
+		log.Println("[GraphRAG] Graph changed. Running community detection and generating summaries...")
+		if err := RunCommunityDetection(ctx, p.chatClient, p.embedClient, notebookID); err != nil {
+			return fmt.Errorf("failed community clustering: %w", err)
+		}
+	} else {
+		log.Println("[GraphRAG] No graph changes detected. Skipping community detection.")
 	}
 
 	log.Printf("[GraphRAG] Graph build completed successfully for notebook %s.", notebookID)

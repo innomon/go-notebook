@@ -146,3 +146,73 @@ func TestGraphOperationsLineage(t *testing.T) {
 		t.Errorf("expected relation sources to contain %q, got: %v", sourceID1, firstEdge.Sources)
 	}
 }
+
+func TestClearSourceGraphLineage(t *testing.T) {
+	os.Setenv("SURREAL_URL", "ws://localhost:8000/rpc")
+	os.Setenv("SURREAL_USER", "root")
+	os.Setenv("SURREAL_PASSWORD", "root")
+	os.Setenv("SURREAL_NAMESPACE", "open_notebook_test")
+	os.Setenv("SURREAL_DATABASE", "open_notebook_test")
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	if err := db.Init(ctx); err != nil {
+		t.Skip("SurrealDB offline")
+	}
+	defer db.Close(ctx)
+
+	// Clean test database and run migrations
+	_, _ = db.RepoQuery[any](ctx, "REMOVE DATABASE open_notebook_test;", nil)
+	_, _ = db.RepoQuery[any](ctx, "DEFINE DATABASE open_notebook_test;", nil)
+	_ = db.RunMigrationUp(ctx)
+
+	notebookID := "nb_test_lin"
+	sourceID1 := "src_test_1"
+	sourceID2 := "src_test_2"
+
+	// Create entity with source 1 and 2
+	_, _ = CreateOrUpdateEntity(ctx, notebookID, sourceID1, "artificial intelligence")
+	ent, err := CreateOrUpdateEntity(ctx, notebookID, sourceID2, "artificial intelligence")
+	if err != nil {
+		t.Fatalf("failed to create entity: %v", err)
+	}
+
+	if ent.Count != 2 || len(ent.Sources) != 2 {
+		t.Fatalf("expected count 2, got %d and sources %v", ent.Count, ent.Sources)
+	}
+
+	// 1. Clear lineage for source 1 (should decrement count to 1 and remove source 1)
+	err = ClearSourceGraphLineage(ctx, notebookID, sourceID1)
+	if err != nil {
+		t.Fatalf("ClearSourceGraphLineage failed for source 1: %v", err)
+	}
+
+	res, err := db.RepoQuery[[]RAGEntity](ctx, "SELECT * FROM RAGEntity WHERE notebook = $nb AND name = 'artificial intelligence';", map[string]any{"nb": db.EnsureRecordID("notebook", notebookID)})
+	if err != nil || len(*res) == 0 {
+		t.Fatalf("entity should not be deleted yet, but query failed or returned empty: %v", err)
+	}
+
+	updatedEnt := (*res)[0]
+	if updatedEnt.Count != 1 {
+		t.Errorf("expected count 1, got %d", updatedEnt.Count)
+	}
+	if len(updatedEnt.Sources) != 1 || updatedEnt.Sources[0].ID != sourceID2 {
+		t.Errorf("expected remaining source to be %s, got: %v", sourceID2, updatedEnt.Sources)
+	}
+
+	// 2. Clear lineage for source 2 (should completely delete the entity since no sources remain)
+	err = ClearSourceGraphLineage(ctx, notebookID, sourceID2)
+	if err != nil {
+		t.Fatalf("ClearSourceGraphLineage failed for source 2: %v", err)
+	}
+
+	resDeleted, err := db.RepoQuery[[]RAGEntity](ctx, "SELECT * FROM RAGEntity WHERE notebook = $nb AND name = 'artificial intelligence';", map[string]any{"nb": db.EnsureRecordID("notebook", notebookID)})
+	if err != nil {
+		t.Fatalf("query failed: %v", err)
+	}
+	if len(*resDeleted) != 0 {
+		t.Errorf("expected entity to be deleted completely, but found: %v", *resDeleted)
+	}
+}
+

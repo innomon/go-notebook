@@ -151,6 +151,33 @@ func RepoCreate[T any](ctx context.Context, table string, data map[string]any) (
 	return &(*results)[0], nil
 }
 
+// RepoCreateWithID creates a new record in the specified table with a specific ID
+func RepoCreateWithID[T any](ctx context.Context, table string, id string, data map[string]any) (*T, error) {
+	if DB == nil {
+		return nil, errors.New("database connection not initialized")
+	}
+
+	now := time.Now().UTC()
+	data["created"] = now
+	data["updated"] = now
+
+	recordID := EnsureRecordID(table, id)
+	query := "CREATE $id CONTENT $data;"
+	results, err := RepoQuery[[]T](ctx, query, map[string]any{
+		"id":   recordID,
+		"data": data,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	if results == nil || len(*results) == 0 {
+		return nil, fmt.Errorf("failed to create record with ID: empty result returned")
+	}
+
+	return &(*results)[0], nil
+}
+
 // RepoUpdate updates an existing record by ID
 func RepoUpdate[T any](ctx context.Context, table string, id string, data map[string]any) (*T, error) {
 	if DB == nil {

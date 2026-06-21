@@ -26,8 +26,10 @@ type Source struct {
 	Topics    []string         `json:"topics,omitempty"`
 	FullText  string           `json:"full_text,omitempty"`
 	Command   *models.RecordID `json:"command,omitempty"`
-	Created   time.Time        `json:"created,omitempty"`
-	Updated   time.Time        `json:"updated,omitempty"`
+	Hash          string           `json:"hash,omitempty"`
+	LastGraphHash string           `json:"last_graph_hash,omitempty"`
+	Created       time.Time        `json:"created,omitempty"`
+	Updated       time.Time        `json:"updated,omitempty"`
 }
 
 // CommandJob represents a queued or executing background worker command

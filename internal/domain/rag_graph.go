@@ -78,6 +78,44 @@ func ClearNotebookGraph(ctx context.Context, notebookID string) error {
 	return nil
 }
 
+// ClearSourceGraphLineage removes a source ID from all RAGEntity and co_occurs records' sources list, deleting them if empty.
+func ClearSourceGraphLineage(ctx context.Context, notebookID, sourceID string) error {
+	notebookRecordID := db.EnsureRecordID("notebook", notebookID)
+	sourceRecordID := db.EnsureRecordID("source", sourceID)
+
+	query := `
+		LET $entities = (SELECT id, sources FROM RAGEntity WHERE notebook = $nb AND $source INSIDE sources);
+		FOR $ent IN $entities {
+			LET $new_sources = array::difference($ent.sources, [$source]);
+			IF count($new_sources) > 0 {
+				UPDATE $ent.id SET 
+					sources = $new_sources,
+					count = count($new_sources);
+			} ELSE {
+				DELETE $ent.id;
+			};
+		};
+
+		LET $edges = (SELECT id, sources FROM co_occurs WHERE notebook = $nb AND $source INSIDE sources);
+		FOR $edge IN $edges {
+			LET $new_sources = array::difference($edge.sources, [$source]);
+			IF count($new_sources) > 0 {
+				UPDATE $edge.id SET 
+					sources = $new_sources,
+					weight = count($new_sources);
+			} ELSE {
+				DELETE $edge.id;
+			};
+		};
+	`
+
+	_, err := db.RepoQuery[any](ctx, query, map[string]any{
+		"nb":     notebookRecordID,
+		"source": sourceRecordID,
+	})
+	return err
+}
+
 // CreateOrUpdateEntity creates an entity or appends a source to its list
 func CreateOrUpdateEntity(ctx context.Context, notebookID, sourceID, name string) (*RAGEntity, error) {
 	notebookRecordID := db.EnsureRecordID("notebook", notebookID)
@@ -186,9 +224,9 @@ func GetNotebookGraphData(ctx context.Context, notebookID string, maxNodes int) 
 		  AND out.name INSIDE $names;
 	`
 	type relationResult struct {
-		Source string  `json:"source"`
-		Target string  `json:"target"`
-		Weight float64 `json:"weight"`
+		Source string `json:"source"`
+		Target string `json:"target"`
+		Weight int    `json:"weight"`
 	}
 	relations, err := db.RepoQuery[[]relationResult](ctx, relationsQuery, map[string]any{
 		"nb":    notebookRecordID,
@@ -203,7 +241,7 @@ func GetNotebookGraphData(ctx context.Context, notebookID string, maxNodes int) 
 		connections = append(connections, EntityConnection{
 			Source: rel.Source,
 			Target: rel.Target,
-			Weight: rel.Weight,
+			Weight: float64(rel.Weight),
 		})
 	}
 

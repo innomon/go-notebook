@@ -28,9 +28,9 @@ func RunCommunityDetection(ctx context.Context, chatClient ai.AIClient, embedCli
 	// 2. Fetch all relationship edges for this notebook
 	edgesQuery := "SELECT in.name AS source, out.name AS target, weight FROM co_occurs WHERE notebook = $nb;"
 	type edgeResult struct {
-		Source string  `json:"source"`
-		Target string  `json:"target"`
-		Weight float64 `json:"weight"`
+		Source string `json:"source"`
+		Target string `json:"target"`
+		Weight int    `json:"weight"`
 	}
 	edges, err := db.RepoQuery[[]edgeResult](ctx, edgesQuery, map[string]any{"nb": notebookRecordID})
 	if err != nil {
@@ -50,7 +50,7 @@ func RunCommunityDetection(ctx context.Context, chatClient ai.AIClient, embedCli
 	}
 
 	for _, edge := range *edges {
-		s, t, w := edge.Source, edge.Target, edge.Weight
+		s, t, w := edge.Source, edge.Target, float64(edge.Weight)
 		// Guard against dangling references
 		if nodeSet[s] && nodeSet[t] {
 			adj[s][t] += w

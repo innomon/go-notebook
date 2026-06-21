@@ -1,0 +1,4 @@
+-- Rollback Migration 19
+REMOVE FIELD hash ON TABLE source;
+REMOVE FIELD last_graph_hash ON TABLE source;
+REMOVE FIELD updated ON TABLE RAGCommunity;
