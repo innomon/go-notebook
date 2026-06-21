@@ -13,8 +13,8 @@ Track ID: `whiteboard_ocr_20260621`
 
 ## Phase 2: Ingestion Pipeline Integration
 
-- [ ] Task: Write unit tests verifying image job routing based on extensions
-    - [ ] Add test cases in `internal/worker/jobs_test.go` validating job routing for jpg, png, jpeg, and webp.
-- [ ] Task: Integrate image parser into process_source command in internal/worker/jobs.go
-    - [ ] Modify `handleProcessSource` to detect image file extensions and call `extractor.ExtractTextFromImage`.
+- [x] Task: Write unit tests verifying image job routing based on extensions (02f0840)
+    - [x] Add test cases in `internal/worker/jobs_test.go` validating job routing for jpg, png, jpeg, and webp.
+- [x] Task: Integrate image parser into process_source command in internal/worker/jobs.go (02f0840)
+    - [x] Modify `handleProcessSource` to detect image file extensions and call `extractor.ExtractTextFromImage`.
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Ingestion Pipeline Integration' (Protocol in workflow.md)
