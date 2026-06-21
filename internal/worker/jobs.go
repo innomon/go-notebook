@@ -92,6 +92,18 @@ func handleProcessSource(ctx context.Context, job *domain.CommandJob) (map[strin
 				return nil, fmt.Errorf("failed to extract text from PDF: %w", err)
 			}
 			extractedText = text
+		} else if strings.HasSuffix(strings.ToLower(filePath), ".docx") {
+			text, err := extractor.ExtractTextFromDocx(filePath)
+			if err != nil {
+				return nil, fmt.Errorf("failed to extract text from DOCX: %w", err)
+			}
+			extractedText = text
+		} else if strings.HasSuffix(strings.ToLower(filePath), ".xlsx") {
+			text, err := extractor.ExtractTextFromXlsx(filePath)
+			if err != nil {
+				return nil, fmt.Errorf("failed to extract text from XLSX: %w", err)
+			}
+			extractedText = text
 		} else if isAudioVideoFile(filePath) {
 			log.Printf("[Worker] Audio/Video file detected, transcribing: %s", filePath)
 			sttClient, err := ai.GetClientForDefaultModel(ctx, "speech_to_text")
