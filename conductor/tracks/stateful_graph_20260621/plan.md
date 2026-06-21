@@ -10,9 +10,9 @@ Track ID: `stateful_graph_20260621`
 - [x] Task: Update domain structs and field mappings for RAGEntity and co_occurs [eb5cfc3]
     - [x] Modify `RAGEntity` struct in `internal/domain/rag_graph.go` to include `Sources []string` or `Sources []*models.RecordID` and update JSON tags.
     - [x] Modify `RAGCommunity` struct if needed to support communities.
-- [ ] Task: Create database migration scripts for SurrealDB
-    - [ ] Create `internal/db/migrations/18.surrealql` containing table field adjustments for `sources` arrays.
-    - [ ] Create `internal/db/migrations/18_down.surrealql` to reverse the updates.
+- [x] Task: Create database migration scripts for SurrealDB [3d4009e]
+    - [x] Create `internal/db/migrations/18.surrealql` containing table field adjustments for `sources` arrays.
+    - [x] Create `internal/db/migrations/18_down.surrealql` to reverse the updates.
 - [ ] Task: Update the Go migration manager to run migration 18
     - [ ] Update `internal/db/migration_manager.go` to check and execute migrations up to version 18.
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Database Schema & Domain Model Migration' (Protocol in workflow.md)
