@@ -19,6 +19,8 @@
 # Local databases and uploads
 /surreal_data/
 /uploads/
+/scratch/
+
 
 # OS/IDE files
 .DS_Store
