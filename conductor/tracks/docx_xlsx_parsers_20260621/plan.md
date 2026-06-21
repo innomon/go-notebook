@@ -9,11 +9,11 @@ Track ID: `docx_xlsx_parsers_20260621`
     - [x] Add test cases in `internal/extractor/docx_test.go` using mock docx ZIP data.
 - [x] Task: Implement docx XML parsing using archive/zip and encoding/xml [24aace4]
     - [x] Create `internal/extractor/docx.go` to parse paragraphs and tables from docx zip.
-- [~] Task: Write unit tests verifying xlsx parsing from mock ZIP/XML structure
-    - [~] Add test cases in `internal/extractor/xlsx_test.go` using mock xlsx ZIP data.
-- [ ] Task: Implement xlsx XML parsing using archive/zip and encoding/xml
-    - [ ] Create `internal/extractor/xlsx.go` to parse worksheets and shared strings from xlsx zip.
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Implement In-House Document Parsers' (Protocol in workflow.md)
+- [x] Task: Write unit tests verifying xlsx parsing from mock ZIP/XML structure [2b964be]
+    - [x] Add test cases in `internal/extractor/xlsx_test.go` using mock xlsx ZIP data.
+- [x] Task: Implement xlsx XML parsing using archive/zip and encoding/xml [2b964be]
+    - [x] Create `internal/extractor/xlsx.go` to parse worksheets and shared strings from xlsx zip.
+- [~] Task: Conductor - User Manual Verification 'Phase 1: Implement In-House Document Parsers' (Protocol in workflow.md)
 
 ## Phase 2: Ingestion Pipeline Integration
 
