@@ -3,7 +3,7 @@ Track ID: `docx_xlsx_parsers_20260621`
 
 ---
 
-## Phase 1: Implement In-House Document Parsers
+## Phase 1: Implement In-House Document Parsers [checkpoint: 7bf9159]
 
 - [x] Task: Write unit tests verifying docx parsing from mock ZIP/XML structure [24aace4]
     - [x] Add test cases in `internal/extractor/docx_test.go` using mock docx ZIP data.
@@ -13,12 +13,12 @@ Track ID: `docx_xlsx_parsers_20260621`
     - [x] Add test cases in `internal/extractor/xlsx_test.go` using mock xlsx ZIP data.
 - [x] Task: Implement xlsx XML parsing using archive/zip and encoding/xml [2b964be]
     - [x] Create `internal/extractor/xlsx.go` to parse worksheets and shared strings from xlsx zip.
-- [~] Task: Conductor - User Manual Verification 'Phase 1: Implement In-House Document Parsers' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Implement In-House Document Parsers' (Protocol in workflow.md) [7bf9159]
 
 ## Phase 2: Ingestion Pipeline Integration
 
-- [ ] Task: Write unit tests verifying parser routing inside worker job based on file extensions
-    - [ ] Add test cases in `internal/worker/jobs_test.go` validating job routing for docx and xlsx.
+- [~] Task: Write unit tests verifying parser routing inside worker job based on file extensions
+    - [~] Add test cases in `internal/worker/jobs_test.go` validating job routing for docx and xlsx.
 - [ ] Task: Integrate DOCX and XLSX parsers into process_source command in internal/worker/jobs.go
     - [ ] Modify `handleProcessSource` to detect `.docx` and `.xlsx` file extensions and call the respective parsers.
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Ingestion Pipeline Integration' (Protocol in workflow.md)
