@@ -21,3 +21,8 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 - [ ] **Track: Obsidian-compatible Vault Export and Import**
   *Link: [./tracks/obsidian_export_import_20260621/](./tracks/obsidian_export_import_20260621/)*
+
+---
+
+- [ ] **Track: OKF Integration — Phase 1: Core Foundation & Metadata Parser**
+  *Link: [./tracks/okf_core_parser_20260623/](./tracks/okf_core_parser_20260623/)*
