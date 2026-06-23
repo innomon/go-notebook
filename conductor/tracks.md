@@ -29,5 +29,5 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [ ] **Track: OKF Integration — Phase 2: Workspace Indexer & Graph Construction**
+- [x] **Track: OKF Integration — Phase 2: Workspace Indexer & Graph Construction**
   *Link: [./tracks/okf_workspace_graph_20260623/](./tracks/okf_workspace_graph_20260623/)*
