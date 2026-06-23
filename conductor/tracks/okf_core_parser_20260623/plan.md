@@ -47,10 +47,10 @@
     - [x] Filter results: skip entries where the captured group starts with `http://` or `https://`
     - [x] Return the collected internal link paths slice
     - [x] Add GoDoc comments to `LinkRegex` and `ExtractLinks`
-- [~] Task: Run tests and confirm Green phase — all 8 tests must PASS
-    - [~] Execute `go test -v -race ./pkg/okf/...`
-    - [~] Confirm all 8 tests pass
-- [ ] Task: Conductor - User Manual Verification 'Phase 3: Green Phase — Implement Parser & Extractor' (Protocol in workflow.md)
+- [x] Task: Run tests and confirm Green phase — all 8 tests must PASS 0587764
+    - [x] Execute `go test -v -race ./pkg/okf/...`
+    - [x] Confirm all 8 tests pass
+- [~] Task: Conductor - User Manual Verification 'Phase 3: Green Phase — Implement Parser & Extractor' (Protocol in workflow.md)
 
 ## Phase 4: Refactor & Quality Gate
 
