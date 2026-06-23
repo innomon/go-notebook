@@ -2,15 +2,15 @@
 
 ## Phase 1: Core Types & Foundational Package Setup
 
-- [ ] Task: Create `pkg/okf/` directory and initialize the Go package structure
-    - [ ] Create the directory `pkg/okf/`
-    - [ ] Verify the package is accessible from the module root via `go list ./pkg/okf/...`
-- [ ] Task: Define OKF type system in `pkg/okf/types.go`
-    - [ ] Declare `package okf` and import `time`
-    - [ ] Define the `Metadata` struct with all 7 fields and correct YAML struct tags
-    - [ ] Define the `BundleNode` struct with `ID`, `Metadata`, and `OutboundLinks` fields and JSON tags
-    - [ ] Define and export `ErrNoFrontmatter` and `ErrMissingFields` sentinel errors
-    - [ ] Add GoDoc comments to all exported types, fields, and errors
+- [x] Task: Create `pkg/okf/` directory and initialize the Go package structure 230b9ae
+    - [x] Create the directory `pkg/okf/`
+    - [x] Verify the package is accessible from the module root via `go list ./pkg/okf/...`
+- [~] Task: Define OKF type system in `pkg/okf/types.go`
+    - [~] Declare `package okf` and import `time`
+    - [~] Define the `Metadata` struct with all 7 fields and correct YAML struct tags
+    - [~] Define the `BundleNode` struct with `ID`, `Metadata`, and `OutboundLinks` fields and JSON tags
+    - [~] Define and export `ErrNoFrontmatter` and `ErrMissingFields` sentinel errors
+    - [~] Add GoDoc comments to all exported types, fields, and errors
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Core Types & Foundational Package Setup' (Protocol in workflow.md)
 
 ## Phase 2: TDD Red Phase — Write Failing Tests
