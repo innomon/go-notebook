@@ -1,6 +1,6 @@
 # Implementation Plan: OKF Integration — Phase 1: Core Foundation & Metadata Parser
 
-## Phase 1: Core Types & Foundational Package Setup
+## Phase 1: Core Types & Foundational Package Setup [checkpoint: b4e6c84]
 
 - [x] Task: Create `pkg/okf/` directory and initialize the Go package structure 230b9ae
     - [x] Create the directory `pkg/okf/`
@@ -11,12 +11,12 @@
     - [x] Define the `BundleNode` struct with `ID`, `Metadata`, and `OutboundLinks` fields and JSON tags
     - [x] Define and export `ErrNoFrontmatter` and `ErrMissingFields` sentinel errors
     - [x] Add GoDoc comments to all exported types, fields, and errors
-- [~] Task: Conductor - User Manual Verification 'Phase 1: Core Types & Foundational Package Setup' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Core Types & Foundational Package Setup' (Protocol in workflow.md) b4e6c84
 
 ## Phase 2: TDD Red Phase — Write Failing Tests
 
-- [ ] Task: Create test file `pkg/okf/parser_test.go` with failing test suite
-    - [ ] Write `TestParseDocument_ValidOKF`: assert `meta.Type == "Go Struct"` and body contains expected header
+- [~] Task: Create test file `pkg/okf/parser_test.go` with failing test suite
+    - [~] Write `TestParseDocument_ValidOKF`: assert `meta.Type == "Go Struct"` and body contains expected header
     - [ ] Write `TestParseDocument_MissingMandatoryFields`: assert `ErrMissingFields` when `type` field is absent
     - [ ] Write `TestParseDocument_NoFrontmatter`: assert `ErrNoFrontmatter` for plain markdown without `---` block
     - [ ] Write `TestParseDocument_EmptyBody`: assert valid parse with empty body slice when no body content exists
