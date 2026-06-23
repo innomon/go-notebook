@@ -127,9 +127,9 @@ func (idx *WorkspaceIndexer) Index(ctx context.Context) error {
 		nodeData := map[string]any{
 			"workspace_path": idx.RootPath,
 			"file_path":      relPath,
-			"metadata":      *meta,
-			"hash":          contentHash,
-			"updated":       time.Now().UTC(),
+			"metadata":       *meta,
+			"hash":           contentHash,
+			"updated":        time.Now().UTC(),
 		}
 		_, err = db.RepoUpsert[OKFNodeRecord](ctx, "okf_node", nodeKey, nodeData, true)
 		if err != nil {

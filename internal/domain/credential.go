@@ -141,21 +141,21 @@ func CreateCredential(ctx context.Context, c *Credential) (*Credential, error) {
 	}
 
 	data := map[string]any{
-		"name":                c.Name,
-		"provider":            c.Provider,
-		"modalities":          c.Modalities,
-		"api_key":             encryptedKey,
-		"base_url":            c.BaseURL,
-		"endpoint":            c.Endpoint,
-		"api_version":         c.APIVersion,
-		"endpoint_llm":        c.EndpointLLM,
-		"endpoint_embedding":  c.EndpointEmbedding,
-		"endpoint_stt":        c.EndpointSTT,
-		"endpoint_tts":        c.EndpointTTS,
-		"project":             c.Project,
-		"location":            c.Location,
-		"credentials_path":    c.CredentialsPath,
-		"num_ctx":             c.NumCtx,
+		"name":               c.Name,
+		"provider":           c.Provider,
+		"modalities":         c.Modalities,
+		"api_key":            encryptedKey,
+		"base_url":           c.BaseURL,
+		"endpoint":           c.Endpoint,
+		"api_version":        c.APIVersion,
+		"endpoint_llm":       c.EndpointLLM,
+		"endpoint_embedding": c.EndpointEmbedding,
+		"endpoint_stt":       c.EndpointSTT,
+		"endpoint_tts":       c.EndpointTTS,
+		"project":            c.Project,
+		"location":           c.Location,
+		"credentials_path":   c.CredentialsPath,
+		"num_ctx":            c.NumCtx,
 	}
 
 	created, err := db.RepoCreate[Credential](ctx, "credential", data)
@@ -171,19 +171,19 @@ func CreateCredential(ctx context.Context, c *Credential) (*Credential, error) {
 // UpdateCredential updates a credential encrypting the API key if changed
 func UpdateCredential(ctx context.Context, id string, c *Credential, keyChanged bool) (*Credential, error) {
 	data := map[string]any{
-		"name":                c.Name,
-		"modalities":          c.Modalities,
-		"base_url":            c.BaseURL,
-		"endpoint":            c.Endpoint,
-		"api_version":         c.APIVersion,
-		"endpoint_llm":        c.EndpointLLM,
-		"endpoint_embedding":  c.EndpointEmbedding,
-		"endpoint_stt":        c.EndpointSTT,
-		"endpoint_tts":        c.EndpointTTS,
-		"project":             c.Project,
-		"location":            c.Location,
-		"credentials_path":    c.CredentialsPath,
-		"num_ctx":             c.NumCtx,
+		"name":               c.Name,
+		"modalities":         c.Modalities,
+		"base_url":           c.BaseURL,
+		"endpoint":           c.Endpoint,
+		"api_version":        c.APIVersion,
+		"endpoint_llm":       c.EndpointLLM,
+		"endpoint_embedding": c.EndpointEmbedding,
+		"endpoint_stt":       c.EndpointSTT,
+		"endpoint_tts":       c.EndpointTTS,
+		"project":            c.Project,
+		"location":           c.Location,
+		"credentials_path":   c.CredentialsPath,
+		"num_ctx":            c.NumCtx,
 	}
 
 	if keyChanged {

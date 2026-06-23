@@ -176,4 +176,90 @@ func TestWatcherIncrementalUpdates(t *testing.T) {
 	if !found {
 		t.Error("expected watch_note.md to be created and indexed automatically by the watcher")
 	}
+
+	// Now test file deletion
+	if err := os.Remove(newFile); err != nil {
+		t.Fatalf("failed to delete watcher file: %v", err)
+	}
+	time.Sleep(500 * time.Millisecond)
+
+	graphDeleted, _ := indexer.GetGraph(ctx)
+	foundDeleted := false
+	for _, n := range graphDeleted {
+		if n.ID == "watch_note.md" {
+			foundDeleted = true
+		}
+	}
+	if foundDeleted {
+		t.Error("expected watch_note.md to be deleted from database after physical deletion")
+	}
+
+	// Now test invalid document frontmatter (should be removed from DB graph)
+	invalidContent := "this is invalid document content with no yaml frontmatter"
+	if err := os.WriteFile(newFile, []byte(invalidContent), 0644); err != nil {
+		t.Fatalf("failed to write invalid file: %v", err)
+	}
+	time.Sleep(500 * time.Millisecond)
+
+	graphInvalid, _ := indexer.GetGraph(ctx)
+	foundInvalid := false
+	for _, n := range graphInvalid {
+		if n.ID == "watch_note.md" {
+			foundInvalid = true
+		}
+	}
+	if foundInvalid {
+		t.Error("expected watch_note.md to be removed from database because it became invalid")
+	}
+}
+
+func TestWatcherReaperAndTouch(t *testing.T) {
+	// Configure test DB settings
+	os.Setenv("SURREAL_URL", "ws://localhost:8000/rpc")
+	os.Setenv("SURREAL_USER", "root")
+	os.Setenv("SURREAL_PASSWORD", "root")
+	os.Setenv("SURREAL_NAMESPACE", "open_notebook_test")
+	os.Setenv("SURREAL_DATABASE", "open_notebook_test")
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	if err := db.Init(ctx); err != nil {
+		t.Skip("SurrealDB offline")
+	}
+	defer db.Close(ctx)
+
+	tmpDir := t.TempDir()
+	indexer := NewWorkspaceIndexer(tmpDir)
+
+	wm := NewWatcherManager()
+	wm.reapInterval = 100 * time.Millisecond
+	wm.timeout = 200 * time.Millisecond
+	defer wm.Close()
+
+	err := wm.Watch(ctx, tmpDir, indexer)
+	if err != nil {
+		t.Fatalf("Watch failed: %v", err)
+	}
+
+	wm.mu.Lock()
+	_, existsBefore := wm.instances[tmpDir]
+	wm.mu.Unlock()
+	if !existsBefore {
+		t.Fatal("expected watcher instance to exist")
+	}
+
+	// Touch to keep it alive
+	time.Sleep(50 * time.Millisecond)
+	wm.Touch(tmpDir)
+
+	// Wait longer than timeout
+	time.Sleep(400 * time.Millisecond)
+
+	wm.mu.Lock()
+	_, existsAfter := wm.instances[tmpDir]
+	wm.mu.Unlock()
+	if existsAfter {
+		t.Error("expected watcher instance to be reaped due to inactivity")
+	}
 }

@@ -215,4 +215,3 @@ func TestClearSourceGraphLineage(t *testing.T) {
 		t.Errorf("expected entity to be deleted completely, but found: %v", *resDeleted)
 	}
 }
-

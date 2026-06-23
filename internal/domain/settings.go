@@ -55,9 +55,9 @@ func UpdateContentSettings(ctx context.Context, settings *ContentSettings) error
 	data := map[string]any{
 		"default_content_processing_engine_doc": settings.DefaultContentProcessingEngineDoc,
 		"default_content_processing_engine_url": settings.DefaultContentProcessingEngineURL,
-		"default_embedding_option":            settings.DefaultEmbeddingOption,
-		"auto_delete_files":                   settings.AutoDeleteFiles,
-		"youtube_preferred_languages":         settings.YoutubePreferredLanguages,
+		"default_embedding_option":              settings.DefaultEmbeddingOption,
+		"auto_delete_files":                     settings.AutoDeleteFiles,
+		"youtube_preferred_languages":           settings.YoutubePreferredLanguages,
 	}
 
 	_, err := db.RepoUpsert[ContentSettings](ctx, "content_settings", recordID, data, true)

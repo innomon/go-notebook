@@ -14,7 +14,7 @@ import (
 // ChatMessage represents a single message in a chat session
 type ChatMessage struct {
 	ID        string `json:"id"`
-	Type      string `json:"type"`                // "human" or "ai"
+	Type      string `json:"type"` // "human" or "ai"
 	Content   string `json:"content"`
 	Timestamp any    `json:"timestamp,omitempty"` // null or string
 }

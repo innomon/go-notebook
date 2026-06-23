@@ -15,7 +15,7 @@ import (
 
 type MockAIClient struct {
 	GenerateTextFn func(ctx context.Context, systemPrompt, userPrompt string) (string, error)
-	AnalyzeImageFn  func(ctx context.Context, filePath string, prompt string) (string, error)
+	AnalyzeImageFn func(ctx context.Context, filePath string, prompt string) (string, error)
 }
 
 func (m *MockAIClient) EmbedText(ctx context.Context, text string) ([]float32, error) {

@@ -24,9 +24,9 @@ func createMockXlsx(t *testing.T, workbookXML, sharedStringsXML, sheet1XML strin
 	defer zw.Close()
 
 	files := map[string]string{
-		"xl/workbook.xml":               workbookXML,
-		"xl/sharedStrings.xml":          sharedStringsXML,
-		"xl/worksheets/sheet1.xml":      sheet1XML,
+		"xl/workbook.xml":          workbookXML,
+		"xl/sharedStrings.xml":     sharedStringsXML,
+		"xl/worksheets/sheet1.xml": sheet1XML,
 	}
 
 	for path, content := range files {

@@ -755,12 +755,12 @@ func handleGeneratePodcast(ctx context.Context, job *domain.CommandJob) (map[str
 	}
 
 	return map[string]any{
-		"success":          true,
-		"episode_id":       episodeRecord.ID.String(),
-		"audio_file_path":  finalPathString,
-		"outline":          outlineMap,
-		"transcript":       transcriptMap,
-		"processing_time":  time.Now().Sub(time.Now()).Seconds(), // placeholder
+		"success":         true,
+		"episode_id":      episodeRecord.ID.String(),
+		"audio_file_path": finalPathString,
+		"outline":         outlineMap,
+		"transcript":      transcriptMap,
+		"processing_time": time.Now().Sub(time.Now()).Seconds(), // placeholder
 	}, nil
 }
 

@@ -49,7 +49,7 @@ func ExtractTextFromImage(ctx context.Context, aiClient ai.AIClient, filePath st
 	}
 
 	prompt := "Perform OCR on this image to extract all text. Additionally, describe any drawings, diagrams, charts, flowcharts, structures, or visual layout in detail. Output the result as a structured Markdown document containing both the transcribed text and the visual descriptions."
-	
+
 	result, err := aiClient.AnalyzeImage(ctx, filePath, prompt)
 	if err != nil {
 		return "", fmt.Errorf("both tesseract and LLM vision extraction failed: %w", err)

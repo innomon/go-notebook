@@ -25,7 +25,7 @@ type ExtractedRelationship struct {
 
 // ExtractedGraph matches the entire JSON output format of the LLM response
 type ExtractedGraph struct {
-	Entities      []ExtractedEntity      `json:"entities"`
+	Entities      []ExtractedEntity       `json:"entities"`
 	Relationships []ExtractedRelationship `json:"relationships"`
 }
 

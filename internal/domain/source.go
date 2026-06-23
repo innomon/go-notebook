@@ -20,12 +20,12 @@ type Asset struct {
 
 // Source represents a document or web page imported into a notebook
 type Source struct {
-	ID        *models.RecordID `json:"id,omitempty"`
-	Asset     *Asset           `json:"asset,omitempty"`
-	Title     string           `json:"title,omitempty"`
-	Topics    []string         `json:"topics,omitempty"`
-	FullText  string           `json:"full_text,omitempty"`
-	Command   *models.RecordID `json:"command,omitempty"`
+	ID            *models.RecordID `json:"id,omitempty"`
+	Asset         *Asset           `json:"asset,omitempty"`
+	Title         string           `json:"title,omitempty"`
+	Topics        []string         `json:"topics,omitempty"`
+	FullText      string           `json:"full_text,omitempty"`
+	Command       *models.RecordID `json:"command,omitempty"`
 	Hash          string           `json:"hash,omitempty"`
 	LastGraphHash string           `json:"last_graph_hash,omitempty"`
 	Created       time.Time        `json:"created,omitempty"`
@@ -461,4 +461,3 @@ func GetNotebookSources(ctx context.Context, notebookID string) ([]Source, error
 	}
 	return sources, nil
 }
-

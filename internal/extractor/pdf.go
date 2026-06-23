@@ -18,11 +18,11 @@ func ExtractTextFromPDF(filePath string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	
+
 	_, err = buf.ReadFrom(b)
 	if err != nil {
 		return "", err
 	}
-	
+
 	return buf.String(), nil
 }

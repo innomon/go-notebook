@@ -203,4 +203,3 @@ func (n *Note) GetContext(contextSize string) map[string]any {
 	}
 	return res
 }
-

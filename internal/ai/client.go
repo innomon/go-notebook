@@ -4,8 +4,8 @@ import (
 	"bufio"
 	"bytes"
 	"context"
-	"encoding/binary"
 	"encoding/base64"
+	"encoding/binary"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -19,7 +19,7 @@ import (
 
 // ChatMessage represents a message in a chat history
 type ChatMessage struct {
-	Role    string `json:"role"`    // "system", "user", "assistant"
+	Role    string `json:"role"` // "system", "user", "assistant"
 	Content string `json:"content"`
 }
 

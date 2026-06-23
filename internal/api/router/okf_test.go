@@ -106,3 +106,42 @@ func TestOKFEndpoints(t *testing.T) {
 		t.Errorf("expected exactly 1 node (valid.md), got %d: %v", len(nodes), nodes)
 	}
 }
+
+func TestOKFEndpointsErrors(t *testing.T) {
+	mux := http.NewServeMux()
+	RegisterOKFRoutes(mux)
+
+	// 1. POST /api/okf/validate with invalid JSON payload
+	reqValErr := httptest.NewRequest("POST", "/api/okf/validate", bytes.NewBuffer([]byte("{invalid-json}")))
+	wValErr := httptest.NewRecorder()
+	mux.ServeHTTP(wValErr, reqValErr)
+	if wValErr.Code != http.StatusBadRequest {
+		t.Errorf("expected validation bad request, got %d", wValErr.Code)
+	}
+
+	// 2. POST /api/okf/validate with non-existent directory path
+	valPayloadErr := map[string]string{"path": "/nonexistent/directory/path"}
+	payloadBytesErr, _ := json.Marshal(valPayloadErr)
+	reqValErr2 := httptest.NewRequest("POST", "/api/okf/validate", bytes.NewBuffer(payloadBytesErr))
+	wValErr2 := httptest.NewRecorder()
+	mux.ServeHTTP(wValErr2, reqValErr2)
+	if wValErr2.Code != http.StatusBadRequest {
+		t.Errorf("expected validation bad request for nonexistent path, got %d", wValErr2.Code)
+	}
+
+	// 3. GET /api/okf/graph with missing path param
+	reqGraphErr := httptest.NewRequest("GET", "/api/okf/graph", nil)
+	wGraphErr := httptest.NewRecorder()
+	mux.ServeHTTP(wGraphErr, reqGraphErr)
+	if wGraphErr.Code != http.StatusBadRequest {
+		t.Errorf("expected graph bad request for missing path query, got %d", wGraphErr.Code)
+	}
+
+	// 4. GET /api/okf/graph with nonexistent path param
+	reqGraphErr2 := httptest.NewRequest("GET", "/api/okf/graph?path=/nonexistent/directory/path", nil)
+	wGraphErr2 := httptest.NewRecorder()
+	mux.ServeHTTP(wGraphErr2, reqGraphErr2)
+	if wGraphErr2.Code != http.StatusBadRequest {
+		t.Errorf("expected graph bad request for nonexistent path, got %d", wGraphErr2.Code)
+	}
+}

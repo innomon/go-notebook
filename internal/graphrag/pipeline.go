@@ -182,11 +182,11 @@ func (p *Pipeline) BuildGraph(ctx context.Context, notebookID string) error {
 
 // QueryResult contains the formatted context and retrieval metadata
 type QueryResult struct {
-	Context    string   `json:"context"`
-	Mode       string   `json:"mode"`
-	Sources    []string `json:"sources"`
-	Entities   []string `json:"entities"`
-	TotalHits  int      `json:"total_hits"`
+	Context   string   `json:"context"`
+	Mode      string   `json:"mode"`
+	Sources   []string `json:"sources"`
+	Entities  []string `json:"entities"`
+	TotalHits int      `json:"total_hits"`
 }
 
 // SearchHit represents a candidate chunk returned from dense/sparse searches
@@ -395,11 +395,11 @@ func (p *Pipeline) localQuery(ctx context.Context, notebookID string, query stri
 	allEntities := append(uniqueSeeds, neighbors...)
 
 	return &QueryResult{
-		Context:    sb.String(),
-		Mode:       "local",
-		Sources:    sources,
-		Entities:   allEntities,
-		TotalHits:  len(finalHits),
+		Context:   sb.String(),
+		Mode:      "local",
+		Sources:   sources,
+		Entities:  allEntities,
+		TotalHits: len(finalHits),
 	}, nil
 }
 
@@ -465,11 +465,11 @@ func (p *Pipeline) globalQuery(ctx context.Context, notebookID string, query str
 	}
 
 	return &QueryResult{
-		Context:    sb.String(),
-		Mode:       "global",
-		Sources:    []string{},
-		Entities:   entities,
-		TotalHits:  len(*results),
+		Context:   sb.String(),
+		Mode:      "global",
+		Sources:   []string{},
+		Entities:  entities,
+		TotalHits: len(*results),
 	}, nil
 }
 
@@ -508,11 +508,11 @@ func (p *Pipeline) hybridQuery(ctx context.Context, notebookID string, query str
 	}
 
 	return &QueryResult{
-		Context:    sb.String(),
-		Mode:       "hybrid",
-		Sources:    local.Sources,
-		Entities:   entities,
-		TotalHits:  local.TotalHits + global.TotalHits,
+		Context:   sb.String(),
+		Mode:      "hybrid",
+		Sources:   local.Sources,
+		Entities:  entities,
+		TotalHits: local.TotalHits + global.TotalHits,
 	}, nil
 }
 

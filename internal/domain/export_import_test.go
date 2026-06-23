@@ -94,12 +94,12 @@ func TestExportImportRoundTrip(t *testing.T) {
 	}
 
 	expectedFiles := map[string]bool{
-		"metadata.json":                     false,
-		"sources/Machine Learning Guide.md": false,
-		"notes/Meeting Notes.md":            false,
-		"entities/machine learning.md":      false,
+		"metadata.json":                       false,
+		"sources/Machine Learning Guide.md":   false,
+		"notes/Meeting Notes.md":              false,
+		"entities/machine learning.md":        false,
 		"entities/artificial intelligence.md": false,
-		"graph.json":                        false,
+		"graph.json":                          false,
 	}
 
 	for _, f := range zr.File {

@@ -28,18 +28,20 @@ type WatcherInstance struct {
 
 // WatcherManager coordinates a pool of active workspace watcher instances.
 type WatcherManager struct {
-	mu        sync.Mutex
-	instances map[string]*WatcherInstance
-	timeout   time.Duration
-	done      chan struct{}
+	mu           sync.Mutex
+	instances    map[string]*WatcherInstance
+	timeout      time.Duration
+	reapInterval time.Duration
+	done         chan struct{}
 }
 
 // NewWatcherManager initializes a new WatcherManager with inactivity reaping.
 func NewWatcherManager() *WatcherManager {
 	wm := &WatcherManager{
-		instances: make(map[string]*WatcherInstance),
-		timeout:   5 * time.Minute,
-		done:      make(chan struct{}),
+		instances:    make(map[string]*WatcherInstance),
+		timeout:      5 * time.Minute,
+		reapInterval: 30 * time.Second,
+		done:         make(chan struct{}),
 	}
 	go wm.reaperLoop()
 	return wm
@@ -202,9 +204,9 @@ func (inst *WatcherInstance) listenEvents(root string) {
 					nodeData := map[string]any{
 						"workspace_path": root,
 						"file_path":      relPath,
-						"metadata":      *meta,
-						"hash":          contentHash,
-						"updated":       time.Now().UTC(),
+						"metadata":       *meta,
+						"hash":           contentHash,
+						"updated":        time.Now().UTC(),
 					}
 					_, upsertErr := db.RepoUpsert[OKFNodeRecord](ctx, "okf_node", nodeKey, nodeData, true)
 					if upsertErr != nil {
@@ -239,7 +241,12 @@ func (inst *WatcherInstance) listenEvents(root string) {
 }
 
 func (wm *WatcherManager) reaperLoop() {
-	ticker := time.NewTicker(30 * time.Second)
+	time.Sleep(10 * time.Millisecond) // Allow tests to configure wm.reapInterval
+	interval := wm.reapInterval
+	if interval <= 0 {
+		interval = 30 * time.Second
+	}
+	ticker := time.NewTicker(interval)
 	defer ticker.Stop()
 	for {
 		select {

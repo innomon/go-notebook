@@ -173,7 +173,7 @@ func encryptValueWithKeys(plainText string, signingKey, encryptionKey []byte) (s
 	iv := make([]byte, 16)
 	// In Go, crypto/rand is standard. We will generate secure random bytes.
 	// Since we want to use crypto/rand, let's use the reader.
-	// To avoid import parser issue if any, we've imported "crypto/rand" as part of standard imports if needed, 
+	// To avoid import parser issue if any, we've imported "crypto/rand" as part of standard imports if needed,
 	// or we can read from /dev/urandom which is native on Linux.
 	// Since the user OS is Linux, reading from /dev/urandom is a super simple, 100% reliable way to get secure random bytes without import conflicts!
 	urandom, err := os.Open("/dev/urandom")
