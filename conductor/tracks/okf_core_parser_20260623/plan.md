@@ -13,7 +13,7 @@
     - [x] Add GoDoc comments to all exported types, fields, and errors
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Core Types & Foundational Package Setup' (Protocol in workflow.md) b4e6c84
 
-## Phase 2: TDD Red Phase — Write Failing Tests
+## Phase 2: TDD Red Phase — Write Failing Tests [checkpoint: c431348]
 
 - [x] Task: Create test file `pkg/okf/parser_test.go` with failing test suite 775300b
     - [x] Write `TestParseDocument_ValidOKF`: assert `meta.Type == "Go Struct"` and body contains expected header
@@ -27,12 +27,12 @@
 - [x] Task: Run tests and confirm Red phase — all 8 tests must FAIL before implementation ec58208
     - [x] Execute `go test -v ./pkg/okf/...`
     - [x] Confirm compilation fails (types/functions not yet implemented) — this is the expected Red state
-- [~] Task: Conductor - User Manual Verification 'Phase 2: TDD Red Phase — Write Failing Tests' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: TDD Red Phase — Write Failing Tests' (Protocol in workflow.md) c431348
 
 ## Phase 3: Green Phase — Implement Parser & Extractor
 
-- [ ] Task: Implement `ParseDocument` in `pkg/okf/parser.go`
-    - [ ] Declare `package okf` with imports: `bufio`, `bytes`, `errors`, `io`, `strings`, `gopkg.in/yaml.v3`
+- [~] Task: Implement `ParseDocument` in `pkg/okf/parser.go`
+    - [~] Declare `package okf` with imports: `bufio`, `bytes`, `errors`, `io`, `strings`, `gopkg.in/yaml.v3`
     - [ ] Implement the streaming `bufio.Scanner` line-by-line frontmatter detection logic
     - [ ] Handle the `---` open/close boundary detection on line 1
     - [ ] Accumulate frontmatter lines into a `bytes.Buffer` and body lines into a separate buffer
