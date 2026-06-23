@@ -1,0 +1,4 @@
+-- Rollback Migration 20
+REMOVE TABLE okf_link;
+REMOVE INDEX idx_okf_workspace_file ON TABLE okf_node;
+REMOVE TABLE okf_node;

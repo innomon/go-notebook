@@ -1,0 +1,12 @@
+-- Migration 20: Add okf_node and okf_link tables for OKF knowledge graph persistence
+DEFINE TABLE IF NOT EXISTS okf_node SCHEMAFULL;
+DEFINE FIELD IF NOT EXISTS workspace_path ON TABLE okf_node TYPE string;
+DEFINE FIELD IF NOT EXISTS file_path ON TABLE okf_node TYPE string;
+DEFINE FIELD IF NOT EXISTS metadata ON TABLE okf_node TYPE object;
+DEFINE FIELD IF NOT EXISTS hash ON TABLE okf_node TYPE string;
+DEFINE FIELD IF NOT EXISTS updated ON TABLE okf_node TYPE datetime DEFAULT time::now();
+
+DEFINE INDEX IF NOT EXISTS idx_okf_workspace_file ON TABLE okf_node COLUMNS workspace_path, file_path UNIQUE;
+
+DEFINE TABLE IF NOT EXISTS okf_link TYPE RELATION FROM okf_node TO okf_node SCHEMAFULL;
+DEFINE FIELD IF NOT EXISTS workspace_path ON TABLE okf_link TYPE string;
