@@ -42,12 +42,12 @@
 
 ## Phase 4: Refactor & Quality Gate
 
-- [ ] Task: Refactor and optimize graph operations
-    - [ ] Review query transactions for performance and potential locks
-    - [ ] Review concurrency safety of fsnotify watcher and indexer updates
-- [ ] Task: Enforce code quality checks
-    - [ ] Run `go fmt ./...` and commit any formatting changes
-    - [ ] Run `go vet ./...` and resolve any warnings
-    - [ ] Generate coverage profile and verify coverage ≥80% for new packages
-    - [ ] Run all workspace tests to confirm zero regression
+- [~] Task: Refactor and optimize graph operations
+    - [~] Review query transactions for performance and potential locks
+    - [~] Review concurrency safety of fsnotify watcher and indexer updates
+- [~] Task: Enforce code quality checks
+    - [~] Run `go fmt ./...` and commit any formatting changes
+    - [~] Run `go vet ./...` and resolve any warnings
+    - [~] Generate coverage profile and verify coverage ≥80% for new packages
+    - [~] Run all workspace tests to confirm zero regression
 - [ ] Task: Conductor - User Manual Verification 'Phase 4: Refactor & Quality Gate' (Protocol in workflow.md)
