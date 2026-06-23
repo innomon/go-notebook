@@ -58,9 +58,9 @@
     - [x] Review `ParseDocument` for any edge case missed (e.g., Windows-style `\r\n` line endings)
     - [x] Review `ExtractLinks` regex for correctness against parentheses in link labels
     - [x] Rerun tests post-refactor to ensure no regression
-- [~] Task: Enforce code quality checks
-    - [~] Run `go fmt ./pkg/okf/...` and commit any formatting changes
-    - [~] Run `go vet ./pkg/okf/...` and resolve any warnings
-    - [~] Run `go test -v -race -coverprofile=coverage.txt ./pkg/okf/...` and verify coverage ≥80% (target: 100%)
-    - [~] Confirm no existing tests in the repository are broken: `go test ./...`
-- [ ] Task: Conductor - User Manual Verification 'Phase 4: Refactor & Quality Gate' (Protocol in workflow.md)
+- [x] Task: Enforce code quality checks 8b4dd27
+    - [x] Run `go fmt ./pkg/okf/...` and commit any formatting changes
+    - [x] Run `go vet ./pkg/okf/...` and resolve any warnings
+    - [x] Run `go test -v -race -coverprofile=coverage.txt ./pkg/okf/...` and verify coverage ≥80% (target: 100%)
+    - [x] Confirm no existing tests in the repository are broken: `go test ./...`
+- [x] Task: Conductor - User Manual Verification 'Phase 4: Refactor & Quality Gate' (Protocol in workflow.md)
