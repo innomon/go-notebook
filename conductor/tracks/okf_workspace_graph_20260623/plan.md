@@ -31,14 +31,14 @@
     - [x] Implement watcher lifecycle manager pool to dynamically add/remove directory watches
     - [x] Hook events (Write, Create, Delete, Rename) to update the database records in real-time
     - [x] Implement inactivity timeout cleanup of watcher resources
-- [~] Task: Implement HTTP Route Handlers in `internal/api/router/okf.go`
-    - [~] Register `POST /api/okf/validate` and `GET /api/okf/graph` routes in the main router
-    - [ ] Implement validate handler (scans folder, validates schema, returns file error list)
-    - [ ] Implement graph handler (fetches nodes/links from DB, runs indexer dynamically, spawns/updates watcher)
-- [ ] Task: Run tests and confirm Green phase — all tests must PASS
-    - [ ] Run `go test -v ./pkg/okf/...` and `go test -v ./internal/api/router/...`
-    - [ ] Confirm all tests pass successfully
-- [ ] Task: Conductor - User Manual Verification 'Phase 3: Green Phase — Implement Indexer, Watcher & API' (Protocol in workflow.md)
+- [x] Task: Implement HTTP Route Handlers in `internal/api/router/okf.go` c43ddfb
+    - [x] Register `POST /api/okf/validate` and `GET /api/okf/graph` routes in the main router
+    - [x] Implement validate handler (scans folder, validates schema, returns file error list)
+    - [x] Implement graph handler (fetches nodes/links from DB, runs indexer dynamically, spawns/updates watcher)
+- [x] Task: Run tests and confirm Green phase — all tests must PASS c43ddfb
+    - [x] Run `go test -v ./pkg/okf/...` and `go test -v ./internal/api/router/...`
+    - [x] Confirm all tests pass successfully
+- [~] Task: Conductor - User Manual Verification 'Phase 3: Green Phase — Implement Indexer, Watcher & API' (Protocol in workflow.md)
 
 ## Phase 4: Refactor & Quality Gate
 
