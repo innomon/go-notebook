@@ -1,18 +1,18 @@
 # Implementation Plan: OKF Integration — Phase 2: Workspace Indexer & Graph Construction
 
-## Phase 1: Database Schema & Migrations
+## Phase 1: Database Schema & Migrations [checkpoint: 8990a53]
 
 - [x] Task: Design and create SurrealDB schema migrations c751115
     - [x] Create a new migration file under `internal/db/migrations/` (or determine existing migration conventions)
     - [x] Define the `okf_node` schema table with fields for workspace_path, file_path, metadata, hash, and updated timestamp
     - [x] Define the `okf_link` schema table as relation edge between `okf_node` records
     - [x] Ensure migrations run automatically on app boot and verify table definitions exist using raw queries
-- [~] Task: Conductor - User Manual Verification 'Phase 1: Database Schema & Migrations' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Database Schema & Migrations' (Protocol in workflow.md) 8990a53
 
 ## Phase 2: TDD Red Phase — Write Failing Tests
 
-- [ ] Task: Create tests for Workspace Indexer & API routing
-    - [ ] Create `pkg/okf/workspace_test.go` and write tests for `WorkspaceIndexer` walking files and writing nodes/links to SurrealDB
+- [~] Task: Create tests for Workspace Indexer & API routing
+    - [~] Create `pkg/okf/workspace_test.go` and write tests for `WorkspaceIndexer` walking files and writing nodes/links to SurrealDB
     - [ ] Add tests for hash caching (mismatch updates, match skips) and removal of deleted files
     - [ ] Create `internal/api/router/okf_test.go` with tests for `/api/okf/validate` and `/api/okf/graph` endpoints
     - [ ] Include tests for fsnotify background watcher changes updating the database nodes
