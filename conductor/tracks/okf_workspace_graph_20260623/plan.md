@@ -16,10 +16,10 @@
     - [x] Add tests for hash caching (mismatch updates, match skips) and removal of deleted files
     - [x] Create `internal/api/router/okf_test.go` with tests for `/api/okf/validate` and `/api/okf/graph` endpoints
     - [x] Include tests for fsnotify background watcher changes updating the database nodes
-- [~] Task: Run tests and confirm Red phase — tests must FAIL/compilation fail before implementation
-    - [~] Execute `go test -v ./pkg/okf/...` and `go test -v ./internal/api/router/...`
-    - [~] Confirm failures due to missing indexer, watcher, and handlers
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: TDD Red Phase — Write Failing Tests' (Protocol in workflow.md)
+- [x] Task: Run tests and confirm Red phase — tests must FAIL/compilation fail before implementation 18a150c
+    - [x] Execute `go test -v ./pkg/okf/...`
+    - [x] Confirm failures due to missing indexer, watcher, and handlers
+- [~] Task: Conductor - User Manual Verification 'Phase 2: TDD Red Phase — Write Failing Tests' (Protocol in workflow.md)
 
 ## Phase 3: Green Phase — Implement Indexer, Watcher & API
 
