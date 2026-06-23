@@ -24,10 +24,10 @@
     - [x] Write `TestExtractLinks_ValidPaths`: assert exactly 2 internal links, external HTTPS link excluded
     - [x] Write `TestExtractLinks_EmptyBody`: assert empty `[]string` for a body with no markdown links
     - [x] Write `TestExtractLinks_OnlyExternalLinks`: assert empty `[]string` when only `http://`/`https://` links are present
-- [~] Task: Run tests and confirm Red phase — all 8 tests must FAIL before implementation
-    - [~] Execute `go test -v ./pkg/okf/...`
-    - [~] Confirm compilation fails (types/functions not yet implemented) — this is the expected Red state
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: TDD Red Phase — Write Failing Tests' (Protocol in workflow.md)
+- [x] Task: Run tests and confirm Red phase — all 8 tests must FAIL before implementation ec58208
+    - [x] Execute `go test -v ./pkg/okf/...`
+    - [x] Confirm compilation fails (types/functions not yet implemented) — this is the expected Red state
+- [~] Task: Conductor - User Manual Verification 'Phase 2: TDD Red Phase — Write Failing Tests' (Protocol in workflow.md)
 
 ## Phase 3: Green Phase — Implement Parser & Extractor
 
