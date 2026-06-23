@@ -31,3 +31,8 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 - [x] **Track: OKF Integration — Phase 2: Workspace Indexer & Graph Construction**
   *Link: [./tracks/okf_workspace_graph_20260623/](./tracks/okf_workspace_graph_20260623/)*
+
+---
+
+- [ ] **Track: OKF Integration — Phase 3: Client Dashboard & Visual Graph Components**
+  *Link: [./tracks/okf_client_dashboard_20260623/](./tracks/okf_client_dashboard_20260623/)*
