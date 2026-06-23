@@ -1,6 +1,6 @@
 # Implementation Plan: Obsidian-Compatible Vault Export and Import
 
-## Phase 1: Export Feature (Backend) [checkpoint: 1bdf146]
+## Phase 1: Export Feature (Backend) [checkpoint: 7351710]
 - [x] Task: Create Domain and Serialization Logic for Exporting 8d06117
   - [x] Implement serialization of notebook metadata, sources, notes, and graph to structures.
   - [x] Implement conversion of source texts with entity links wrapped in `[[entity_name]]`.
@@ -12,7 +12,7 @@
   - [x] Implement streaming zip response.
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Export Feature (Backend)' (Protocol in workflow.md)
 
-## Phase 2: Import Feature (Backend) [checkpoint: 174a8f5]
+## Phase 2: Import Feature (Backend) [checkpoint: 39cc522]
 - [x] Task: Create Import Parser Logic 8d06117
   - [x] Implement parsing of zipped archives.
   - [x] Implement file extraction and identification of `sources/`, `notes/`, `entities/`, and `graph.json`.
@@ -28,7 +28,7 @@
   - [x] Implement file upload parsing and invoke import logic.
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Import Feature (Backend)' (Protocol in workflow.md)
 
-## Phase 3: Frontend Integration and Settings UI [checkpoint: 89c4138]
+## Phase 3: Frontend Integration and Settings UI [checkpoint: 7a519f5]
 - [x] Task: Design and Implement Import/Export UI Components dbb044a
   - [x] Add "Export Vault" and "Import Vault" action controls in the Notebook Settings/Advanced panel.
   - [x] Implement client-side file upload and download trigger.
