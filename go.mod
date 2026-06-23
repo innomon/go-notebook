@@ -10,6 +10,7 @@ require (
 	github.com/modelcontextprotocol/go-sdk v1.5.0
 	github.com/surrealdb/surrealdb.go v1.4.0
 	golang.org/x/net v0.55.0
+	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (
