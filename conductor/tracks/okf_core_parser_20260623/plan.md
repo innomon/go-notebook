@@ -54,13 +54,13 @@
 
 ## Phase 4: Refactor & Quality Gate
 
-- [~] Task: Refactor for clarity and robustness (optional but recommended)
-    - [~] Review `ParseDocument` for any edge case missed (e.g., Windows-style `\r\n` line endings)
-    - [ ] Review `ExtractLinks` regex for correctness against parentheses in link labels
-    - [ ] Rerun tests post-refactor to ensure no regression
-- [ ] Task: Enforce code quality checks
-    - [ ] Run `go fmt ./pkg/okf/...` and commit any formatting changes
-    - [ ] Run `go vet ./pkg/okf/...` and resolve any warnings
-    - [ ] Run `go test -v -race -coverprofile=coverage.txt ./pkg/okf/...` and verify coverage ≥80% (target: 100%)
-    - [ ] Confirm no existing tests in the repository are broken: `go test ./...`
+- [x] Task: Refactor for clarity and robustness (optional but recommended) adacd10
+    - [x] Review `ParseDocument` for any edge case missed (e.g., Windows-style `\r\n` line endings)
+    - [x] Review `ExtractLinks` regex for correctness against parentheses in link labels
+    - [x] Rerun tests post-refactor to ensure no regression
+- [~] Task: Enforce code quality checks
+    - [~] Run `go fmt ./pkg/okf/...` and commit any formatting changes
+    - [~] Run `go vet ./pkg/okf/...` and resolve any warnings
+    - [~] Run `go test -v -race -coverprofile=coverage.txt ./pkg/okf/...` and verify coverage ≥80% (target: 100%)
+    - [~] Confirm no existing tests in the repository are broken: `go test ./...`
 - [ ] Task: Conductor - User Manual Verification 'Phase 4: Refactor & Quality Gate' (Protocol in workflow.md)
