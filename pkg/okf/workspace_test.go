@@ -34,7 +34,7 @@ func TestWorkspaceIndexer(t *testing.T) {
 	tmpDir := t.TempDir()
 
 	file1 := filepath.Join(tmpDir, "note1.md")
-	content1 := `---\ntype: Concept\ntitle: Note One\ndescription: First test note.\n---\nHere is some body link: [Note Two](./sub/note2.md)`
+	content1 := "---\ntype: Concept\ntitle: Note One\ndescription: First test note.\n---\nHere is some body link: [Note Two](./sub/note2.md)"
 	if err := os.WriteFile(file1, []byte(content1), 0644); err != nil {
 		t.Fatalf("failed to create note1: %v", err)
 	}
@@ -45,7 +45,7 @@ func TestWorkspaceIndexer(t *testing.T) {
 	}
 
 	file2 := filepath.Join(subDir, "note2.md")
-	content2 := `---\ntype: Concept\ntitle: Note Two\ndescription: Second test note.\n---\nThis is body content.`
+	content2 := "---\ntype: Concept\ntitle: Note Two\ndescription: Second test note.\n---\nThis is body content."
 	if err := os.WriteFile(file2, []byte(content2), 0644); err != nil {
 		t.Fatalf("failed to create note2: %v", err)
 	}
@@ -83,7 +83,7 @@ func TestWorkspaceIndexer(t *testing.T) {
 
 	// Test incremental indexing / hash caching
 	// Modify note1.md and check if it gets updated
-	newContent := `---\ntype: Concept\ntitle: Note One\ndescription: Updated description.\n---\nNo links now.`
+	newContent := "---\ntype: Concept\ntitle: Note One\ndescription: Updated description.\n---\nNo links now."
 	if err := os.WriteFile(file1, []byte(newContent), 0644); err != nil {
 		t.Fatalf("failed to update note1: %v", err)
 	}
@@ -154,7 +154,7 @@ func TestWatcherIncrementalUpdates(t *testing.T) {
 
 	// Create a new file, watcher should detect it and add to DB
 	newFile := filepath.Join(tmpDir, "watch_note.md")
-	noteContent := `---\ntype: WatcherTest\ntitle: Watch Note\ndescription: Created during watching.\n---\nWatcher body.`
+	noteContent := "---\ntype: WatcherTest\ntitle: Watch Note\ndescription: Created during watching.\n---\nWatcher body."
 	if err := os.WriteFile(newFile, []byte(noteContent), 0644); err != nil {
 		t.Fatalf("failed to write watcher file: %v", err)
 	}

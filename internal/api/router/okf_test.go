@@ -39,13 +39,13 @@ func TestOKFEndpoints(t *testing.T) {
 
 	// Create valid and invalid notes in workspace
 	validFile := filepath.Join(tmpDir, "valid.md")
-	validContent := `---\ntype: Code\ntitle: Valid Document\ndescription: A valid document specification.\n---\nBody text.`
+	validContent := "---\ntype: Code\ntitle: Valid Document\ndescription: A valid document specification.\n---\nBody text."
 	if err := os.WriteFile(validFile, []byte(validContent), 0644); err != nil {
 		t.Fatalf("failed to write valid note: %v", err)
 	}
 
 	invalidFile := filepath.Join(tmpDir, "invalid.md")
-	invalidContent := `---\ntitle: Missing fields\n---\nBody text.`
+	invalidContent := "---\ntitle: Missing fields\n---\nBody text."
 	if err := os.WriteFile(invalidFile, []byte(invalidContent), 0644); err != nil {
 		t.Fatalf("failed to write invalid note: %v", err)
 	}

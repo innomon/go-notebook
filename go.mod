@@ -14,6 +14,7 @@ require (
 )
 
 require (
+	github.com/fsnotify/fsnotify v1.10.1 // indirect
 	github.com/fxamacker/cbor/v2 v2.7.0 // indirect
 	github.com/google/jsonschema-go v0.4.2 // indirect
 	github.com/gorilla/websocket v1.5.3 // indirect
