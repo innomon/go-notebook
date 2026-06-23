@@ -52,7 +52,7 @@
     - [x] Confirm all 8 tests pass
 - [x] Task: Conductor - User Manual Verification 'Phase 3: Green Phase — Implement Parser & Extractor' (Protocol in workflow.md) 304f685
 
-## Phase 4: Refactor & Quality Gate
+## Phase 4: Refactor & Quality Gate [checkpoint: cf7a941]
 
 - [x] Task: Refactor for clarity and robustness (optional but recommended) adacd10
     - [x] Review `ParseDocument` for any edge case missed (e.g., Windows-style `\r\n` line endings)
@@ -63,4 +63,4 @@
     - [x] Run `go vet ./pkg/okf/...` and resolve any warnings
     - [x] Run `go test -v -race -coverprofile=coverage.txt ./pkg/okf/...` and verify coverage ≥80% (target: 100%)
     - [x] Confirm no existing tests in the repository are broken: `go test ./...`
-- [x] Task: Conductor - User Manual Verification 'Phase 4: Refactor & Quality Gate' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 4: Refactor & Quality Gate' (Protocol in workflow.md) cf7a941
