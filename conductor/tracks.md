@@ -19,7 +19,7 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [ ] **Track: Obsidian-compatible Vault Export and Import**
+- [x] **Track: Obsidian-compatible Vault Export and Import**
   *Link: [./tracks/obsidian_export_import_20260621/](./tracks/obsidian_export_import_20260621/)*
 
 ---
