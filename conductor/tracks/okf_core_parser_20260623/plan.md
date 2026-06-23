@@ -31,25 +31,25 @@
 
 ## Phase 3: Green Phase — Implement Parser & Extractor
 
-- [~] Task: Implement `ParseDocument` in `pkg/okf/parser.go`
-    - [~] Declare `package okf` with imports: `bufio`, `bytes`, `errors`, `io`, `strings`, `gopkg.in/yaml.v3`
-    - [ ] Implement the streaming `bufio.Scanner` line-by-line frontmatter detection logic
-    - [ ] Handle the `---` open/close boundary detection on line 1
-    - [ ] Accumulate frontmatter lines into a `bytes.Buffer` and body lines into a separate buffer
-    - [ ] Call `yaml.Unmarshal` on the frontmatter buffer into `*Metadata`
-    - [ ] Return `ErrNoFrontmatter` if no valid frontmatter boundary was found
-    - [ ] Return `ErrMissingFields` if `meta.Type`, `meta.Title`, or `meta.Description` are empty strings
-    - [ ] Add GoDoc comment to `ParseDocument`
-- [ ] Task: Implement `ExtractLinks` in `pkg/okf/indexer.go`
-    - [ ] Declare `package okf` with imports: `regexp`, `strings`
-    - [ ] Declare `LinkRegex` as a package-level compiled `*regexp.Regexp` for `\[[^\]]+\]\(([^)]+)\)`
-    - [ ] Implement `ExtractLinks(body []byte) []string` using `FindAllSubmatch`
-    - [ ] Filter results: skip entries where the captured group starts with `http://` or `https://`
-    - [ ] Return the collected internal link paths slice
-    - [ ] Add GoDoc comments to `LinkRegex` and `ExtractLinks`
-- [ ] Task: Run tests and confirm Green phase — all 8 tests must PASS
-    - [ ] Execute `go test -v -race ./pkg/okf/...`
-    - [ ] Confirm all 8 tests pass
+- [x] Task: Implement `ParseDocument` in `pkg/okf/parser.go` 5f67ec5
+    - [x] Declare `package okf` with imports: `bufio`, `bytes`, `errors`, `io`, `strings`, `gopkg.in/yaml.v3`
+    - [x] Implement the streaming `bufio.Scanner` line-by-line frontmatter detection logic
+    - [x] Handle the `---` open/close boundary detection on line 1
+    - [x] Accumulate frontmatter lines into a `bytes.Buffer` and body lines into a separate buffer
+    - [x] Call `yaml.Unmarshal` on the frontmatter buffer into `*Metadata`
+    - [x] Return `ErrNoFrontmatter` if no valid frontmatter boundary was found
+    - [x] Return `ErrMissingFields` if `meta.Type`, `meta.Title`, or `meta.Description` are empty strings
+    - [x] Add GoDoc comment to `ParseDocument`
+- [x] Task: Implement `ExtractLinks` in `pkg/okf/indexer.go` 5f67ec5
+    - [x] Declare `package okf` with imports: `regexp`, `strings`
+    - [x] Declare `LinkRegex` as a package-level compiled `*regexp.Regexp` for `\[[^\]]+\]\(([^)]+)\)`
+    - [x] Implement `ExtractLinks(body []byte) []string` using `FindAllSubmatch`
+    - [x] Filter results: skip entries where the captured group starts with `http://` or `https://`
+    - [x] Return the collected internal link paths slice
+    - [x] Add GoDoc comments to `LinkRegex` and `ExtractLinks`
+- [~] Task: Run tests and confirm Green phase — all 8 tests must PASS
+    - [~] Execute `go test -v -race ./pkg/okf/...`
+    - [~] Confirm all 8 tests pass
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Green Phase — Implement Parser & Extractor' (Protocol in workflow.md)
 
 ## Phase 4: Refactor & Quality Gate
