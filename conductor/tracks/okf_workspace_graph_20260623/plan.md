@@ -23,16 +23,16 @@
 
 ## Phase 3: Green Phase — Implement Indexer, Watcher & API
 
-- [~] Task: Implement `WorkspaceIndexer` in `pkg/okf/workspace.go`
-    - [~] Implement `WorkspaceIndexer` struct and constructor
-    - [ ] Implement recursive directory walking and parsing with hash cache checking
-    - [ ] Implement DB transactional queries to create/update `okf_node` records and purge/replace `okf_link` relations
-- [ ] Task: Implement dynamic FSNotify Watcher in `pkg/okf/watcher.go`
-    - [ ] Implement watcher lifecycle manager pool to dynamically add/remove directory watches
-    - [ ] Hook events (Write, Create, Delete, Rename) to update the database records in real-time
-    - [ ] Implement inactivity timeout cleanup of watcher resources
-- [ ] Task: Implement HTTP Route Handlers in `internal/api/router/okf.go`
-    - [ ] Register `POST /api/okf/validate` and `GET /api/okf/graph` routes in the main router
+- [x] Task: Implement `WorkspaceIndexer` in `pkg/okf/workspace.go` 7b0ff66
+    - [x] Implement `WorkspaceIndexer` struct and constructor
+    - [x] Implement recursive directory walking and parsing with hash cache checking
+    - [x] Implement DB transactional queries to create/update `okf_node` records and purge/replace `okf_link` relations
+- [x] Task: Implement dynamic FSNotify Watcher in `pkg/okf/watcher.go` 7b0ff66
+    - [x] Implement watcher lifecycle manager pool to dynamically add/remove directory watches
+    - [x] Hook events (Write, Create, Delete, Rename) to update the database records in real-time
+    - [x] Implement inactivity timeout cleanup of watcher resources
+- [~] Task: Implement HTTP Route Handlers in `internal/api/router/okf.go`
+    - [~] Register `POST /api/okf/validate` and `GET /api/okf/graph` routes in the main router
     - [ ] Implement validate handler (scans folder, validates schema, returns file error list)
     - [ ] Implement graph handler (fetches nodes/links from DB, runs indexer dynamically, spawns/updates watcher)
 - [ ] Task: Run tests and confirm Green phase — all tests must PASS
