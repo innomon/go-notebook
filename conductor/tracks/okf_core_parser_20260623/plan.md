@@ -29,7 +29,7 @@
     - [x] Confirm compilation fails (types/functions not yet implemented) — this is the expected Red state
 - [x] Task: Conductor - User Manual Verification 'Phase 2: TDD Red Phase — Write Failing Tests' (Protocol in workflow.md) c431348
 
-## Phase 3: Green Phase — Implement Parser & Extractor
+## Phase 3: Green Phase — Implement Parser & Extractor [checkpoint: 304f685]
 
 - [x] Task: Implement `ParseDocument` in `pkg/okf/parser.go` 5f67ec5
     - [x] Declare `package okf` with imports: `bufio`, `bytes`, `errors`, `io`, `strings`, `gopkg.in/yaml.v3`
@@ -50,12 +50,12 @@
 - [x] Task: Run tests and confirm Green phase — all 8 tests must PASS 0587764
     - [x] Execute `go test -v -race ./pkg/okf/...`
     - [x] Confirm all 8 tests pass
-- [~] Task: Conductor - User Manual Verification 'Phase 3: Green Phase — Implement Parser & Extractor' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 3: Green Phase — Implement Parser & Extractor' (Protocol in workflow.md) 304f685
 
 ## Phase 4: Refactor & Quality Gate
 
-- [ ] Task: Refactor for clarity and robustness (optional but recommended)
-    - [ ] Review `ParseDocument` for any edge case missed (e.g., Windows-style `\r\n` line endings)
+- [~] Task: Refactor for clarity and robustness (optional but recommended)
+    - [~] Review `ParseDocument` for any edge case missed (e.g., Windows-style `\r\n` line endings)
     - [ ] Review `ExtractLinks` regex for correctness against parentheses in link labels
     - [ ] Rerun tests post-refactor to ensure no regression
 - [ ] Task: Enforce code quality checks
