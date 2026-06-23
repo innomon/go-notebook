@@ -1,6 +1,6 @@
 # Implementation Plan: Obsidian-Compatible Vault Export and Import
 
-## Phase 1: Export Feature (Backend)
+## Phase 1: Export Feature (Backend) [checkpoint: 1bdf146]
 - [x] Task: Create Domain and Serialization Logic for Exporting 8d06117
   - [x] Implement serialization of notebook metadata, sources, notes, and graph to structures.
   - [x] Implement conversion of source texts with entity links wrapped in `[[entity_name]]`.
@@ -10,7 +10,7 @@
 - [x] Task: Implement HTTP Export Handler and Router Setup 8d06117
   - [x] Add `GET /api/notebooks/:id/export` route to the server.
   - [x] Implement streaming zip response.
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Export Feature (Backend)' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Export Feature (Backend)' (Protocol in workflow.md)
 
 ## Phase 2: Import Feature (Backend)
 - [x] Task: Create Import Parser Logic 8d06117
