@@ -15,18 +15,18 @@
 
 ## Phase 2: TDD Red Phase — Write Failing Tests
 
-- [~] Task: Create test file `pkg/okf/parser_test.go` with failing test suite
-    - [~] Write `TestParseDocument_ValidOKF`: assert `meta.Type == "Go Struct"` and body contains expected header
-    - [ ] Write `TestParseDocument_MissingMandatoryFields`: assert `ErrMissingFields` when `type` field is absent
-    - [ ] Write `TestParseDocument_NoFrontmatter`: assert `ErrNoFrontmatter` for plain markdown without `---` block
-    - [ ] Write `TestParseDocument_EmptyBody`: assert valid parse with empty body slice when no body content exists
-    - [ ] Write `TestParseDocument_FrontmatterOnly`: assert body is empty but metadata is valid for frontmatter-only docs
-    - [ ] Write `TestExtractLinks_ValidPaths`: assert exactly 2 internal links, external HTTPS link excluded
-    - [ ] Write `TestExtractLinks_EmptyBody`: assert empty `[]string` for a body with no markdown links
-    - [ ] Write `TestExtractLinks_OnlyExternalLinks`: assert empty `[]string` when only `http://`/`https://` links are present
-- [ ] Task: Run tests and confirm Red phase — all 8 tests must FAIL before implementation
-    - [ ] Execute `go test -v ./pkg/okf/...`
-    - [ ] Confirm compilation fails (types/functions not yet implemented) — this is the expected Red state
+- [x] Task: Create test file `pkg/okf/parser_test.go` with failing test suite 775300b
+    - [x] Write `TestParseDocument_ValidOKF`: assert `meta.Type == "Go Struct"` and body contains expected header
+    - [x] Write `TestParseDocument_MissingMandatoryFields`: assert `ErrMissingFields` when `type` field is absent
+    - [x] Write `TestParseDocument_NoFrontmatter`: assert `ErrNoFrontmatter` for plain markdown without `---` block
+    - [x] Write `TestParseDocument_EmptyBody`: assert valid parse with empty body slice when no body content exists
+    - [x] Write `TestParseDocument_FrontmatterOnly`: assert body is empty but metadata is valid for frontmatter-only docs
+    - [x] Write `TestExtractLinks_ValidPaths`: assert exactly 2 internal links, external HTTPS link excluded
+    - [x] Write `TestExtractLinks_EmptyBody`: assert empty `[]string` for a body with no markdown links
+    - [x] Write `TestExtractLinks_OnlyExternalLinks`: assert empty `[]string` when only `http://`/`https://` links are present
+- [~] Task: Run tests and confirm Red phase — all 8 tests must FAIL before implementation
+    - [~] Execute `go test -v ./pkg/okf/...`
+    - [~] Confirm compilation fails (types/functions not yet implemented) — this is the expected Red state
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: TDD Red Phase — Write Failing Tests' (Protocol in workflow.md)
 
 ## Phase 3: Green Phase — Implement Parser & Extractor
