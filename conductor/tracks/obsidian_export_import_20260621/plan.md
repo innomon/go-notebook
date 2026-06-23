@@ -28,7 +28,7 @@
   - [x] Implement file upload parsing and invoke import logic.
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Import Feature (Backend)' (Protocol in workflow.md)
 
-## Phase 3: Frontend Integration and Settings UI
+## Phase 3: Frontend Integration and Settings UI [checkpoint: 89c4138]
 - [x] Task: Design and Implement Import/Export UI Components dbb044a
   - [x] Add "Export Vault" and "Import Vault" action controls in the Notebook Settings/Advanced panel.
   - [x] Implement client-side file upload and download trigger.
@@ -36,4 +36,4 @@
 - [x] Task: Write Frontend Integration Tests dbb044a
   - [x] Mock API requests for import and export endpoints.
   - [x] Verify UI component renders, fires requests, and handles progress/toasts correctly.
-- [ ] Task: Conductor - User Manual Verification 'Phase 3: Frontend Integration and Settings UI' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 3: Frontend Integration and Settings UI' (Protocol in workflow.md)
