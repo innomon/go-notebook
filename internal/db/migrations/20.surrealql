@@ -2,7 +2,7 @@
 DEFINE TABLE IF NOT EXISTS okf_node SCHEMAFULL;
 DEFINE FIELD IF NOT EXISTS workspace_path ON TABLE okf_node TYPE string;
 DEFINE FIELD IF NOT EXISTS file_path ON TABLE okf_node TYPE string;
-DEFINE FIELD IF NOT EXISTS metadata ON TABLE okf_node TYPE object;
+DEFINE FIELD IF NOT EXISTS metadata ON TABLE okf_node TYPE object FLEXIBLE;
 DEFINE FIELD IF NOT EXISTS hash ON TABLE okf_node TYPE string;
 DEFINE FIELD IF NOT EXISTS created ON TABLE okf_node TYPE datetime DEFAULT time::now();
 DEFINE FIELD IF NOT EXISTS updated ON TABLE okf_node TYPE datetime DEFAULT time::now();
