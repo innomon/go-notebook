@@ -127,3 +127,28 @@ Check [Google](https://google.com) or [GitHub](http://github.com)
 		t.Errorf("Expected empty slice when only external HTTP/HTTPS links exist, got: %v", links)
 	}
 }
+
+func TestParseDocument_WindowsLineEndings(t *testing.T) {
+	rawInput := "---\r\ntype: Go Struct\r\ntitle: WindowsDoc\r\ndescription: Document with CRLF endings.\r\n---\r\n# CRLF Content\r\nHello Windows World"
+	meta, body, err := ParseDocument(strings.NewReader(rawInput))
+	if err != nil {
+		t.Fatalf("Expected zero errors parsing document with CRLF, got: %v", err)
+	}
+	if meta.Type != "Go Struct" {
+		t.Errorf("Expected Type 'Go Struct', got '%s'", meta.Type)
+	}
+	if !strings.Contains(string(body), "Hello Windows World") {
+		t.Errorf("Expected body to contain 'Hello Windows World'")
+	}
+}
+
+func TestExtractLinks_ParenthesesInLabel(t *testing.T) {
+	bodyContent := []byte("Check out [Label (with parens)](./math/matrix.md)")
+	links := ExtractLinks(bodyContent)
+	if len(links) != 1 {
+		t.Fatalf("Expected exactly 1 link path, got: %d", len(links))
+	}
+	if links[0] != "./math/matrix.md" {
+		t.Errorf("Expected extracted link to be './math/matrix.md', got '%s'", links[0])
+	}
+}
