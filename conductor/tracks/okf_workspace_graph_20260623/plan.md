@@ -21,7 +21,7 @@
     - [x] Confirm failures due to missing indexer, watcher, and handlers
 - [x] Task: Conductor - User Manual Verification 'Phase 2: TDD Red Phase — Write Failing Tests' (Protocol in workflow.md) 690ac85
 
-## Phase 3: Green Phase — Implement Indexer, Watcher & API
+## Phase 3: Green Phase — Implement Indexer, Watcher & API [checkpoint: f19ae5a]
 
 - [x] Task: Implement `WorkspaceIndexer` in `pkg/okf/workspace.go` 7b0ff66
     - [x] Implement `WorkspaceIndexer` struct and constructor
@@ -38,7 +38,7 @@
 - [x] Task: Run tests and confirm Green phase — all tests must PASS c43ddfb
     - [x] Run `go test -v ./pkg/okf/...` and `go test -v ./internal/api/router/...`
     - [x] Confirm all tests pass successfully
-- [~] Task: Conductor - User Manual Verification 'Phase 3: Green Phase — Implement Indexer, Watcher & API' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 3: Green Phase — Implement Indexer, Watcher & API' (Protocol in workflow.md) f19ae5a
 
 ## Phase 4: Refactor & Quality Gate
 
