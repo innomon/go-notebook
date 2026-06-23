@@ -2,12 +2,12 @@
 
 ## Phase 1: Database Schema & Migrations
 
-- [ ] Task: Design and create SurrealDB schema migrations
-    - [ ] Create a new migration file under `internal/db/migrations/` (or determine existing migration conventions)
-    - [ ] Define the `okf_node` schema table with fields for workspace_path, file_path, metadata, hash, and updated timestamp
-    - [ ] Define the `okf_link` schema table as relation edge between `okf_node` records
-    - [ ] Ensure migrations run automatically on app boot and verify table definitions exist using raw queries
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Database Schema & Migrations' (Protocol in workflow.md)
+- [x] Task: Design and create SurrealDB schema migrations c751115
+    - [x] Create a new migration file under `internal/db/migrations/` (or determine existing migration conventions)
+    - [x] Define the `okf_node` schema table with fields for workspace_path, file_path, metadata, hash, and updated timestamp
+    - [x] Define the `okf_link` schema table as relation edge between `okf_node` records
+    - [x] Ensure migrations run automatically on app boot and verify table definitions exist using raw queries
+- [~] Task: Conductor - User Manual Verification 'Phase 1: Database Schema & Migrations' (Protocol in workflow.md)
 
 ## Phase 2: TDD Red Phase — Write Failing Tests
 
