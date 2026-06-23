@@ -12,7 +12,7 @@
   - [x] Implement streaming zip response.
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Export Feature (Backend)' (Protocol in workflow.md)
 
-## Phase 2: Import Feature (Backend)
+## Phase 2: Import Feature (Backend) [checkpoint: 174a8f5]
 - [x] Task: Create Import Parser Logic 8d06117
   - [x] Implement parsing of zipped archives.
   - [x] Implement file extraction and identification of `sources/`, `notes/`, `entities/`, and `graph.json`.
@@ -26,7 +26,7 @@
 - [x] Task: Implement HTTP Import Handlers and Router Setup 8d06117
   - [x] Add `POST /api/notebooks/import` and `POST /api/notebooks/:id/import` routes.
   - [x] Implement file upload parsing and invoke import logic.
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Import Feature (Backend)' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Import Feature (Backend)' (Protocol in workflow.md)
 
 ## Phase 3: Frontend Integration and Settings UI
 - [x] Task: Design and Implement Import/Export UI Components dbb044a
