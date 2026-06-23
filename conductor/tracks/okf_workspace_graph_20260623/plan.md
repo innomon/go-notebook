@@ -9,7 +9,7 @@
     - [x] Ensure migrations run automatically on app boot and verify table definitions exist using raw queries
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Database Schema & Migrations' (Protocol in workflow.md) 8990a53
 
-## Phase 2: TDD Red Phase — Write Failing Tests
+## Phase 2: TDD Red Phase — Write Failing Tests [checkpoint: 690ac85]
 
 - [x] Task: Create tests for Workspace Indexer & API routing 8072b70
     - [x] Create `pkg/okf/workspace_test.go` and write tests for `WorkspaceIndexer` walking files and writing nodes/links to SurrealDB
@@ -19,12 +19,12 @@
 - [x] Task: Run tests and confirm Red phase — tests must FAIL/compilation fail before implementation 18a150c
     - [x] Execute `go test -v ./pkg/okf/...`
     - [x] Confirm failures due to missing indexer, watcher, and handlers
-- [~] Task: Conductor - User Manual Verification 'Phase 2: TDD Red Phase — Write Failing Tests' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: TDD Red Phase — Write Failing Tests' (Protocol in workflow.md) 690ac85
 
 ## Phase 3: Green Phase — Implement Indexer, Watcher & API
 
-- [ ] Task: Implement `WorkspaceIndexer` in `pkg/okf/workspace.go`
-    - [ ] Implement `WorkspaceIndexer` struct and constructor
+- [~] Task: Implement `WorkspaceIndexer` in `pkg/okf/workspace.go`
+    - [~] Implement `WorkspaceIndexer` struct and constructor
     - [ ] Implement recursive directory walking and parsing with hash cache checking
     - [ ] Implement DB transactional queries to create/update `okf_node` records and purge/replace `okf_link` relations
 - [ ] Task: Implement dynamic FSNotify Watcher in `pkg/okf/watcher.go`
