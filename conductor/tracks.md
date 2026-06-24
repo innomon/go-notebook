@@ -36,3 +36,9 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 - [x] **Track: OKF Integration — Phase 3: Client Dashboard & Visual Graph Components**
   *Link: [./tracks/okf_client_dashboard_20260623/](./tracks/okf_client_dashboard_20260623/)*
+
+---
+
+- [ ] **Track: OKF Integration — Phase 4: Local AI Context/Enrichment Automation**
+  *Link: [./tracks/okf_ai_enrichment_20260624/](./tracks/okf_ai_enrichment_20260624/)*
+
