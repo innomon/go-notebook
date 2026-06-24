@@ -1,14 +1,18 @@
 package router
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
+	"go-notebook/internal/ai"
 	"go-notebook/pkg/okf"
 	"io/fs"
 	"net/http"
 	"os"
 	"path/filepath"
 	"strings"
+
+	"gopkg.in/yaml.v3"
 )
 
 var globalWatcherManager = okf.NewWatcherManager()
@@ -17,6 +21,7 @@ var globalWatcherManager = okf.NewWatcherManager()
 func RegisterOKFRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("POST /api/okf/validate", handleOKFValidate)
 	mux.HandleFunc("GET /api/okf/graph", handleOKFGraph)
+	mux.HandleFunc("POST /api/okf/enrich", handleOKFEnrich)
 }
 
 func handleOKFValidate(w http.ResponseWriter, r *http.Request) {
@@ -141,4 +146,148 @@ func handleOKFGraph(w http.ResponseWriter, r *http.Request) {
 	_ = json.NewEncoder(w).Encode(map[string]any{
 		"nodes": graph,
 	})
+}
+
+func handleOKFEnrich(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	type EnrichRequest struct {
+		Content string `json:"content"`
+		Path    string `json:"path"`
+	}
+
+	var req EnrichRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		_ = json.NewEncoder(w).Encode(map[string]string{"error": "invalid payload: " + err.Error()})
+		return
+	}
+
+	var content string
+	var path string
+	if req.Path != "" {
+		path = filepath.Clean(req.Path)
+		fileBytes, err := os.ReadFile(path)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			_ = json.NewEncoder(w).Encode(map[string]string{"error": "failed to read file: " + err.Error()})
+			return
+		}
+		content = string(fileBytes)
+	} else if req.Content != "" {
+		content = req.Content
+	} else {
+		w.WriteHeader(http.StatusBadRequest)
+		_ = json.NewEncoder(w).Encode(map[string]string{"error": "missing content or path in request"})
+		return
+	}
+
+	// Parse document to validate format and extract components
+	meta, bodyBytes, err := okf.ParseDocument(strings.NewReader(content))
+	if err != nil {
+		// If some mandatory fields are missing (like description which we are enriching!),
+		// ParseDocument returns the partially parsed meta and ErrMissingFields.
+		// We only reject if it's not a missing fields error or no frontmatter.
+		if err != okf.ErrMissingFields {
+			w.WriteHeader(http.StatusBadRequest)
+			_ = json.NewEncoder(w).Encode(map[string]string{"error": "failed to parse document: " + err.Error()})
+			return
+		}
+	}
+
+	// Resolve model
+	client, err := ai.GetClientForDefaultModel(r.Context(), "transformation")
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		_ = json.NewEncoder(w).Encode(map[string]string{"error": "failed to resolve AI client: " + err.Error()})
+		return
+	}
+
+	// Prepare LLM prompt
+	systemPrompt := `You are an expert technical editor. Analyze the provided Markdown document and generate a concise description (1-2 sentences summarizing its intent and capabilities) and a list of relevant tags for categorization.
+Your response MUST be a single, valid JSON object containing exactly two keys: "description" (a string) and "tags" (an array of strings).
+Do NOT include any explanation, intro, outro, markdown formatting blocks, or backticks. Just return raw JSON.`
+
+	userPrompt := fmt.Sprintf("Document Content:\n%s", content)
+
+	llmResponse, err := client.GenerateText(r.Context(), systemPrompt, userPrompt)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		_ = json.NewEncoder(w).Encode(map[string]string{"error": "failed to generate suggestions: " + err.Error()})
+		return
+	}
+
+	// Sanitize response and extract JSON
+	cleanedJSON := cleanJSONResponse(llmResponse)
+	
+	type LLMResponse struct {
+		Description string   `json:"description"`
+		Tags        []string `json:"tags"`
+	}
+
+	var suggestion LLMResponse
+	if err := json.Unmarshal([]byte(cleanedJSON), &suggestion); err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		_ = json.NewEncoder(w).Encode(map[string]string{
+			"error": "failed to parse LLM response: " + err.Error(),
+			"raw":   llmResponse,
+		})
+		return
+	}
+
+	// If file path was provided, save the updated note back to disk
+	if path != "" {
+		// Update meta fields
+		meta.Description = suggestion.Description
+		meta.Tags = suggestion.Tags
+
+		// Serialize back to file format
+		updatedBytes, err := serializeDocument(meta, bodyBytes)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			_ = json.NewEncoder(w).Encode(map[string]string{"error": "failed to serialize updated metadata: " + err.Error()})
+			return
+		}
+
+		// Write to disk
+		if err := os.WriteFile(path, updatedBytes, 0644); err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			_ = json.NewEncoder(w).Encode(map[string]string{"error": "failed to write file to disk: " + err.Error()})
+			return
+		}
+	}
+
+	// Respond with suggestion
+	_ = json.NewEncoder(w).Encode(suggestion)
+}
+
+func cleanJSONResponse(raw string) string {
+	raw = strings.TrimSpace(raw)
+	if strings.HasPrefix(raw, "```") {
+		// Find first newline
+		idx := strings.Index(raw, "\n")
+		if idx != -1 {
+			raw = raw[idx:]
+		}
+		raw = strings.TrimSuffix(raw, "```")
+		raw = strings.TrimSpace(raw)
+	}
+	// Also strip any custom ```json and ``` prefix / suffix
+	raw = strings.TrimPrefix(raw, "```json")
+	raw = strings.TrimPrefix(raw, "```")
+	raw = strings.TrimSuffix(raw, "```")
+	return strings.TrimSpace(raw)
+}
+
+func serializeDocument(meta *okf.Metadata, body []byte) ([]byte, error) {
+	metaBytes, err := yaml.Marshal(meta)
+	if err != nil {
+		return nil, err
+	}
+	var buf bytes.Buffer
+	buf.WriteString("---\n")
+	buf.Write(metaBytes)
+	buf.WriteString("---\n")
+	buf.Write(body)
+	return buf.Bytes(), nil
 }
