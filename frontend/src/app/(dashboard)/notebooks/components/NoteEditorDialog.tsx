@@ -13,6 +13,7 @@ import { MarkdownEditor } from '@/components/ui/markdown-editor'
 import { InlineEdit } from '@/components/common/InlineEdit'
 import { cn } from "@/lib/utils";
 import { useTranslation } from '@/lib/hooks/use-translation'
+import { PropertiesEditor } from '@/components/okf/PropertiesEditor'
 
 const createNoteSchema = z.object({
   title: z.string().optional(),
@@ -147,26 +148,124 @@ export function NoteEditorDialog({ open, onOpenChange, notebookId, note }: NoteE
               </div>
 
               <div className={cn(
-                  "flex-1 overflow-y-auto",
+                  "flex-1 overflow-y-auto space-y-4",
                   !isEditorFullscreen && "px-6 py-4")
               }>
+                {/* OKF Properties Panel */}
                 <Controller
                   control={control}
                   name="content"
-                  render={({ field }) => (
-                    <MarkdownEditor
-                      key={note?.id ?? 'new'}
-                      textareaId="note-content"
-                      value={field.value}
-                      onChange={field.onChange}
-                      height={420}
-                      placeholder={t('sources.writeNotePlaceholder')}
-                      className={cn(
-                          "w-full h-full min-h-[420px] max-h-[500px] overflow-hidden [&_.w-md-editor]:!static [&_.w-md-editor]:!w-full [&_.w-md-editor]:!h-full [&_.w-md-editor-content]:overflow-y-auto",
-                          !isEditorFullscreen && "rounded-md border"
-                      )}
-                    />
-                  )}
+                  render={({ field }) => {
+                    const contentValue = field.value || ''
+                    // Split content into frontmatter and body
+                    const normalized = contentValue.trimStart()
+                    let frontmatter = ''
+                    let body = contentValue
+                    let hasFrontmatter = false
+
+                    if (normalized.startsWith('---')) {
+                      const secondDividerIndex = normalized.indexOf('---', 3)
+                      if (secondDividerIndex !== -1) {
+                        frontmatter = normalized.substring(3, secondDividerIndex).trim()
+                        body = normalized.substring(secondDividerIndex + 3).trimStart()
+                        hasFrontmatter = true
+                      }
+                    }
+
+                    // Local frontmatter validation check
+                    const validationErrors: string[] = []
+                    if (hasFrontmatter) {
+                      const lines = frontmatter.split('\n').map(l => l.trim())
+                      let typeVal = ''
+                      let titleVal = ''
+                      let descVal = ''
+                      for (const line of lines) {
+                        if (line.startsWith('type:')) typeVal = line.substring(5).trim()
+                        if (line.startsWith('title:')) titleVal = line.substring(6).trim()
+                        if (line.startsWith('description:')) descVal = line.substring(12).trim()
+                      }
+                      if (!typeVal) validationErrors.push('missing mandatory OKF field: "type"')
+                      if (!titleVal) validationErrors.push('missing mandatory OKF field: "title"')
+                      if (!descVal) validationErrors.push('missing mandatory OKF field: "description"')
+                    }
+
+                    const handlePropertiesSave = (newYaml: string, parsedMetadata: Record<string, any>) => {
+                      const newContent = `---\n${newYaml.trim()}\n---\n\n${body}`
+                      field.onChange(newContent)
+                      if (parsedMetadata.title) {
+                        setValue('title', parsedMetadata.title)
+                      }
+                    }
+
+                    const handleAddProperties = () => {
+                      const initialMetadataYaml = `type: Concept\ntitle: ${watchTitle || 'Untitled Note'}\ndescription: `
+                      const newContent = `---\n${initialMetadataYaml}\n---\n\n${contentValue}`
+                      field.onChange(newContent)
+                    }
+
+                    const handleRemoveProperties = () => {
+                      field.onChange(body)
+                    }
+
+                    return (
+                      <div className="space-y-4">
+                        {hasFrontmatter ? (
+                          <div className="space-y-2">
+                            <PropertiesEditor
+                              initialYaml={frontmatter}
+                              onSave={handlePropertiesSave}
+                              errors={validationErrors}
+                            />
+                            <div className="flex justify-end">
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="sm"
+                                className="text-xs text-zinc-500 hover:text-red-400"
+                                onClick={handleRemoveProperties}
+                              >
+                                Remove OKF Properties
+                              </Button>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="rounded-xl border border-dashed border-zinc-800 bg-zinc-950/20 p-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+                            <div className="text-left">
+                              <h4 className="text-sm font-semibold text-zinc-300">Open Knowledge Format</h4>
+                              <p className="text-xs text-zinc-500 mt-0.5">Attach structured OKF frontmatter metadata tags to this research note.</p>
+                            </div>
+                            <Button
+                              type="button"
+                              variant="outline"
+                              size="sm"
+                              className="text-xs border-zinc-700 text-zinc-300 hover:bg-zinc-900"
+                              onClick={handleAddProperties}
+                            >
+                              Add OKF Metadata
+                            </Button>
+                          </div>
+                        )}
+
+                        <MarkdownEditor
+                          key={note?.id ?? 'new'}
+                          textareaId="note-content"
+                          value={body}
+                          onChange={(newBody) => {
+                            const newContent = hasFrontmatter
+                              ? `---\n${frontmatter}\n---\n\n${newBody}`
+                              : newBody
+                            field.onChange(newContent)
+                          }}
+                          height={hasFrontmatter ? 240 : 380}
+                          placeholder={t('sources.writeNotePlaceholder')}
+                          className={cn(
+                              "w-full h-full min-h-[240px] overflow-hidden [&_.w-md-editor]:!static [&_.w-md-editor]:!w-full [&_.w-md-editor]:!h-full [&_.w-md-editor-content]:overflow-y-auto",
+                              !isEditorFullscreen && "rounded-md border"
+                          )}
+                        />
+                      </div>
+                    )
+                  }}
                 />
                 {errors.content && (
                   <p className="text-sm text-red-600 mt-1">{errors.content.message}</p>
