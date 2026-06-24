@@ -19,13 +19,13 @@
 - [x] Task: Create tests for Visual Graph Component (TDD Red Phase) a98acc5
     - [x] Create component tests verifying rendering of visual nodes, arrow-directed links, tooltips, and click handlers
     - [x] Confirm test suite failure state
-- [~] Task: Implement Interactive Graph Canvas (Green Phase)
-    - [ ] Create `VisualGraph` canvas component using `react-force-graph-2d` (or custom d3-force SVG layout)
-    - [ ] Style nodes based on OKF `type` metadata tags using Zinc aesthetic colors
-    - [ ] Implement mouse zoom/pan controls, dragging behavior, hover tooltips
-    - [ ] Implement node selection highlighting (dims non-adjacent nodes) and trigger callback
-    - [ ] Run tests and verify they pass
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: D3-Based Interactive Visual Graph Component' (Protocol in workflow.md)
+- [x] Task: Implement Interactive Graph Canvas (Green Phase) 086c0be
+    - [x] Create `VisualGraph` canvas component using `react-force-graph-2d` (or custom d3-force SVG layout)
+    - [x] Style nodes based on OKF `type` metadata tags using Zinc aesthetic colors
+    - [x] Implement mouse zoom/pan controls, dragging behavior, hover tooltips
+    - [x] Implement node selection highlighting (dims non-adjacent nodes) and trigger callback
+    - [x] Run tests and verify they pass
+- [x] Task: Conductor - User Manual Verification 'Phase 2: D3-Based Interactive Visual Graph Component' (Protocol in workflow.md)
 
 ## Phase 3: Dedicated Workspace Dashboard & Explorer Side Panel [checkpoint: ]
 
