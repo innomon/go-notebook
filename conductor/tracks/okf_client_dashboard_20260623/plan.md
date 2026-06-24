@@ -2,10 +2,10 @@
 
 ## Phase 1: Client Frontmatter Editor Component [checkpoint: ]
 
-- [ ] Task: Create tests for the Properties Editor Component (TDD Red Phase)
-    - [ ] Create `frontend/src/test/okf/PropertiesEditor.test.tsx` (or matching test folder path)
-    - [ ] Add tests verifying Form Mode editing, YAML Mode toggle, validation error rendering, and save state propagation
-    - [ ] Verify test suite fails as expected
+- [x] Task: Create tests for the Properties Editor Component (TDD Red Phase) c2ce1ca
+    - [x] Create `frontend/src/test/okf/PropertiesEditor.test.tsx` (or matching test folder path)
+    - [x] Add tests verifying Form Mode editing, YAML Mode toggle, validation error rendering, and save state propagation
+    - [x] Verify test suite fails as expected
 - [ ] Task: Implement OKF Properties Editor UI (Green Phase)
     - [ ] Create `PropertiesEditor` component supporting Form Fields (Title, Type, Description, Tags)
     - [ ] Create toggle view to Raw YAML Code Editor (with Monaco or plain textarea)
