@@ -12,14 +12,14 @@
     - [x] Handle input validation schema (using Zod or standard state checks) and display inline error list
     - [x] Integrate auto-save debounced callbacks to commit changes back to note files
     - [x] Run tests and verify they pass
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Client Frontmatter Editor Component' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Client Frontmatter Editor Component' (Protocol in workflow.md)
 
 ## Phase 2: D3-Based Interactive Visual Graph Component [checkpoint: ]
 
-- [ ] Task: Create tests for Visual Graph Component (TDD Red Phase)
-    - [ ] Create component tests verifying rendering of visual nodes, arrow-directed links, tooltips, and click handlers
-    - [ ] Confirm test suite failure state
-- [ ] Task: Implement Interactive Graph Canvas (Green Phase)
+- [x] Task: Create tests for Visual Graph Component (TDD Red Phase) a98acc5
+    - [x] Create component tests verifying rendering of visual nodes, arrow-directed links, tooltips, and click handlers
+    - [x] Confirm test suite failure state
+- [~] Task: Implement Interactive Graph Canvas (Green Phase)
     - [ ] Create `VisualGraph` canvas component using `react-force-graph-2d` (or custom d3-force SVG layout)
     - [ ] Style nodes based on OKF `type` metadata tags using Zinc aesthetic colors
     - [ ] Implement mouse zoom/pan controls, dragging behavior, hover tooltips
