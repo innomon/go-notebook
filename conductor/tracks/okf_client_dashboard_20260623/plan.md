@@ -6,12 +6,12 @@
     - [x] Create `frontend/src/test/okf/PropertiesEditor.test.tsx` (or matching test folder path)
     - [x] Add tests verifying Form Mode editing, YAML Mode toggle, validation error rendering, and save state propagation
     - [x] Verify test suite fails as expected
-- [ ] Task: Implement OKF Properties Editor UI (Green Phase)
-    - [ ] Create `PropertiesEditor` component supporting Form Fields (Title, Type, Description, Tags)
-    - [ ] Create toggle view to Raw YAML Code Editor (with Monaco or plain textarea)
-    - [ ] Handle input validation schema (using Zod or standard state checks) and display inline error list
-    - [ ] Integrate auto-save debounced callbacks to commit changes back to note files
-    - [ ] Run tests and verify they pass
+- [x] Task: Implement OKF Properties Editor UI (Green Phase) 916d858
+    - [x] Create `PropertiesEditor` component supporting Form Fields (Title, Type, Description, Tags)
+    - [x] Create toggle view to Raw YAML Code Editor (with Monaco or plain textarea)
+    - [x] Handle input validation schema (using Zod or standard state checks) and display inline error list
+    - [x] Integrate auto-save debounced callbacks to commit changes back to note files
+    - [x] Run tests and verify they pass
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Client Frontmatter Editor Component' (Protocol in workflow.md)
 
 ## Phase 2: D3-Based Interactive Visual Graph Component [checkpoint: ]
