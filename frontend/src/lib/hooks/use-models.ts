@@ -128,11 +128,17 @@ export function useAutoAssignDefaults() {
 
       const assignedCount = Object.keys(result.assigned).length
       const missingCount = result.missing.length
+      const skippedCount = result.skipped?.length || 0
 
       if (assignedCount > 0) {
         toast({
           title: t('common.success'),
           description: t('models.autoAssignSuccess').replace('{count}', assignedCount.toString()),
+        })
+      } else if (skippedCount > 0) {
+        toast({
+          title: t('common.success'),
+          description: t('models.autoAssignAlreadySet'),
         })
       } else if (missingCount > 0) {
         toast({
@@ -144,6 +150,46 @@ export function useAutoAssignDefaults() {
         toast({
           title: t('common.success'),
           description: t('models.autoAssignAlreadySet'),
+        })
+      }
+    },
+    onError: (error: unknown) => {
+      toast({
+        title: t('common.error'),
+        description: getApiErrorKey(error, t('common.error')),
+        variant: 'destructive',
+      })
+    },
+  })
+}
+
+export function useSyncAllModels() {
+  const queryClient = useQueryClient()
+  const { toast } = useToast()
+  const { t } = useTranslation()
+
+  return useMutation({
+    mutationFn: () => modelsApi.syncAll(),
+    onSuccess: (result) => {
+      queryClient.invalidateQueries({ queryKey: MODEL_QUERY_KEYS.models })
+      queryClient.invalidateQueries({ queryKey: MODEL_QUERY_KEYS.defaults })
+      queryClient.invalidateQueries({ queryKey: ['credentials'] })
+
+      const discovered = result.total_discovered || 0
+      const newCount = result.total_new || 0
+
+      if (newCount > 0) {
+        toast({
+          title: t('common.success'),
+          description: t('apiKeys.syncSuccess')
+            .replace('{discovered}', discovered.toString())
+            .replace('{new}', newCount.toString()),
+        })
+      } else {
+        toast({
+          title: t('common.success'),
+          description: t('apiKeys.syncNoNew')
+            .replace('{count}', discovered.toString()),
         })
       }
     },

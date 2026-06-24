@@ -204,8 +204,8 @@ func handleOKFEnrich(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Prepare LLM prompt
-	systemPrompt := `You are an expert technical editor. Analyze the provided Markdown document and generate a concise description (1-2 sentences summarizing its intent and capabilities) and a list of relevant tags for categorization.
-Your response MUST be a single, valid JSON object containing exactly two keys: "description" (a string) and "tags" (an array of strings).
+	systemPrompt := `Provide a short description and tags for the following Markdown document.
+Your response MUST be a single, valid JSON object containing exactly two keys: "description" (a string, 1-2 sentences summarizing the document) and "tags" (an array of strings).
 Do NOT include any explanation, intro, outro, markdown formatting blocks, or backticks. Just return raw JSON.`
 
 	userPrompt := fmt.Sprintf("Document Content:\n%s", content)

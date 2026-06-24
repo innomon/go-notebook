@@ -16,7 +16,7 @@
     - [x] If file path is provided, read note, update YAML frontmatter fields (`description`, `tags`) using standard serialization, save back to disk, and trigger file watchers
     - [x] Respond with JSON payload containing `description` and `tags`
     - [x] Run tests and verify they pass
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Backend AI Enrichment Endpoint' (Protocol in workflow.md)
+- [~] Task: Conductor - User Manual Verification 'Phase 1: Backend AI Enrichment Endpoint' (Protocol in workflow.md)
 
 ## Phase 2: Frontend "AI Suggest" UI Integration [checkpoint: ]
 

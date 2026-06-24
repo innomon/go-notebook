@@ -97,23 +97,53 @@ func handleGetDefaultModels(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleUpdateDefaultModels(w http.ResponseWriter, r *http.Request) {
-	var payload domain.DefaultModels
+	ctx := r.Context()
+
+	// 1. Get existing defaults to merge with
+	defaults, err := domain.GetDefaultModels(ctx)
+	if err != nil {
+		respondError(w, http.StatusInternalServerError, "Failed to fetch default models: "+err.Error())
+		return
+	}
+
+	// 2. Decode partial payload into a map
+	var payload map[string]any
 	if err := json.NewDecoder(r.Body).Decode(&payload); err != nil {
 		respondError(w, http.StatusBadRequest, "Invalid JSON payload")
 		return
 	}
 
-	ctx := r.Context()
-	err := domain.UpdateDefaultModels(ctx, &payload)
-	if err != nil {
-		respondError(w, http.StatusInternalServerError, "Failed to update default models: "+err.Error())
-		return
+	// 3. Update only provided fields
+	for k, v := range payload {
+		valStr := ""
+		if v != nil {
+			if s, ok := v.(string); ok {
+				valStr = s
+			}
+		}
+
+		switch k {
+		case "default_chat_model":
+			defaults.DefaultChatModel = valStr
+		case "default_transformation_model":
+			defaults.DefaultTransformationModel = valStr
+		case "large_context_model":
+			defaults.LargeContextModel = valStr
+		case "default_text_to_speech_model":
+			defaults.DefaultTextToSpeechModel = valStr
+		case "default_speech_to_text_model":
+			defaults.DefaultSpeechToTextModel = valStr
+		case "default_embedding_model":
+			defaults.DefaultEmbeddingModel = valStr
+		case "default_tools_model":
+			defaults.DefaultToolsModel = valStr
+		}
 	}
 
-	// Fetch updated
-	defaults, err := domain.GetDefaultModels(ctx)
+	// 4. Update the merged default models record
+	err = domain.UpdateDefaultModels(ctx, defaults)
 	if err != nil {
-		respondError(w, http.StatusInternalServerError, "Failed to reload default models: "+err.Error())
+		respondError(w, http.StatusInternalServerError, "Failed to update default models: "+err.Error())
 		return
 	}
 
@@ -529,6 +559,7 @@ var modelPreferences = map[string][]string{
 	"mistral":   {"mistral-large", "mixtral"},
 	"groq":      {"llama-3.3", "llama-3.1", "mixtral"},
 	"dashscope": {"qwen-max", "qwen-plus", "qwen-turbo"},
+	"ollama":    {"gemma3", "gemma", "llama3.3", "llama3.2", "llama3.1", "llama3", "llama", "mistral", "qwen", "phi3", "phi", "granite"},
 }
 
 func handleAutoAssignDefaults(w http.ResponseWriter, r *http.Request) {
@@ -544,6 +575,19 @@ func handleAutoAssignDefaults(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		respondError(w, http.StatusInternalServerError, "Failed to load registered models: "+err.Error())
 		return
+	}
+
+	if len(allModels) == 0 {
+		// Auto-sync all providers if no models are registered yet
+		for provider := range providerEnvKeys {
+			_, _, _, _ = syncProviderInternal(ctx, provider)
+		}
+		// Try listing models again
+		allModels, err = domain.ListModels(ctx)
+		if err != nil {
+			respondError(w, http.StatusInternalServerError, "Failed to load registered models after sync: "+err.Error())
+			return
+		}
 	}
 
 	modelsByType := map[string][]domain.Model{
@@ -585,6 +629,23 @@ func handleAutoAssignDefaults(w http.ResponseWriter, r *http.Request) {
 		if len(available) == 0 {
 			missing = append(missing, slot.SlotName)
 			continue
+		}
+
+		// Filter out highly specialized models (function-calling, guardrails, embeddings)
+		// for language slots if other options exist
+		if slot.ModelType == "language" {
+			generalModels := []domain.Model{}
+			for _, m := range available {
+				nameLower := strings.ToLower(m.Name)
+				if !strings.Contains(nameLower, "function") &&
+					!strings.Contains(nameLower, "guard") &&
+					!strings.Contains(nameLower, "embed") {
+					generalModels = append(generalModels, m)
+				}
+			}
+			if len(generalModels) > 0 {
+				available = generalModels
+			}
 		}
 
 		// Find preferred model

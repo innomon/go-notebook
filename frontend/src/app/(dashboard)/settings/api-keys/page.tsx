@@ -39,7 +39,7 @@ import {
   Bot,
 } from 'lucide-react'
 import { useTranslation } from '@/lib/hooks/use-translation'
-import { useModels, useDeleteModel, useModelDefaults, useUpdateModelDefaults, useAutoAssignDefaults, useTestModel } from '@/lib/hooks/use-models'
+import { useModels, useDeleteModel, useModelDefaults, useUpdateModelDefaults, useAutoAssignDefaults, useTestModel, useSyncAllModels } from '@/lib/hooks/use-models'
 import {
   useCredentials,
   useCredential,
@@ -1106,6 +1106,7 @@ function DefaultModelSelectors({
   const { t } = useTranslation()
   const updateDefaults = useUpdateModelDefaults()
   const autoAssign = useAutoAssignDefaults()
+  const syncAll = useSyncAllModels()
   const { setValue, watch } = useForm<ModelDefaults>({ defaultValues: defaults })
   const generatedId = useId()
 
@@ -1178,25 +1179,53 @@ function DefaultModelSelectors({
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>{t('models.defaultAssignments')}</CardTitle>
-        <CardDescription>{t('models.defaultAssignmentsDesc')}</CardDescription>
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+        <div className="space-y-1.5">
+          <CardTitle>{t('models.defaultAssignments')}</CardTitle>
+          <CardDescription>{t('models.defaultAssignmentsDesc')}</CardDescription>
+        </div>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => syncAll.mutate()}
+          disabled={syncAll.isPending}
+          className="gap-1.5 shrink-0"
+          title={t('apiKeys.syncModels')}
+        >
+          {syncAll.isPending ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <RefreshCw className="h-3.5 w-3.5" />}
+          <span>{t('apiKeys.syncModels')}</span>
+        </Button>
       </CardHeader>
       <CardContent className="space-y-6">
         {missingRequired.length > 0 && (
           <Alert>
             <AlertCircle className="h-4 w-4" />
-            <AlertDescription className="flex items-center justify-between gap-4">
+            <AlertDescription className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 w-full">
               <span>{t('models.missingRequiredModels').replace('{models}', missingRequired.join(', '))}</span>
-              <Button
-                variant="outline" size="sm"
-                onClick={() => autoAssign.mutate()}
-                disabled={autoAssign.isPending}
-                className="shrink-0 gap-1.5"
-              >
-                {autoAssign.isPending ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Wand2 className="h-3.5 w-3.5" />}
-                {autoAssign.isPending ? t('models.autoAssigning') : t('models.autoAssign')}
-              </Button>
+              <div className="flex gap-2 shrink-0">
+                {models.length === 0 && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => syncAll.mutate()}
+                    disabled={syncAll.isPending}
+                    className="gap-1.5"
+                  >
+                    {syncAll.isPending ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <RefreshCw className="h-3.5 w-3.5" />}
+                    <span>{syncAll.isPending ? "Syncing..." : t('apiKeys.syncModels')}</span>
+                  </Button>
+                )}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => autoAssign.mutate()}
+                  disabled={autoAssign.isPending}
+                  className="gap-1.5"
+                >
+                  {autoAssign.isPending ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Wand2 className="h-3.5 w-3.5" />}
+                  <span>{autoAssign.isPending ? t('models.autoAssigning') : t('models.autoAssign')}</span>
+                </Button>
+              </div>
             </AlertDescription>
           </Alert>
         )}
