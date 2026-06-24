@@ -39,6 +39,6 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [ ] **Track: OKF Integration — Phase 4: Local AI Context/Enrichment Automation**
+- [~] **Track: OKF Integration — Phase 4: Local AI Context/Enrichment Automation**
   *Link: [./tracks/okf_ai_enrichment_20260624/](./tracks/okf_ai_enrichment_20260624/)*
 
