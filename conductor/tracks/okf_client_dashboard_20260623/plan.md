@@ -33,24 +33,24 @@
     - [x] Write route-mount tests for `/okf/graph` fetching nodes from `/api/okf/graph`
     - [x] Write tests for explorer side panel display, search filtering, and link list clicks
     - [x] Confirm test suite failure state
-- [~] Task: Implement Workspace Route & Side Panel Explorer (Green Phase)
-    - [ ] Create `/okf/graph` page route linking to visual graph visualizer
-    - [ ] Implement right side collapsible metadata explorer panel listing Title, Description, Type, and Tag badges
-    - [ ] Populate clickable lists of Inbound and Outbound references for the selected node to trigger navigation
-    - [ ] Implement search bar and type-tag filtering checkboxes on the sidebar
-    - [ ] Run tests and verify they pass
-- [ ] Task: Conductor - User Manual Verification 'Phase 3: Dedicated Workspace Dashboard & Explorer Side Panel' (Protocol in workflow.md)
+- [x] Task: Implement Workspace Route & Side Panel Explorer (Green Phase)
+    - [x] Create `/okf/graph` page route linking to visual graph visualizer
+    - [x] Implement right side collapsible metadata explorer panel listing Title, Description, Type, and Tag badges
+    - [x] Populate clickable lists of Inbound and Outbound references for the selected node to trigger navigation
+    - [x] Implement search bar and type-tag filtering checkboxes on the sidebar
+    - [x] Run tests and verify they pass
+- [x] Task: Conductor - User Manual Verification 'Phase 3: Dedicated Workspace Dashboard & Explorer Side Panel' (Protocol in workflow.md)
 
 ## Phase 4: Mermaid and Data Export Toolbar [checkpoint: ]
 
-- [ ] Task: Create tests for Export utility functions (TDD Red Phase)
-    - [ ] Write unit tests for Mermaid syntax formatter function
-    - [ ] Write tests for CSV/JSON serialization generators and download triggers
-    - [ ] Confirm test suite failure state
-- [ ] Task: Implement Action Export Toolbar (Green Phase)
-    - [ ] Create action toolbar controls on graph canvas view
-    - [ ] Implement Export to Mermaid button (converts nodes list to `graph TD` flow representation and copies to clipboard)
-    - [ ] Implement Export to JSON button (downloads serialized nodes/links dictionary file)
-    - [ ] Implement Export to CSV button (downloads tabular representation of node registry metadata)
-    - [ ] Run tests and verify they pass
-- [ ] Task: Conductor - User Manual Verification 'Phase 4: Mermaid and Data Export Toolbar' (Protocol in workflow.md)
+- [x] Task: Create tests for Export utility functions (TDD Red Phase)
+    - [x] Write unit tests for Mermaid syntax formatter function
+    - [x] Write tests for CSV/JSON serialization generators and download triggers
+    - [x] Confirm test suite failure state
+- [x] Task: Implement Action Export Toolbar (Green Phase)
+    - [x] Create action toolbar controls on graph canvas view
+    - [x] Implement Export to Mermaid button (converts nodes list to `graph TD` flow representation and copies to clipboard)
+    - [x] Implement Export to JSON button (downloads serialized nodes/links dictionary file)
+    - [x] Implement Export to CSV button (downloads tabular representation of node registry metadata)
+    - [x] Run tests and verify they pass
+- [x] Task: Conductor - User Manual Verification 'Phase 4: Mermaid and Data Export Toolbar' (Protocol in workflow.md)
