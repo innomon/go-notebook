@@ -294,7 +294,7 @@ func CreateModel(ctx context.Context, name, provider, mType, credID string) (*Mo
 	}
 
 	if credID != "" {
-		data["credential"] = db.EnsureRecordIDString("credential", credID)
+		data["credential"] = db.EnsureRecordID("credential", credID)
 	}
 
 	return db.RepoCreate[Model](ctx, "model", data)
