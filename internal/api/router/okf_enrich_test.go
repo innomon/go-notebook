@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 	"go-notebook/internal/db"
 	"go-notebook/internal/domain"
 	"go-notebook/internal/utils"
@@ -38,20 +39,26 @@ func TestOKFEnrichEndpoint(t *testing.T) {
 	_, _ = db.RepoQuery[any](ctx, "DEFINE DATABASE open_notebook_test;", nil)
 	_ = db.RunMigrationUp(ctx)
 
-	// Set up mock HTTP Server for LLM responses
+	// Set up mock HTTP Server for LLM responses (supporting streaming chat completions)
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/json")
-		// The prompt expects JSON response mapping description and tags
-		resp := map[string]any{
+		w.Header().Set("Content-Type", "text/event-stream")
+		w.Header().Set("Cache-Control", "no-cache")
+		w.Header().Set("Connection", "keep-alive")
+
+		// SSE JSON chunk format matching OpenAI API
+		content := `{"description": "A sample concept document.", "tags": ["sample", "test"]}`
+		chunk := map[string]any{
 			"choices": []map[string]any{
 				{
-					"message": map[string]any{
-						"content": `{"description": "A sample concept document.", "tags": ["sample", "test"]}`,
+					"delta": map[string]any{
+						"content": content,
 					},
 				},
 			},
 		}
-		json.NewEncoder(w).Encode(resp)
+		chunkBytes, _ := json.Marshal(chunk)
+		_, _ = fmt.Fprintf(w, "data: %s\n\n", string(chunkBytes))
+		_, _ = fmt.Fprint(w, "data: [DONE]\n\n")
 	}))
 	defer server.Close()
 
