@@ -7,15 +7,15 @@
     - [x] Write tests verifying in-memory note parsing, LLM prompting, structured JSON extraction, and disk file read/write update behavior
     - [x] Assert failure states when invalid payloads are supplied
     - [x] Run test suite and confirm failure
-- [ ] Task: Implement Backend Enrichment Handler (Green Phase)
-    - [ ] Register `POST /api/okf/enrich` in `internal/api/router/okf.go`
-    - [ ] Parse request payload (accepts `content` and optional `path`)
-    - [ ] Resolve default transformation model using `ai.GetClientForDefaultModel(r.Context(), "transformation")`
-    - [ ] Invoke `GenerateText` with a strict system prompt instructing JSON formatting of `description` and `tags`
-    - [ ] Extract and sanitize JSON from LLM response
-    - [ ] If file path is provided, read note, update YAML frontmatter fields (`description`, `tags`) using standard serialization, save back to disk, and trigger file watchers
-    - [ ] Respond with JSON payload containing `description` and `tags`
-    - [ ] Run tests and verify they pass
+- [x] Task: Implement Backend Enrichment Handler (Green Phase) 0145823
+    - [x] Register `POST /api/okf/enrich` in `internal/api/router/okf.go`
+    - [x] Parse request payload (accepts `content` and optional `path`)
+    - [x] Resolve default transformation model using `ai.GetClientForDefaultModel(r.Context(), "transformation")`
+    - [x] Invoke `GenerateText` with a strict system prompt instructing JSON formatting of `description` and `tags`
+    - [x] Extract and sanitize JSON from LLM response
+    - [x] If file path is provided, read note, update YAML frontmatter fields (`description`, `tags`) using standard serialization, save back to disk, and trigger file watchers
+    - [x] Respond with JSON payload containing `description` and `tags`
+    - [x] Run tests and verify they pass
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Backend AI Enrichment Endpoint' (Protocol in workflow.md)
 
 ## Phase 2: Frontend "AI Suggest" UI Integration [checkpoint: ]
