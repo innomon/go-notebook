@@ -29,11 +29,11 @@
 
 ## Phase 3: Dedicated Workspace Dashboard & Explorer Side Panel [checkpoint: ]
 
-- [ ] Task: Create tests for Route and Sidebar Navigation (TDD Red Phase)
-    - [ ] Write route-mount tests for `/okf/graph` fetching nodes from `/api/okf/graph`
-    - [ ] Write tests for explorer side panel display, search filtering, and link list clicks
-    - [ ] Confirm test suite failure state
-- [ ] Task: Implement Workspace Route & Side Panel Explorer (Green Phase)
+- [x] Task: Create tests for Route and Sidebar Navigation (TDD Red Phase) 29f3c0d
+    - [x] Write route-mount tests for `/okf/graph` fetching nodes from `/api/okf/graph`
+    - [x] Write tests for explorer side panel display, search filtering, and link list clicks
+    - [x] Confirm test suite failure state
+- [~] Task: Implement Workspace Route & Side Panel Explorer (Green Phase)
     - [ ] Create `/okf/graph` page route linking to visual graph visualizer
     - [ ] Implement right side collapsible metadata explorer panel listing Title, Description, Type, and Tag badges
     - [ ] Populate clickable lists of Inbound and Outbound references for the selected node to trigger navigation
