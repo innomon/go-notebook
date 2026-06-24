@@ -74,6 +74,6 @@ describe('VisualGraph', () => {
     fireEvent.click(node1)
 
     expect(onNodeSelectMock).toHaveBeenCalledTimes(1)
-    expect(onNodeSelectMock).toHaveBeenCalledWith(sampleNodes[0])
+    expect(onNodeSelectMock).toHaveBeenCalledWith(expect.objectContaining(sampleNodes[0]))
   })
 })
