@@ -2,11 +2,11 @@
 
 ## Phase 1: Backend AI Enrichment Endpoint [checkpoint: ]
 
-- [ ] Task: Create tests for `POST /api/okf/enrich` (TDD Red Phase)
-    - [ ] Create test cases inside `internal/api/router/okf_test.go` or a new `internal/api/router/okf_enrich_test.go`
-    - [ ] Write tests verifying in-memory note parsing, LLM prompting, structured JSON extraction, and disk file read/write update behavior
-    - [ ] Assert failure states when invalid payloads are supplied
-    - [ ] Run test suite and confirm failure
+- [x] Task: Create tests for `POST /api/okf/enrich` (TDD Red Phase) 0beb3f0
+    - [x] Create test cases inside `internal/api/router/okf_test.go` or a new `internal/api/router/okf_enrich_test.go`
+    - [x] Write tests verifying in-memory note parsing, LLM prompting, structured JSON extraction, and disk file read/write update behavior
+    - [x] Assert failure states when invalid payloads are supplied
+    - [x] Run test suite and confirm failure
 - [ ] Task: Implement Backend Enrichment Handler (Green Phase)
     - [ ] Register `POST /api/okf/enrich` in `internal/api/router/okf.go`
     - [ ] Parse request payload (accepts `content` and optional `path`)
