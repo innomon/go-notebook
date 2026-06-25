@@ -68,6 +68,38 @@ type Model struct {
 	Updated    time.Time        `json:"updated,omitempty"`
 }
 
+// ModelResponse represents a registered model with string IDs for clean serialization
+type ModelResponse struct {
+	ID         string    `json:"id"`
+	Name       string    `json:"name"`
+	Provider   string    `json:"provider"`
+	Type       string    `json:"type"`
+	Credential string    `json:"credential,omitempty"`
+	Created    time.Time `json:"created"`
+	Updated    time.Time `json:"updated"`
+}
+
+// ToResponse converts a Model into a ModelResponse
+func (m Model) ToResponse() ModelResponse {
+	idStr := ""
+	if m.ID != nil {
+		idStr = m.ID.String()
+	}
+	credStr := ""
+	if m.Credential != nil {
+		credStr = m.Credential.String()
+	}
+	return ModelResponse{
+		ID:         idStr,
+		Name:       m.Name,
+		Provider:   m.Provider,
+		Type:       m.Type,
+		Credential: credStr,
+		Created:    m.Created,
+		Updated:    m.Updated,
+	}
+}
+
 // DefaultModels represents the default chosen models for various tasks
 type DefaultModels struct {
 	DefaultChatModel           string `json:"default_chat_model,omitempty"`

@@ -1203,18 +1203,16 @@ function DefaultModelSelectors({
             <AlertDescription className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 w-full">
               <span>{t('models.missingRequiredModels').replace('{models}', missingRequired.join(', '))}</span>
               <div className="flex gap-2 shrink-0">
-                {models.length === 0 && (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => syncAll.mutate()}
-                    disabled={syncAll.isPending}
-                    className="gap-1.5"
-                  >
-                    {syncAll.isPending ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <RefreshCw className="h-3.5 w-3.5" />}
-                    <span>{syncAll.isPending ? "Syncing..." : t('apiKeys.syncModels')}</span>
-                  </Button>
-                )}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => syncAll.mutate()}
+                  disabled={syncAll.isPending}
+                  className="gap-1.5"
+                >
+                  {syncAll.isPending ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <RefreshCw className="h-3.5 w-3.5" />}
+                  <span>{syncAll.isPending ? "Syncing..." : t('apiKeys.syncModels')}</span>
+                </Button>
                 <Button
                   variant="outline"
                   size="sm"

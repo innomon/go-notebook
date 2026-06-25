@@ -258,7 +258,7 @@ export function VisualGraph({ nodes, links, selectedNodeId, onNodeSelect }: Visu
           width={dimensions.width}
           height={dimensions.height}
           backgroundColor="#09090b"
-          nodeRelVal={5}
+          nodeRelSize={5}
           nodeCanvasObject={drawNode}
           linkCanvasObject={drawLink}
           onNodeClick={(node) => onNodeSelect && onNodeSelect(node as any)}

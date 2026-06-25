@@ -34,8 +34,13 @@ func handleListModels(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	responses := make([]domain.ModelResponse, len(models))
+	for i, m := range models {
+		responses[i] = m.ToResponse()
+	}
+
 	w.Header().Set("Content-Type", "application/json")
-	_ = json.NewEncoder(w).Encode(models)
+	_ = json.NewEncoder(w).Encode(responses)
 }
 
 func handleCreateModel(w http.ResponseWriter, r *http.Request) {
@@ -60,7 +65,7 @@ func handleCreateModel(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
-	_ = json.NewEncoder(w).Encode(model)
+	_ = json.NewEncoder(w).Encode(model.ToResponse())
 }
 
 func handleDeleteModel(w http.ResponseWriter, r *http.Request) {
@@ -532,8 +537,13 @@ func handleGetModelsByProvider(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	responses := make([]domain.ModelResponse, len(models))
+	for i, m := range models {
+		responses[i] = m.ToResponse()
+	}
+
 	w.Header().Set("Content-Type", "application/json")
-	_ = json.NewEncoder(w).Encode(models)
+	_ = json.NewEncoder(w).Encode(responses)
 }
 
 var providerPriority = []string{
