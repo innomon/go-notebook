@@ -34,7 +34,7 @@
 - [x] Task: Build command line engine wrapper (8cd66a7)
     - [ ] Create CLI interface at `cmd/engine/main.go` loading a workspace of Markdown files and a `.base` config, running the engine, and printing A2UI JSON to stdout.
     - [ ] Write integration test verifying CLI output.
-- [ ] Task: Implement HTTP Router Endpoints
+- [x] Task: Implement HTTP Router Endpoints (dd69ab9)
     - [ ] Write failing integration tests in `internal/api/router/bases_test.go` checking `/api/bases/plugins` and `/api/bases/evaluate` responses.
     - [ ] Create `internal/api/router/bases.go` containing HTTP handler functions.
     - [ ] Register new routes in `internal/api/router/router.go`.
