@@ -23,7 +23,7 @@
 - [x] Task: Implement Sandbox Permissions & Host Callbacks (b2ec902)
     - [ ] Write unit tests verifying Host Functions are blocked/allowed based on config permissions.
     - [ ] Implement Host Functions in `pkg/wasm/host.go` allowing guest plugins to read other notes if permitted.
-- [ ] Task: Build Guest SDK & Sample Plugin
+- [x] Task: Build Guest SDK & Sample Plugin (52fa528)
     - [ ] Create guest SDK directory `extensions/guest_sdk/` containing allocation exports (`malloc`, `free`) in Go.
     - [ ] Create a sample plugin (e.g. `calculate_days_since`) and write a shell command/target to compile it to `extensions/bin/calculate_days_since.wasm` using `GOOS=wasip1 GOARCH=wasm`.
     - [ ] Run integration tests loading the compiled WASM and executing it against notes.
