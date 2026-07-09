@@ -13,7 +13,7 @@
     - [ ] Verify test coverage is >80% for `pkg/bases` package.
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Core Domain Models & Note Parser' (Protocol in workflow.md) (bc522e2)
 
-## Phase 2: WASM Plugin Manager & Guest SDK
+## Phase 2: WASM Plugin Manager & Guest SDK [checkpoint: 3de9b3e]
 - [x] Task: Implement Go WASM Host Manager (b2ec902)
     - [ ] Write failing unit tests in `pkg/wasm/manager_test.go` for the wazero runtime manager, testing memory helpers and execution.
     - [ ] Create `pkg/wasm/manager.go` and initialize the wazero runtime with contexts and timeouts.
@@ -28,7 +28,7 @@
     - [ ] Create a sample plugin (e.g. `calculate_days_since`) and write a shell command/target to compile it to `extensions/bin/calculate_days_since.wasm` using `GOOS=wasip1 GOARCH=wasm`.
     - [ ] Run integration tests loading the compiled WASM and executing it against notes.
     - [ ] Verify test coverage is >80% for `pkg/wasm` package.
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: WASM Plugin Manager & Guest SDK' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: WASM Plugin Manager & Guest SDK' (Protocol in workflow.md) (3de9b3e)
 
 ## Phase 3: Backend API Endpoints & CLI Engine
 - [ ] Task: Build command line engine wrapper
