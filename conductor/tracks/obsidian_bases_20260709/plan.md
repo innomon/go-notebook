@@ -43,10 +43,10 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 3: Backend API Endpoints & CLI Engine' (Protocol in workflow.md) (799eb4f)
 
 ## Phase 4: Frontend UI Pages & A2UI Renderer
-- [ ] Task: Implement A2UI Declarative Renderer component
+- [x] Task: Implement A2UI Declarative Renderer component (5a224fb)
     - [ ] Create A2UI client-side renderer `frontend/src/components/bases/A2UIRenderer.tsx` that maps A2UI JSON elements to beautiful Shadcn UI Tables, Lists, and Cards.
     - [ ] Write React unit/integration tests for the A2UI renderer component.
-- [ ] Task: Implement Plugins & Permissions Dashboard Page
+- [x] Task: Implement Plugins & Permissions Dashboard Page (5a224fb)
     - [ ] Create `frontend/src/app/(dashboard)/bases/page.tsx` for workspace file selection, engine execution, and A2UI display.
     - [ ] Add Plugins & Permissions Management UI tab to manage permissions and view compiled plugin states.
     - [ ] Add "Bases" to sidebar navigation in `frontend/src/components/layout/AppSidebar.tsx` and add localized strings.
