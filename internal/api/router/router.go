@@ -33,6 +33,7 @@ func NewRouter(frontendFS fs.FS) http.Handler {
 	RegisterGraphRAGRoutes(mux)
 	RegisterMCPRoutes(mux)
 	RegisterOKFRoutes(mux)
+	RegisterBasesRoutes(mux)
 
 	// Register embedded frontend file server routes
 	RegisterFrontendRoutes(mux, frontendFS)
