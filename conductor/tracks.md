@@ -44,7 +44,7 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [ ] **Track: Implement Obsidian Bases engine with WASM extension plugin system, frontend dashboard, A2UI renderer, and permission settings UI.**
+- [~] **Track: Implement Obsidian Bases engine with WASM extension plugin system, frontend dashboard, A2UI renderer, and permission settings UI.**
   *Link: [./tracks/obsidian_bases_20260709/](./tracks/obsidian_bases_20260709/)*
 
 
