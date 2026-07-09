@@ -1,0 +1,7 @@
+-- Migration 21: Add wasm_permission table for plugin permission configurations
+DEFINE TABLE IF NOT EXISTS wasm_permission SCHEMAFULL;
+DEFINE FIELD IF NOT EXISTS name ON TABLE wasm_permission TYPE string;
+DEFINE FIELD IF NOT EXISTS read_other_notes ON TABLE wasm_permission TYPE bool;
+DEFINE FIELD IF NOT EXISTS access_env ON TABLE wasm_permission TYPE bool;
+DEFINE FIELD IF NOT EXISTS created ON TABLE wasm_permission TYPE datetime DEFAULT time::now();
+DEFINE FIELD IF NOT EXISTS updated ON TABLE wasm_permission TYPE datetime DEFAULT time::now();
