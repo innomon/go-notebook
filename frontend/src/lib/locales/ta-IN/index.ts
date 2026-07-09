@@ -197,6 +197,7 @@ export const taIN = {
     "sources": "ஆதாரங்கள்",
     "notebooks": "க���றிப்பேடுகள்",
     "askAndSearch": "கேளுங்கள் மற்றும் தேடுங்கள்",
+    "bases": "Bases",
     "podcasts": "பாட்காஸ்ட்கள்",
     "models": "மாதிரிகள்",
     "transformations": "உருமாற்றங்கள்",

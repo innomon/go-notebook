@@ -197,6 +197,7 @@ export const knIN = {
     "sources": "ಮೂಲಗಳು",
     "notebooks": "ನೋಟ್ಬುಕ್ಗಳು",
     "askAndSearch": "ಕೇಳಿ ಮತ್ತು ಹುಡುಕಿ",
+    "bases": "Bases",
     "podcasts": "ಪಾಡ್‌ಕಾಸ್ಟ್‌ಗಳು",
     "models": "ಮಾದರಿಗಳು",
     "transformations": "ರೂಪಾಂತರಗಳು",

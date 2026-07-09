@@ -197,6 +197,7 @@ export const urIN = {
     "sources": "ذرائع",
     "notebooks": "نوٹ بک",
     "askAndSearch": "پوچھیں اور تلاش کریں۔",
+    "bases": "Bases",
     "podcasts": "پوڈکاسٹ",
     "models": "ماڈلز",
     "transformations": "تبدیلیاں",

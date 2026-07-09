@@ -197,6 +197,7 @@ export const hiIN = {
     "sources": "सूत्र",
     "notebooks": "नोटबुक",
     "askAndSearch": "पूछें और खोजें",
+    "bases": "Bases",
     "podcasts": "पॉडकास्ट",
     "models": "मॉडल",
     "transformations": "परिवर्तन",

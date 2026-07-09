@@ -197,6 +197,7 @@ export const mrIN = {
     "sources": "स्रोत",
     "notebooks": "नोटबुक",
     "askAndSearch": "विचारा आणि शोधा",
+    "bases": "Bases",
     "podcasts": "पॉडकास्ट",
     "models": "मॉडेल्स",
     "transformations": "परिवर्तने",

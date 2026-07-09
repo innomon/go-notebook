@@ -41,6 +41,7 @@ import {
   Plus,
   Wrench,
   Command,
+  LayoutGrid,
 } from 'lucide-react'
 
 const getNavigation = (t: TFunction) => [
@@ -55,6 +56,7 @@ const getNavigation = (t: TFunction) => [
     items: [
       { name: t('navigation.notebooks'), href: '/notebooks', icon: Book },
       { name: t('navigation.askAndSearch'), href: '/search', icon: Search },
+      { name: t('navigation.bases', { defaultValue: 'Bases' }), href: '/bases', icon: LayoutGrid },
     ],
   },
   {

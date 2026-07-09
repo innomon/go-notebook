@@ -197,6 +197,7 @@ export const guIN = {
     "sources": "સ્ત્રોતો",
     "notebooks": "નોટબુક્સ",
     "askAndSearch": "પૂછો અને શોધો",
+    "bases": "Bases",
     "podcasts": "પોડકાસ્ટ",
     "models": "મોડલ્સ",
     "transformations": "પરિવર્તનો",

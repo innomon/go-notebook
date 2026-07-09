@@ -197,6 +197,7 @@ export const teIN = {
     "sources": "మూలాలు",
     "notebooks": "నోట్బుక్లు",
     "askAndSearch": "అడగండి మరియు శోధించండి",
+    "bases": "Bases",
     "podcasts": "పాడ్‌కాస్ట్‌లు",
     "models": "మోడల్స్",
     "transformations": "రూపాంతరాలు",
