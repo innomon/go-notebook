@@ -50,4 +50,4 @@
     - [ ] Create `frontend/src/app/(dashboard)/bases/page.tsx` for workspace file selection, engine execution, and A2UI display.
     - [ ] Add Plugins & Permissions Management UI tab to manage permissions and view compiled plugin states.
     - [ ] Add "Bases" to sidebar navigation in `frontend/src/components/layout/AppSidebar.tsx` and add localized strings.
-- [ ] Task: Conductor - User Manual Verification 'Phase 4: Frontend UI Pages & A2UI Renderer' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 4: Frontend UI Pages & A2UI Renderer' (Protocol in workflow.md) (5a224fb)
