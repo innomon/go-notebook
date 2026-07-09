@@ -20,7 +20,7 @@
     - [ ] Implement Go Host helpers: `allocate`, `readMemory`, `writeMemory`, and `free`.
     - [ ] Implement context-aware plugin `Execute` function invoking the guest's `execute` ABI.
     - [ ] Run tests to ensure correct memory manipulation.
-- [ ] Task: Implement Sandbox Permissions & Host Callbacks
+- [x] Task: Implement Sandbox Permissions & Host Callbacks (b2ec902)
     - [ ] Write unit tests verifying Host Functions are blocked/allowed based on config permissions.
     - [ ] Implement Host Functions in `pkg/wasm/host.go` allowing guest plugins to read other notes if permitted.
 - [ ] Task: Build Guest SDK & Sample Plugin
