@@ -30,7 +30,7 @@
     - [ ] Verify test coverage is >80% for `pkg/wasm` package.
 - [x] Task: Conductor - User Manual Verification 'Phase 2: WASM Plugin Manager & Guest SDK' (Protocol in workflow.md) (3de9b3e)
 
-## Phase 3: Backend API Endpoints & CLI Engine
+## Phase 3: Backend API Endpoints & CLI Engine [checkpoint: 799eb4f]
 - [x] Task: Build command line engine wrapper (8cd66a7)
     - [ ] Create CLI interface at `cmd/engine/main.go` loading a workspace of Markdown files and a `.base` config, running the engine, and printing A2UI JSON to stdout.
     - [ ] Write integration test verifying CLI output.
@@ -40,7 +40,7 @@
     - [ ] Register new routes in `internal/api/router/router.go`.
     - [ ] Ensure API handler uses database settings or local storage to resolve notes.
     - [ ] Run all test suites and verify they pass with >80% coverage.
-- [ ] Task: Conductor - User Manual Verification 'Phase 3: Backend API Endpoints & CLI Engine' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 3: Backend API Endpoints & CLI Engine' (Protocol in workflow.md) (799eb4f)
 
 ## Phase 4: Frontend UI Pages & A2UI Renderer
 - [ ] Task: Implement A2UI Declarative Renderer component
