@@ -31,7 +31,7 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 2: WASM Plugin Manager & Guest SDK' (Protocol in workflow.md) (3de9b3e)
 
 ## Phase 3: Backend API Endpoints & CLI Engine
-- [ ] Task: Build command line engine wrapper
+- [x] Task: Build command line engine wrapper (8cd66a7)
     - [ ] Create CLI interface at `cmd/engine/main.go` loading a workspace of Markdown files and a `.base` config, running the engine, and printing A2UI JSON to stdout.
     - [ ] Write integration test verifying CLI output.
 - [ ] Task: Implement HTTP Router Endpoints
