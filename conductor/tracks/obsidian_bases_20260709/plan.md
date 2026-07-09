@@ -1,7 +1,7 @@
 # Implementation Plan: Obsidian Bases Engine with WASM Extension System & UI
 
 ## Phase 1: Core Domain Models & Note Parser
-- [ ] Task: Design and implement domain models and frontmatter parsing
+- [x] Task: Design and implement domain models and frontmatter parsing (d918547)
     - [ ] Write failing unit tests in `pkg/bases/models_test.go` and `pkg/bases/parser_test.go` verifying Note frontmatter extraction and BaseConfig parsing.
     - [ ] Implement `Note`, `BaseConfig`, and `HostPermissions` structures in `pkg/bases/models.go`.
     - [ ] Implement frontmatter YAML extraction and Markdown parser in `pkg/bases/parser.go`.
