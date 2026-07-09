@@ -42,3 +42,9 @@ This file tracks all major tracks for the project. Each track has its own detail
 - [x] **Track: OKF Integration — Phase 4: Local AI Context/Enrichment Automation**
   *Link: [./tracks/okf_ai_enrichment_20260624/](./tracks/okf_ai_enrichment_20260624/)*
 
+---
+
+- [ ] **Track: Implement Obsidian Bases engine with WASM extension plugin system, frontend dashboard, A2UI renderer, and permission settings UI.**
+  *Link: [./tracks/obsidian_bases_20260709/](./tracks/obsidian_bases_20260709/)*
+
+
