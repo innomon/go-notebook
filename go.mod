@@ -4,17 +4,18 @@ go 1.25.6
 
 require (
 	github.com/flosch/pongo2/v6 v6.1.0
+	github.com/fsnotify/fsnotify v1.10.1
 	github.com/gofrs/uuid v4.4.0+incompatible
 	github.com/joho/godotenv v1.5.1
 	github.com/ledongthuc/pdf v0.0.0-20250511090121-5959a4027728
 	github.com/modelcontextprotocol/go-sdk v1.5.0
 	github.com/surrealdb/surrealdb.go v1.4.0
+	github.com/tetratelabs/wazero v1.9.0
 	golang.org/x/net v0.55.0
 	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (
-	github.com/fsnotify/fsnotify v1.10.1 // indirect
 	github.com/fxamacker/cbor/v2 v2.7.0 // indirect
 	github.com/google/jsonschema-go v0.4.2 // indirect
 	github.com/gorilla/websocket v1.5.3 // indirect
