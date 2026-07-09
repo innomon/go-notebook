@@ -14,7 +14,7 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Core Domain Models & Note Parser' (Protocol in workflow.md) (bc522e2)
 
 ## Phase 2: WASM Plugin Manager & Guest SDK
-- [ ] Task: Implement Go WASM Host Manager
+- [x] Task: Implement Go WASM Host Manager (b2ec902)
     - [ ] Write failing unit tests in `pkg/wasm/manager_test.go` for the wazero runtime manager, testing memory helpers and execution.
     - [ ] Create `pkg/wasm/manager.go` and initialize the wazero runtime with contexts and timeouts.
     - [ ] Implement Go Host helpers: `allocate`, `readMemory`, `writeMemory`, and `free`.
