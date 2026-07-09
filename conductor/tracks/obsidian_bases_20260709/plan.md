@@ -1,6 +1,6 @@
 # Implementation Plan: Obsidian Bases Engine with WASM Extension System & UI
 
-## Phase 1: Core Domain Models & Note Parser
+## Phase 1: Core Domain Models & Note Parser [checkpoint: bc522e2]
 - [x] Task: Design and implement domain models and frontmatter parsing (d918547)
     - [ ] Write failing unit tests in `pkg/bases/models_test.go` and `pkg/bases/parser_test.go` verifying Note frontmatter extraction and BaseConfig parsing.
     - [ ] Implement `Note`, `BaseConfig`, and `HostPermissions` structures in `pkg/bases/models.go`.
@@ -11,7 +11,7 @@
     - [ ] Implement query and filtering logic in `pkg/bases/engine.go`.
     - [ ] Implement formula evaluation mapping.
     - [ ] Verify test coverage is >80% for `pkg/bases` package.
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Core Domain Models & Note Parser' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Core Domain Models & Note Parser' (Protocol in workflow.md) (bc522e2)
 
 ## Phase 2: WASM Plugin Manager & Guest SDK
 - [ ] Task: Implement Go WASM Host Manager
