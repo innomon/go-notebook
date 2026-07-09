@@ -6,7 +6,7 @@
     - [ ] Implement `Note`, `BaseConfig`, and `HostPermissions` structures in `pkg/bases/models.go`.
     - [ ] Implement frontmatter YAML extraction and Markdown parser in `pkg/bases/parser.go`.
     - [ ] Run tests and verify they pass (Green phase).
-- [ ] Task: Implement Base filtering and formula mapping logic
+- [x] Task: Implement Base filtering and formula mapping logic (91ee53b)
     - [ ] Write failing unit tests for note filtering and formula evaluation.
     - [ ] Implement query and filtering logic in `pkg/bases/engine.go`.
     - [ ] Implement formula evaluation mapping.
