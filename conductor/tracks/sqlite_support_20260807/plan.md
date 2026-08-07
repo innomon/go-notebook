@@ -8,8 +8,8 @@
 ## Phase 2: SQLite Storage Engine Implementation (`modernc.org/sqlite`)
 - [x] Task: Integrate `modernc.org/sqlite` dependency and set up embedded migration runner. [cfbeb23]
 - [x] Task: Create SQLite schema definitions and initial migration scripts for all domain entities. [8f2de08]
-- [ ] Task: Implement SQLite repositories adhering to the domain repository interfaces.
-- [ ] Task: Implement in-memory / SQL cosine similarity vector search for SQLite embeddings.
+- [x] Task: Implement SQLite repositories adhering to the domain repository interfaces. [363211e]
+- [x] Task: Implement in-memory / SQL cosine similarity vector search for SQLite embeddings. [363211e]
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: SQLite Storage Engine Implementation' (Protocol in workflow.md)
 
 ## Phase 3: SurrealDB Refactoring & DAL Adaptation
