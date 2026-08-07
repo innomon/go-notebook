@@ -5,12 +5,12 @@
 - [x] Task: Design core repository interfaces for domain entities (Notes, Documents, Graph/Entities, Vectors, Settings). [b31ccc2]
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Database Abstraction & Configuration Layer' (Protocol in workflow.md) [4251434]
 
-## Phase 2: SQLite Storage Engine Implementation (`modernc.org/sqlite`)
+## Phase 2: SQLite Storage Engine Implementation (`modernc.org/sqlite`) [checkpoint: ffacfe6]
 - [x] Task: Integrate `modernc.org/sqlite` dependency and set up embedded migration runner. [cfbeb23]
 - [x] Task: Create SQLite schema definitions and initial migration scripts for all domain entities. [8f2de08]
 - [x] Task: Implement SQLite repositories adhering to the domain repository interfaces. [363211e]
 - [x] Task: Implement in-memory / SQL cosine similarity vector search for SQLite embeddings. [363211e]
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: SQLite Storage Engine Implementation' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: SQLite Storage Engine Implementation' (Protocol in workflow.md) [ffacfe6]
 
 ## Phase 3: SurrealDB Refactoring & DAL Adaptation
 - [ ] Task: Refactor SurrealDB client code to implement domain repository interfaces.
