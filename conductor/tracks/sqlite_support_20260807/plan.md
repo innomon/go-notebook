@@ -7,7 +7,7 @@
 
 ## Phase 2: SQLite Storage Engine Implementation (`modernc.org/sqlite`)
 - [x] Task: Integrate `modernc.org/sqlite` dependency and set up embedded migration runner. [cfbeb23]
-- [ ] Task: Create SQLite schema definitions and initial migration scripts for all domain entities.
+- [x] Task: Create SQLite schema definitions and initial migration scripts for all domain entities. [8f2de08]
 - [ ] Task: Implement SQLite repositories adhering to the domain repository interfaces.
 - [ ] Task: Implement in-memory / SQL cosine similarity vector search for SQLite embeddings.
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: SQLite Storage Engine Implementation' (Protocol in workflow.md)
