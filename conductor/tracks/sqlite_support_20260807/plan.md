@@ -2,7 +2,7 @@
 
 ## Phase 1: Database Abstraction & Configuration Layer
 - [x] Task: Define database engine configuration models, environment variables, and factory interfaces. [512b186]
-- [ ] Task: Design core repository interfaces for domain entities (Notes, Documents, Graph/Entities, Vectors, Settings).
+- [x] Task: Design core repository interfaces for domain entities (Notes, Documents, Graph/Entities, Vectors, Settings). [b31ccc2]
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Database Abstraction & Configuration Layer' (Protocol in workflow.md)
 
 ## Phase 2: SQLite Storage Engine Implementation (`modernc.org/sqlite`)
