@@ -18,6 +18,6 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 3: SurrealDB Refactoring & DAL Adaptation' (Protocol in workflow.md) [9fa1af6]
 
 ## Phase 4: Integration, Testing & Quality Verification
-- [ ] Task: Write unit and integration tests covering repository operations for both SQLite and SurrealDB drivers.
-- [ ] Task: Update documentation (`README.md`, `tech-stack.md`, `.env.example`) to document SQLite default configuration and engine options.
+- [x] Task: Write unit and integration tests covering repository operations for both SQLite and SurrealDB drivers. [f68ec99]
+- [x] Task: Update documentation (`README.md`, `tech-stack.md`, `.env.example`) to document SQLite default configuration and engine options. [f68ec99]
 - [ ] Task: Conductor - User Manual Verification 'Phase 4: Integration, Testing & Quality Verification' (Protocol in workflow.md)
