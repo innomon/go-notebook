@@ -8,7 +8,7 @@ The GraphRAG subsystem and visualizer are based on the [mohammad-majoony/graphra
 ## Architecture & Subsystems
 
 - **Unified Server** (`cmd/server`): Serves the Web Frontend, REST API, and Background Worker Daemon concurrently inside a single compiled process.
-- **Database Layer**: Uses SurrealDB (v3.1.3+) with the official `surrealdb.go` driver. Migrations are managed and applied automatically on startup from standard SQL scripts (`.surrealql`).
+- **Database Layer**: Configurable database engine supporting **embedded SQLite (`modernc.org/sqlite`) by default** or **SurrealDB (v3.1.3+)**. Migrations are managed and executed automatically on startup.
 - **AI Integrations**: Includes support for OpenAI, Anthropic, Gemini, and Ollama APIs.
 - **Content Extractor**: Custom parser for PDFs, web URLs (HTML-to-markdown parsing), and speech-to-text audio transcriptions.
 - **GraphRAG Pipeline** (`internal/graphrag`): Extracts named entities and co-occurrences using LLM prompts to construct a Knowledge Graph in SurrealDB. Clusters them into communities in Go via Label Propagation, generates LLM summaries, and runs hybrid local/global queries.
