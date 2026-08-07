@@ -17,7 +17,7 @@
 - [x] Task: Update database initialization and lifecycle manager to support dynamic engine switching (`sqlite` default vs `surrealdb`). [b7bff2b]
 - [x] Task: Conductor - User Manual Verification 'Phase 3: SurrealDB Refactoring & DAL Adaptation' (Protocol in workflow.md) [9fa1af6]
 
-## Phase 4: Integration, Testing & Quality Verification
+## Phase 4: Integration, Testing & Quality Verification [checkpoint: 7ac6c5f]
 - [x] Task: Write unit and integration tests covering repository operations for both SQLite and SurrealDB drivers. [f68ec99]
 - [x] Task: Update documentation (`README.md`, `tech-stack.md`, `.env.example`) to document SQLite default configuration and engine options. [f68ec99]
-- [ ] Task: Conductor - User Manual Verification 'Phase 4: Integration, Testing & Quality Verification' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 4: Integration, Testing & Quality Verification' (Protocol in workflow.md) [7ac6c5f]
