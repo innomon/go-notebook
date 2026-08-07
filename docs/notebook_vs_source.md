@@ -23,12 +23,12 @@ graph TD
 ### Notebook
 A **Notebook** represents a project container, workspace, or a distinct knowledge domain. It acts as a logical boundary for organization, search queries, and GraphRAG knowledge construction. 
 *   **Role**: Contextual scope. When a user asks a query or views the visualizer canvas, the scope is bounded by the active Notebook.
-*   **Implementation**: Defined in [notebook.go](file:///home/innomon/orez/apps/go-notebook/internal/domain/notebook.go#L15).
+*   **Implementation**: Defined in [internal/domain/notebook.go](internal/domain/notebook.go#L15).
 
 ### Source
 A **Source** represents a raw, imported document, media asset, or external web link. 
 *   **Role**: Raw information input. Sources are processed through the ingestion pipeline (parsed, chunked, embedded, and passed to LLMs for entity extraction).
-*   **Implementation**: Defined in [source.go](file:///home/innomon/orez/apps/go-notebook/internal/domain/source.go#L22).
+*   **Implementation**: Defined in [internal/domain/source.go](internal/domain/source.go#L22).
 
 ---
 
@@ -45,7 +45,7 @@ The database schemas (using SurrealDB) reflect their distinct roles. Notebooks a
 | **Relations** | Contains links to notes and sources | Shared across notebooks via many-to-many edge relations |
 
 ### Go Struct Definition: Notebook
-Defined in [notebook.go](file:///home/innomon/orez/apps/go-notebook/internal/domain/notebook.go#L15-L22):
+Defined in [internal/domain/notebook.go](internal/domain/notebook.go#L15-L22):
 ```go
 type Notebook struct {
 	ID          *models.RecordID `json:"id,omitempty"`
@@ -58,7 +58,7 @@ type Notebook struct {
 ```
 
 ### Go Struct Definition: Source
-Defined in [source.go](file:///home/innomon/orez/apps/go-notebook/internal/domain/source.go#L22-L33):
+Defined in [internal/domain/source.go](internal/domain/source.go#L22-L33):
 ```go
 type Source struct {
 	ID            *models.RecordID `json:"id,omitempty"`
@@ -87,7 +87,7 @@ SurrealDB uses graph-based edges to link these entities.
         ```sql
         RELATE source:ml_guide -> reference -> notebook:research_lab;
         ```
-    *   **Retrieval**: Linked sources are fetched via the relation helper [GetNotebookSources](file:///home/innomon/orez/apps/go-notebook/internal/domain/source.go#L435).
+    *   **Retrieval**: Linked sources are fetched via the relation helper [internal/domain/source.go](internal/domain/source.go#L435).
 
 2.  **Notebook <-> Note (One-to-Many via `artifact` edge)**
     *   Notes are generally exclusive to the Notebook they were created in.
