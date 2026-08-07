@@ -1,7 +1,7 @@
 # Implementation Plan: Configurable Database Engine (`sqlite_support`)
 
 ## Phase 1: Database Abstraction & Configuration Layer
-- [ ] Task: Define database engine configuration models, environment variables, and factory interfaces.
+- [x] Task: Define database engine configuration models, environment variables, and factory interfaces. [512b186]
 - [ ] Task: Design core repository interfaces for domain entities (Notes, Documents, Graph/Entities, Vectors, Settings).
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Database Abstraction & Configuration Layer' (Protocol in workflow.md)
 
