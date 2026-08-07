@@ -13,8 +13,8 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 2: SQLite Storage Engine Implementation' (Protocol in workflow.md) [ffacfe6]
 
 ## Phase 3: SurrealDB Refactoring & DAL Adaptation
-- [ ] Task: Refactor SurrealDB client code to implement domain repository interfaces.
-- [ ] Task: Update database initialization and lifecycle manager to support dynamic engine switching (`sqlite` default vs `surrealdb`).
+- [x] Task: Refactor SurrealDB client code to implement domain repository interfaces. [b7bff2b]
+- [x] Task: Update database initialization and lifecycle manager to support dynamic engine switching (`sqlite` default vs `surrealdb`). [b7bff2b]
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: SurrealDB Refactoring & DAL Adaptation' (Protocol in workflow.md)
 
 ## Phase 4: Integration, Testing & Quality Verification
