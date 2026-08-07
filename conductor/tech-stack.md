@@ -11,9 +11,9 @@ This document specifies the official technology stack and dependencies for the G
     *   Custom CORS management.
     *   Password authentication middleware.
     *   Model Context Protocol (MCP) streamable HTTP handler endpoint.
-*   **Database**: SurrealDB (v3.1.3+)
-    *   **Driver**: `github.com/surrealdb/surrealdb.go`
-    *   **Migrations**: Managed automatically by the backend applying raw `.surrealql` migration scripts sequentially.
+*   **Database Engine (Configurable via `DB_ENGINE`)**:
+    *   **SQLite (Default)**: Pure Go, CGO-free via `modernc.org/sqlite`. Automatic embedded SQL migrations (`embed.FS`).
+    *   **SurrealDB**: Optional multi-model database engine via `github.com/surrealdb/surrealdb.go`.
 
 ## 🎨 Frontend Architecture
 *   **Framework**: Next.js 15 (TypeScript, React)
