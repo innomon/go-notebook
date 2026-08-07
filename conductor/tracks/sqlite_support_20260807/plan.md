@@ -6,7 +6,7 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Database Abstraction & Configuration Layer' (Protocol in workflow.md) [4251434]
 
 ## Phase 2: SQLite Storage Engine Implementation (`modernc.org/sqlite`)
-- [ ] Task: Integrate `modernc.org/sqlite` dependency and set up embedded migration runner.
+- [x] Task: Integrate `modernc.org/sqlite` dependency and set up embedded migration runner. [cfbeb23]
 - [ ] Task: Create SQLite schema definitions and initial migration scripts for all domain entities.
 - [ ] Task: Implement SQLite repositories adhering to the domain repository interfaces.
 - [ ] Task: Implement in-memory / SQL cosine similarity vector search for SQLite embeddings.
