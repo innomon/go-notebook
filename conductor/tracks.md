@@ -49,7 +49,7 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [ ] **Track: I want to use modernc.org/sqlite as an alternative to surrealdb , which database to use should be configurable**
+- [x] **Track: I want to use modernc.org/sqlite as an alternative to surrealdb , which database to use should be configurable**
   *Link: [./tracks/sqlite_support_20260807/](./tracks/sqlite_support_20260807/)*
 
 
